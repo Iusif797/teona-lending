@@ -7,15 +7,18 @@ const GlobalStyles = createGlobalStyle`
   :root {
     --font-primary: 'Montserrat', sans-serif;
     --font-heading: 'Playfair Display', serif;
-    --color-primary: #b89a86;
-    --color-primary-light: #ccb6a8;
-    --color-primary-dark: #7a604e;
+    --color-primary: #d2956b;
+    --color-primary-light: #e3b090;
+    --color-primary-dark: #a66a42;
     --color-secondary: #4a4a4a;
     --color-text: #2a2a2a;
     --color-text-light: #767676;
     --color-bg: #fff;
     --color-bg-alt: #f9f9f9;
     --color-border: #e0e0e0;
+    --color-accent: #5d8aa8;
+    --color-accent-light: #7ba7c3;
+    --color-success: #58b368;
     --transition: all 0.3s ease;
     --shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
     --radius: 8px;

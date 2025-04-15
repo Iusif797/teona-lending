@@ -36,4 +36,27 @@ export interface TestimonialItem {
   position?: string;
   content: string;
   rating: number;
+}
+
+export interface CourseModule {
+  id: number;
+  title: string;
+  content: string;
+}
+
+export interface CourseItem {
+  id: number;
+  title: string;
+  subtitle?: string;
+  description: string;
+  duration: string;
+  type: string;
+  format: string;
+  nextStart: string;
+  price: string;
+  imageUrl: string;
+  modules: CourseModule[];
+  benefits: string[];
+  skills: string[];
+  highlighted?: boolean;
 } 

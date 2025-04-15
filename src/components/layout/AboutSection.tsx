@@ -5,6 +5,61 @@ import AnimatedElement from '../ui/AnimatedElement';
 import { PRINCIPLES } from '../../data/constants';
 import media from '../../styles/media';
 
+// Стили для улучшенного заголовка
+const EnhancedSectionTitle = styled(SectionTitle)`
+  h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: var(--color-primary-dark);
+    position: relative;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
+    
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(135deg, #d9b293 0%, #a66a42 100%);
+      border-radius: 2px;
+    }
+  }
+
+  p {
+    color: var(--color-secondary);
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  
+  ${media.md} {
+    h2 {
+      font-size: 2.5rem;
+      padding-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
+      
+      &:after {
+        width: 60px;
+      }
+    }
+    
+    p {
+      font-size: 1.1rem;
+    }
+  }
+  
+  ${media.sm} {
+    h2 {
+      font-size: 2.2rem;
+    }
+  }
+`;
+
 const AboutSectionContainer = styled.section`
   padding: 7rem 0;
   background-color: white;
@@ -204,38 +259,36 @@ const PrincipleText = styled.p`
   z-index: 1;
 `;
 
-const AboutSection: React.FC = () => {
+const AboutSection = () => {
   return (
     <AboutSectionContainer id="about">
       <Container>
-        <AnimatedElement animation="fadeIn">
-          <SectionTitle
-            title="Мой подход"
-            subtitle="Я считаю, что каждый человек уникален и заслуживает индивидуального подхода к решению своих проблем."
-            centered
-          />
-        </AnimatedElement>
-
+        <EnhancedSectionTitle
+          title="Психолог-консультант" 
+          subtitle="Индивидуальный подход к решению ваших проблем"
+          centered
+        />
         <AboutContent>
-          <AnimatedElement animation="fadeInUp" delay={0.2}>
-            <MissionContainer>
-              <MissionTextContainer>
-                <MissionTitle>МОЯ МИССИЯ — ЭТО ПОМОГАТЬ ДРУГИМ</MissionTitle>
-                <MissionText>
-                  Я НЕ ПОНАСЛЫШКЕ ЗНАЮ, ЧТО ТАКОЕ РАЗРУШАТЬ СЕБЯ И СТАЛКИВАТЬСЯ С ТРУДНЫМИ ЖИЗНЕННЫМИ СИТУАЦИЯМИ. 
-                  НО Я УМЕЮ РАЗЛИЧАТЬ И ПРОЖИВАТЬ СВОИ ЭМОЦИИ, НАХОДИТЬ ВЫХОД ИЗ СЛОЖНЫХ СИТУАЦИЙ, ИДТИ ДАЛЬШЕ И НАСЛАЖДАТЬСЯ ЖИЗНЬЮ.
-                  Я ЧЕРЕЗ МНОГОЕ ПРОШЛА, И НЕСМОТРЯ НА ЭТО, Я СОХРАНИЛА В СЕБЕ ЛЮБОВЬ К ЛЮДЯМ.
-                </MissionText>
-              </MissionTextContainer>
-              
-              <MissionImageContainer>
+          <MissionContainer>
+            <MissionTextContainer>
+              <MissionTitle>Моя миссия - помогать другим</MissionTitle>
+              <MissionText>
+                Я верю, что каждый человек заслуживает быть услышанным и понятым. 
+                Мой путь к профессии психолога начался с личного опыта преодоления 
+                трудностей, что дало мне глубокое понимание эмоциональных проблем и 
+                уникальную эмпатию. Я применяю научно обоснованные методики, адаптированные 
+                под индивидуальные потребности каждого клиента, создавая безопасное 
+                пространство для личностного роста и трансформации.
+              </MissionText>
+            </MissionTextContainer>
+            <MissionImageContainer>
+              <AnimatedElement animation="fadeInRight">
                 <MissionImage>
-                  <img src="/images/banner2.jpg" alt="Теона Хаметова - психолог" />
+                  <img src="/images/banner2.jpg" alt="Психолог за работой" />
                 </MissionImage>
-              </MissionImageContainer>
-            </MissionContainer>
-          </AnimatedElement>
-
+              </AnimatedElement>
+            </MissionImageContainer>
+          </MissionContainer>
           <PrinciplesGrid>
             {PRINCIPLES.map((principle, index) => (
               <AnimatedElement key={principle.id} animation="fadeInUp" delay={0.2 + index * 0.1}>

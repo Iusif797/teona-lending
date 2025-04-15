@@ -2,7 +2,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Container from '../ui/Container';
 import SectionTitle from '../ui/SectionTitle';
-import Button from '../ui/Button';
 import AnimatedElement from '../ui/AnimatedElement';
 import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS } from '../../data/constants';
 import media from '../../styles/media';

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import Button from '../ui/Button';
 import AnimatedElement from '../ui/AnimatedElement';
 import media from '../../styles/media';
 
@@ -249,38 +248,32 @@ const ContentInner = styled.div`
 
 const Title = styled.h1`
   font-size: clamp(2.5rem, 5vw, 4.5rem);
-  color: white;
-  margin-bottom: 1rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  letter-spacing: 0.03em;
-  font-family: 'Playfair Display', serif;
-
-  @media (max-width: 768px) {
-    font-size: clamp(2.2rem, 8vw, 3.5rem);
-    margin-bottom: 0.8rem;
-  }
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1px;
   
-  @media (max-width: 480px) {
-    font-size: clamp(2rem, 7vw, 2.8rem);
+  ${media.md} {
+    margin-bottom: 0.25rem;
   }
 `;
 
 const Subtitle = styled.h2`
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 600;
   color: var(--color-primary-light);
   margin-bottom: 1.5rem;
-  font-weight: 500;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  letter-spacing: 0.02em;
-  font-family: 'Playfair Display', serif;
-
-  @media (max-width: 768px) {
-    font-size: clamp(1.5rem, 5vw, 2.2rem);
-    margin-bottom: 1.2rem;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.8px;
+  
+  ${media.md} {
+    font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+    margin-bottom: 1.25rem;
   }
   
-  @media (max-width: 480px) {
-    font-size: clamp(1.3rem, 5vw, 1.8rem);
+  ${media.sm} {
+    margin-bottom: 1rem;
   }
 `;
 

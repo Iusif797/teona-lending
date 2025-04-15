@@ -20,7 +20,7 @@ const ServicesSectionContainer = styled.section`
 `;
 
 const ServicesWrapper = styled.div`
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
   
@@ -29,12 +29,13 @@ const ServicesWrapper = styled.div`
   }
   
   ${media.lg} {
-    max-width: 800px;
+    max-width: 900px;
     padding: 0 1.5rem;
   }
   
   ${media.md} {
-    max-width: 600px;
+    max-width: 700px;
+    padding: 0 1.5rem;
   }
   
   ${media.sm} {
@@ -47,7 +48,7 @@ const ServicesGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin: 4rem auto;
-  max-width: 1000px;
+  max-width: 1100px;
 
   ${media.xl} {
     grid-template-columns: repeat(3, 1fr);
@@ -57,16 +58,11 @@ const ServicesGrid = styled.div`
   ${media.lg} {
     grid-template-columns: repeat(2, 1fr);
     max-width: 700px;
-    gap: 1.5rem;
-  }
-
-  ${media.md} {
-    max-width: 500px;
   }
 
   ${media.sm} {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 2rem;
     max-width: 400px;
     margin: 3rem auto;
   }
@@ -74,7 +70,7 @@ const ServicesGrid = styled.div`
 
 const ServiceCard = styled.div`
   background-color: white;
-  padding: 2.5rem 2rem;
+  padding: 3rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -143,7 +139,7 @@ const Divider = styled.hr`
 
 const ServiceInfo = styled.div`
   text-align: center;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto 4rem;
   
   p {

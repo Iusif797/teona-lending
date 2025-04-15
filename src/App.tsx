@@ -1,16 +1,18 @@
 import { useEffect } from 'react'
+import { ThemeProvider } from 'styled-components'
 import GlobalStyles from './styles/GlobalStyles'
+import theme from './styles/theme'
 import Header from './components/layout/Header'
 import HeroSection from './components/layout/HeroSection'
 import AboutSection from './components/layout/AboutSection'
 import ServicesSection from './components/layout/ServicesSection'
-import CertificateSection from './components/layout/CertificateSection'
+import CoursesSection from './components/layout/CoursesSection'
 import TestimonialsSection from './components/layout/TestimonialsSection'
+import CertificateSection from './components/layout/CertificateSection'
 import ContactSection from './components/layout/ContactSection'
 import Footer from './components/layout/Footer'
 import ScrollToTop from './components/ui/ScrollToTop'
 import ScrollProgress from './components/ui/ScrollProgress'
-import ScrollToHeader from './components/ui/ScrollToHeader'
 
 function App() {
   useEffect(() => {
@@ -28,31 +30,25 @@ function App() {
     }
 
     loadFonts()
-    
-    // Скролл наверх при загрузке страницы
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    })
   }, [])
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <GlobalStyles />
       <ScrollProgress />
-      <ScrollToHeader />
       <Header />
       <main>
         <HeroSection />
         <AboutSection />
         <ServicesSection />
-        <CertificateSection />
+        <CoursesSection />
         <TestimonialsSection />
+        <CertificateSection />
         <ContactSection />
       </main>
       <Footer />
       <ScrollToTop showBelow={300} />
-    </>
+    </ThemeProvider>
   )
 }
 
