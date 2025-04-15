@@ -1,0 +1,514 @@
+import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import Button from '../ui/Button';
+import AnimatedElement from '../ui/AnimatedElement';
+import media from '../../styles/media';
+
+const HeroSection: React.FC = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+  
+  const slides = [
+    { url: '/images/banner.jpg', position: 'top center' },
+    { url: '/images/banner2.jpg', position: 'top 10%' },
+    { url: '/images/banner3.jpg', position: 'center center' },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [slides.length]);
+
+  const handlePrev = () => {
+    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+  
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+  
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 100) {
+      // Свайп влево (следующий слайд)
+      handleNext();
+    }
+    
+    if (touchStart - touchEnd < -100) {
+      // Свайп вправо (предыдущий слайд)
+      handlePrev();
+    }
+  };
+
+  return (
+    <SectionWrapper id="home">
+      <SliderContainer
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <SlideWrapper>
+          {slides.map((slide, index) => (
+            <Slide key={index} active={currentSlide === index}>
+              <SlideImage 
+                src={slide.url} 
+                alt={`Теона Хаметова - Слайд ${index + 1}`} 
+                position={slide.position}
+              />
+            </Slide>
+          ))}
+        </SlideWrapper>
+        <Overlay />
+
+        <Content>
+          <ContentInner>
+            <AnimatedElement animation="fadeInUp" delay={0.2}>
+              <Title>Психолог</Title>
+            </AnimatedElement>
+            <AnimatedElement animation="fadeInUp" delay={0.4}>
+              <Subtitle>Теона Хаметова</Subtitle>
+            </AnimatedElement>
+            <AnimatedElement animation="fadeInUp" delay={0.6}>
+              <Paragraph>
+                Семейный психолог, консультант по вопросам отношений и личностного роста. 
+                Помогаю справиться с трудностями и обрести гармонию в жизни и отношениях.
+              </Paragraph>
+            </AnimatedElement>
+            <AnimatedElement animation="fadeInUp" delay={0.8}>
+              <ButtonGroup>
+                <ContactButton href="#contact">
+                  Записаться на консультацию
+                </ContactButton>
+                <ServiceButton href="#services">
+                  Услуги
+                </ServiceButton>
+              </ButtonGroup>
+            </AnimatedElement>
+          </ContentInner>
+        </Content>
+
+        <NavButtons>
+          <NavButton onClick={handlePrev} aria-label="Предыдущий слайд">
+            <FaChevronLeft />
+          </NavButton>
+          <NavButton onClick={handleNext} aria-label="Следующий слайд">
+            <FaChevronRight />
+          </NavButton>
+        </NavButtons>
+        
+        <SlideIndicators>
+          {slides.map((_, index) => (
+            <SlideIndicator 
+              key={index} 
+              active={currentSlide === index} 
+              onClick={() => setCurrentSlide(index)}
+              aria-label={`Перейти к слайду ${index + 1}`}
+            />
+          ))}
+        </SlideIndicators>
+      </SliderContainer>
+    </SectionWrapper>
+  );
+};
+
+const SectionWrapper = styled.section`
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  height: 100vh;
+  min-height: 650px;
+  max-height: 950px;
+  width: 100%;
+  margin: 0;
+  
+  ${media.md} {
+    height: 100vh;
+    min-height: 600px;
+  }
+  
+  ${media.sm} {
+    height: 100vh;
+    min-height: 500px;
+  }
+`;
+
+const SliderContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  
+  &:active {
+    cursor: grabbing;
+  }
+`;
+
+const SlideWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`;
+
+const Slide = styled.div<{ active: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: ${({ active }) => (active ? 1 : 0)};
+  transition: opacity 1.5s ease;
+  z-index: 1;
+  overflow: hidden;
+  
+  &[active="true"] img {
+    animation: zoomIn 8s ease forwards;
+  }
+  
+  @keyframes zoomIn {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.1);
+    }
+  }
+`;
+
+const SlideImage = styled.img<{ position: string }>`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: ${({ position }) => position};
+  transition: transform 8s ease;
+  transform: scale(${({ position }) => position.includes('top') ? 1 : 1.05});
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 768px) {
+    object-position: ${({ position }) => 
+      position === 'top 10%' ? 'center 15%' : 
+      position.includes('top') ? position : 'center center'};
+  }
+`;
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3));
+  z-index: 2;
+`;
+
+const Content = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+`;
+
+const ContentInner = styled.div`
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  text-align: center;
+  
+  ${media.md} {
+    padding: 0 1.5rem;
+    max-width: 800px;
+  }
+  
+  ${media.sm} {
+    padding: 0 1.5rem;
+    max-width: 100%;
+  }
+`;
+
+const Title = styled.h1`
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  color: white;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.03em;
+  font-family: 'Playfair Display', serif;
+
+  @media (max-width: 768px) {
+    font-size: clamp(2.2rem, 8vw, 3.5rem);
+    margin-bottom: 0.8rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: clamp(2rem, 7vw, 2.8rem);
+  }
+`;
+
+const Subtitle = styled.h2`
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  color: var(--color-primary-light);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.02em;
+  font-family: 'Playfair Display', serif;
+
+  @media (max-width: 768px) {
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    margin-bottom: 1.2rem;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: clamp(1.3rem, 5vw, 1.8rem);
+  }
+`;
+
+const Paragraph = styled.p`
+  font-size: 1.125rem;
+  color: white;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+  max-width: 800px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  font-family: 'Montserrat', sans-serif;
+  
+  ${media.md} {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 90%;
+    margin: 0 auto 1.8rem;
+  }
+  
+  ${media.sm} {
+    font-size: 1rem;
+    max-width: 100%;
+    line-height: 1.5;
+    margin: 0 auto 1.5rem;
+  }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  
+  ${media.sm} {
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 270px;
+    margin: 0 auto;
+  }
+`;
+
+const ContactButton = styled.a`
+  display: inline-block;
+  padding: 0.85rem 1.8rem;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 50px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: 'Montserrat', sans-serif;
+  
+  &:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  ${media.sm} {
+    font-size: 0.95rem;
+    width: 100%;
+    text-align: center;
+  }
+`;
+
+const ServiceButton = styled.a`
+  display: inline-block;
+  padding: 0.85rem 1.8rem;
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 50px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  font-family: 'Montserrat', sans-serif;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  ${media.sm} {
+    font-size: 0.95rem;
+    width: 100%;
+    text-align: center;
+  }
+`;
+
+const NavButtons = styled.div`
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  padding: 0 2rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  
+  ${media.md} {
+    padding: 0 1.5rem;
+  }
+  
+  ${media.sm} {
+    padding: 0 1rem;
+  }
+`;
+
+const NavButton = styled.button`
+  width: 4.5rem;
+  height: 4.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  pointer-events: auto;
+  opacity: 0.8;
+  
+  &:hover {
+    background: var(--color-primary);
+    transform: scale(1.1);
+    border-color: var(--color-primary);
+    opacity: 1;
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  svg {
+    width: 2rem;
+    height: 2rem;
+    color: white;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+  }
+  
+  ${media.md} {
+    width: 4rem;
+    height: 4rem;
+    
+    svg {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+  }
+  
+  ${media.sm} {
+    width: 3.5rem;
+    height: 3.5rem;
+    
+    svg {
+      width: 1.7rem;
+      height: 1.7rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    width: 3rem;
+    height: 3rem;
+    
+    svg {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+  }
+`;
+
+const SlideIndicators = styled.div`
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  z-index: 10;
+  
+  ${media.md} {
+    bottom: 2.5rem;
+    gap: 0.7rem;
+  }
+  
+  ${media.sm} {
+    bottom: 2rem;
+    gap: 0.6rem;
+  }
+  
+  @media (max-width: 480px) {
+    bottom: 1.5rem;
+    gap: 0.5rem;
+  }
+`;
+
+const SlideIndicator = styled.button<{ active: boolean }>`
+  width: ${({ active }) => (active ? '3rem' : '2rem')};
+  height: 0.4rem;
+  background: ${({ active }) => active ? 'white' : 'rgba(255, 255, 255, 0.4)'};
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  &:hover {
+    background: ${({ active }) => active ? 'white' : 'rgba(255, 255, 255, 0.6)'};
+  }
+  
+  ${media.sm} {
+    width: ${({ active }) => (active ? '2.5rem' : '1.7rem')};
+    height: 0.35rem;
+  }
+  
+  @media (max-width: 480px) {
+    width: ${({ active }) => (active ? '2rem' : '1.5rem')};
+    height: 0.3rem;
+  }
+`;
+
+export default HeroSection;
