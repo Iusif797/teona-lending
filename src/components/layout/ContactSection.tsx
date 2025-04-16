@@ -325,6 +325,8 @@ Email: ${formData.email}
       const chatId = '1147005817';
       const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
       
+      console.log('Отправка запроса в Telegram:', { chatId, messageLength: messageText.length });
+      
       const response = await fetch(telegramUrl, {
         method: 'POST',
         headers: {
@@ -333,9 +335,13 @@ Email: ${formData.email}
         body: JSON.stringify({
           chat_id: chatId,
           text: messageText,
-          parse_mode: 'HTML'
+          // Убираем parse_mode, чтобы отправлять обычный текст без форматирования
         }),
       });
+      
+      // Получаем ответ для отладки
+      const responseData = await response.json();
+      console.log('Ответ от Telegram API:', responseData);
       
       if (response.ok) {
         console.log('Сообщение успешно отправлено в Telegram');
@@ -347,12 +353,12 @@ Email: ${formData.email}
           message: '',
         });
       } else {
-        console.error('Ошибка при отправке сообщения в Telegram', await response.json());
-        alert('Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз или свяжитесь с нами другим способом.');
+        console.error('Ошибка при отправке сообщения в Telegram', responseData);
+        alert(`Произошла ошибка при отправке сообщения. Код: ${response.status}. Пожалуйста, попробуйте связаться с нами по телефону или через email.`);
       }
     } catch (error) {
       console.error('Ошибка при отправке формы:', error);
-      alert('Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз или свяжитесь с нами другим способом.');
+      alert('Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте связаться с нами по телефону или через email.');
     }
   };
 
