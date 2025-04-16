@@ -486,7 +486,7 @@ Email: ${formData.email}
 Время отправки: ${new Date().toLocaleString()}`;
       
       // Данные для отправки
-      const botToken = '7741462082:AAHGtaD2Gjyp-aOI4RNmjZxAzi03QA-VdwM';
+      const botToken = '7745079126:AAFwcDBHhCzoSJcdxBakQnS5Iwo4Im7F5UQ'; // @teona_requests_bot
       const chatId = '1147005817';
       
       console.log('Начинаем отправку сообщения в Telegram', {
