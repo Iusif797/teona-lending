@@ -312,36 +312,45 @@ const ContactSection: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Формируем текст сообщения для Telegram
-    const messageText = `Новая заявка с сайта!
+    try {
+      // Формируем текст сообщения для Telegram
+      const messageText = `Новая заявка с сайта!
 Имя: ${formData.name}
 Email: ${formData.email}
 Телефон: ${formData.phone}
-Сообщение: ${formData.message}`;
-    
-    try {
+Сообщение: ${formData.message.substring(0, 500)}${formData.message.length > 500 ? '...' : ''}`;
+      
       // Отправляем сообщение в Telegram бот
+      // Проверяем, что используем правильный токен и ID чата
       const botToken = '7741462082:AAHGtaD2Gjyp-aOI4RNmjZxAzi03QA-VdwM';
       const chatId = '1147005817';
+      
+      // Используем URL-encoded параметры вместо JSON
+      const params = new URLSearchParams({
+        chat_id: chatId,
+        text: messageText
+      });
+      
       const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
       
       console.log('Отправка запроса в Telegram:', { chatId, messageLength: messageText.length });
       
-      const response = await fetch(telegramUrl, {
-        method: 'POST',
+      // Пробуем альтернативный способ отправки с использованием URL-encoded формата
+      const response = await fetch(`${telegramUrl}?${params.toString()}`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: messageText,
-          // Убираем parse_mode, чтобы отправлять обычный текст без форматирования
-        }),
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }
       });
       
-      // Получаем ответ для отладки
-      const responseData = await response.json();
-      console.log('Ответ от Telegram API:', responseData);
+      let responseData;
+      try {
+        responseData = await response.json();
+        console.log('Ответ от Telegram API:', responseData);
+      } catch (e) {
+        console.error('Ошибка при обработке ответа API:', e);
+        responseData = { description: 'Не удалось обработать ответ' };
+      }
       
       if (response.ok) {
         console.log('Сообщение успешно отправлено в Telegram');
@@ -354,7 +363,7 @@ Email: ${formData.email}
         });
       } else {
         console.error('Ошибка при отправке сообщения в Telegram', responseData);
-        alert(`Произошла ошибка при отправке сообщения. Код: ${response.status}. Пожалуйста, попробуйте связаться с нами по телефону или через email.`);
+        alert(`Произошла ошибка при отправке сообщения. Код: ${response.status}. Описание: ${responseData?.description || 'Неизвестная ошибка'}. Пожалуйста, попробуйте связаться с нами по телефону или через email.`);
       }
     } catch (error) {
       console.error('Ошибка при отправке формы:', error);
