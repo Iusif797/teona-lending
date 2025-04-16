@@ -140,21 +140,31 @@ const CertificateSection: React.FC = () => {
             <CertificatesGrid>
               <CertificateWrapper>
                 <CertificateImage>
-                  <img src="/images/certificate.jpg" alt="Сертификат Теоны Хаметовой" />
+                  <img src="/images/certificate2.png" alt="Сертификат Теоны Хаметовой" />
                 </CertificateImage>
                 <CertificateCaption>
-                  <h4>Диплом профессионального психолога</h4>
-                  <p>Специализация: психологическое консультирование и терапия</p>
+                  <h4>Сертификат квалифицированного специалиста</h4>
+                  <p>Обучение современным техникам психологической помощи</p>
                 </CertificateCaption>
               </CertificateWrapper>
               
               <CertificateWrapper>
                 <CertificateImage>
-                  <img src="/images/certificate2.png" alt="Сертификат о дополнительном образовании" />
+                  <img src="/images/certificate3.png" alt="Сертификат о дополнительном образовании" />
                 </CertificateImage>
                 <CertificateCaption>
-                  <h4>Сертификат о повышении квалификации</h4>
-                  <p>Дополнительная специализация в области психотерапии</p>
+                  <h4>Сертификат о профессиональной подготовке</h4>
+                  <p>Специализация в области интегральной психологии</p>
+                </CertificateCaption>
+              </CertificateWrapper>
+              
+              <CertificateWrapper>
+                <CertificateImage>
+                  <img src="/images/certificate.jpg" alt="Диплом профессионального психолога" />
+                </CertificateImage>
+                <CertificateCaption>
+                  <h4>Диплом профессионального психолога</h4>
+                  <p>Специализация: психологическое консультирование и терапия</p>
                 </CertificateCaption>
               </CertificateWrapper>
             </CertificatesGrid>

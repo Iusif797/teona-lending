@@ -80,8 +80,7 @@ const HeroSection: React.FC = () => {
             </AnimatedElement>
             <AnimatedElement animation="fadeInUp" delay={0.6}>
               <Paragraph>
-                Семейный психолог, консультант по вопросам отношений и личностного роста. 
-                Помогаю справиться с трудностями и обрести гармонию в жизни и отношениях.
+                Я — Теона, дипломированный психолог, интегральный специалист, а также практикующий расстановщик и регрессолог. Моя работа строится на глубоком понимании психики, энергий и системных процессов, влияющих на человека
               </Paragraph>
             </AnimatedElement>
             <AnimatedElement animation="fadeInUp" delay={0.8}>
@@ -335,6 +334,9 @@ const ButtonGroup = styled.div`
   display: flex;
   gap: 1.5rem;
   margin-top: 1rem;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
   
   ${media.md} {
     gap: 1rem;

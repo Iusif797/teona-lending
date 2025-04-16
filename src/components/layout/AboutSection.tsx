@@ -107,52 +107,57 @@ const MissionContainer = styled.div`
 `;
 
 const MissionTextContainer = styled.div`
+  max-width: 85%;
+  
   ${media.md} {
     order: 2;
     text-align: center;
+    max-width: 100%;
   }
 `;
 
 const MissionTitle = styled.h3`
-  font-size: 2rem;
-  margin-bottom: 2rem;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
   font-weight: 300;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.4px;
 
   ${media.md} {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     text-align: center;
   }
 
   ${media.sm} {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
 `;
 
 const MissionText = styled.p`
-  font-size: 1.2rem;
-  line-height: 1.8;
+  font-size: 1rem;
+  line-height: 1.6;
   color: var(--color-secondary);
   font-weight: 300;
-  max-width: 800px;
+  max-width: 700px;
 
   ${media.md} {
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-align: center;
     margin: 0 auto;
   }
 
   ${media.sm} {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 `;
 
 const MissionImageContainer = styled.div`
   position: relative;
+  width: 110%;
   
   ${media.md} {
     order: 1;
-    max-width: 500px;
+    max-width: 540px;
+    width: 100%;
     margin: 0 auto;
   }
 `;
@@ -161,6 +166,7 @@ const MissionImage = styled.div`
   position: relative;
   overflow: hidden;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
   
   &::before {
     content: '';
@@ -170,6 +176,7 @@ const MissionImage = styled.div`
     right: 15px;
     bottom: 15px;
     border: 1px solid var(--color-secondary);
+    border-radius: 25px;
     z-index: -1;
     opacity: 0.3;
     transition: all 0.3s ease;
@@ -185,6 +192,7 @@ const MissionImage = styled.div`
     height: auto;
     display: block;
     transition: all 0.5s ease;
+    border-radius: 20px;
   }
   
   &:hover img {
@@ -271,7 +279,7 @@ const AboutSection = () => {
         <AboutContent>
           <MissionContainer>
             <MissionTextContainer>
-              <MissionTitle>Моя миссия - помогать другим</MissionTitle>
+              <MissionTitle>Моя миссия — быть вашим фонарем, который освещает дорогу в темные моменты, показывая вам свет</MissionTitle>
               <MissionText>
                 Я верю, что каждый человек заслуживает быть услышанным и понятым. 
                 Мой путь к профессии психолога начался с личного опыта преодоления 

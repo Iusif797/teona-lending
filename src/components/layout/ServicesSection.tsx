@@ -45,13 +45,13 @@ const ServicesWrapper = styled.div`
 
 const ServicesGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
   margin: 4rem auto;
   max-width: 1100px;
 
   ${media.xl} {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     max-width: 900px;
   }
 
@@ -81,10 +81,12 @@ const ServiceCard = styled.div`
   height: 100%;
   position: relative;
   overflow: hidden;
+  border-radius: 10px;
+  border-top: 3px solid var(--color-primary-light);
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 30px rgba(166, 106, 66, 0.12);
   }
 `;
 
