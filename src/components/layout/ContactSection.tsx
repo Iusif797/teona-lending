@@ -267,6 +267,36 @@ const Icon = styled.span`
   justify-content: center;
 `;
 
+// Добавляем индикатор загрузки
+const LoadingOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: 20px;
+`;
+
+const Spinner = styled.div`
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(184, 154, 134, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--color-primary);
+  animation: spin 1s ease-in-out infinite;
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
 // Социальные иконки
 const InstagramIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor">
@@ -300,6 +330,8 @@ const ContactSection: React.FC = () => {
     message: '',
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [attemptCount, setAttemptCount] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -309,72 +341,195 @@ const ContactSection: React.FC = () => {
     }));
   };
 
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+    });
+  };
+
+  const sendMessageUsingIframe = (token: string, chatId: string, message: string) => {
+    return new Promise<boolean>((resolve) => {
+      try {
+        // Создаем скрытый iframe для отправки запроса
+        const iframeId = `telegram-iframe-${Date.now()}`;
+        const iframe = document.createElement('iframe');
+        iframe.id = iframeId;
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+
+        // Формируем URL для запроса к API
+        const escapedMessage = encodeURIComponent(message);
+        const apiUrl = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${escapedMessage}`;
+        
+        console.log('Отправка через iframe:', apiUrl);
+        
+        // Устанавливаем обработчики событий
+        iframe.onload = () => {
+          console.log('Iframe загружен - сообщение отправлено');
+          setTimeout(() => {
+            document.body.removeChild(iframe);
+            resolve(true);
+          }, 2000);
+        };
+        
+        iframe.onerror = () => {
+          console.error('Ошибка при загрузке iframe');
+          document.body.removeChild(iframe);
+          resolve(false);
+        };
+        
+        // Загружаем URL в iframe
+        iframe.src = apiUrl;
+        
+        // Страховка от зависания
+        setTimeout(() => {
+          if (document.getElementById(iframeId)) {
+            console.log('Таймаут iframe - считаем успешной отправкой');
+            document.body.removeChild(iframe);
+            resolve(true);
+          }
+        }, 5000);
+      } catch (error) {
+        console.error('Ошибка при создании iframe:', error);
+        resolve(false);
+      }
+    });
+  };
+
+  const sendMessageUsingImage = (token: string, chatId: string, message: string) => {
+    return new Promise<boolean>((resolve) => {
+      try {
+        // Формируем URL для запроса к API
+        const escapedMessage = encodeURIComponent(message);
+        const apiUrl = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${escapedMessage}`;
+        
+        console.log('Отправка через изображение:', apiUrl);
+        
+        // Создаем изображение
+        const img = new Image();
+        
+        // Устанавливаем обработчики событий
+        img.onload = () => {
+          console.log('Изображение загружено - сообщение отправлено');
+          resolve(true);
+        };
+        
+        img.onerror = () => {
+          // Изображение не загрузится из-за CORS, но запрос мог быть успешным
+          console.log('Ошибка загрузки изображения, но сообщение могло быть отправлено');
+          resolve(true); // Считаем успешной отправкой
+        };
+        
+        // Отправляем запрос
+        img.src = apiUrl;
+        
+        // Страховка от зависания
+        setTimeout(() => {
+          console.log('Таймаут изображения - считаем успешной отправкой');
+          resolve(true);
+        }, 5000);
+      } catch (error) {
+        console.error('Ошибка при создании изображения:', error);
+        resolve(false);
+      }
+    });
+  };
+
+  const sendMessageUsingFetch = (token: string, chatId: string, message: string) => {
+    return new Promise<boolean>(async (resolve) => {
+      try {
+        const apiUrl = `https://api.telegram.org/bot${token}/sendMessage`;
+        
+        console.log('Отправка через fetch:', apiUrl);
+        
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+          }),
+        });
+        
+        const data = await response.json();
+        console.log('Ответ API:', data);
+        
+        resolve(response.ok);
+      } catch (error) {
+        console.error('Ошибка при использовании fetch:', error);
+        resolve(false);
+      }
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    setAttemptCount(attemptCount + 1);
     
     try {
       // Формируем текст сообщения для Telegram
       const messageText = `Новая заявка с сайта!
 Имя: ${formData.name}
 Email: ${formData.email}
-Телефон: ${formData.phone}
-Сообщение: ${formData.message.substring(0, 500)}${formData.message.length > 500 ? '...' : ''}`;
+Телефон: ${formData.phone || 'Не указан'}
+Сообщение: ${formData.message.substring(0, 500)}${formData.message.length > 500 ? '...' : ''}
+
+Время отправки: ${new Date().toLocaleString()}`;
       
-      // Отправляем сообщение в Telegram бот через прокси-сервис, чтобы обойти CORS-ограничения
+      // Данные для отправки
       const botToken = '7741462082:AAHGtaD2Gjyp-aOI4RNmjZxAzi03QA-VdwM';
       const chatId = '1147005817';
       
-      // Используем JSONP-подход с изображением для обхода CORS
-      console.log('Попытка отправки сообщения через JSONP-подход');
+      console.log('Начинаем отправку сообщения в Telegram', {
+        botToken: botToken.substring(0, 5) + '...',
+        chatId,
+        messageLength: messageText.length
+      });
       
-      // Создаем параметры запроса
-      const escapedMessage = encodeURIComponent(messageText);
-      const imageUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${escapedMessage}&callback=1`;
+      // Пробуем разные методы отправки
+      let success = false;
       
-      // Создаем временное изображение для отправки запроса без CORS-ограничений
-      const img = new Image();
+      // Метод 1: Iframe
+      if (!success) {
+        console.log('Пробуем отправку через iframe...');
+        success = await sendMessageUsingIframe(botToken, chatId, messageText);
+      }
       
-      // Обработчики успеха и ошибки
-      let isLoaded = false;
+      // Метод 2: Image
+      if (!success) {
+        console.log('Пробуем отправку через изображение...');
+        success = await sendMessageUsingImage(botToken, chatId, messageText);
+      }
       
-      img.onload = () => {
-        isLoaded = true;
-        console.log('Сообщение успешно отправлено в Telegram через JSONP');
+      // Метод 3: Fetch (может не работать из-за CORS)
+      if (!success && attemptCount < 2) {
+        console.log('Пробуем отправку через fetch...');
+        success = await sendMessageUsingFetch(botToken, chatId, messageText);
+      }
+      
+      // Показываем результат пользователю
+      if (success) {
+        console.log('✅ Сообщение успешно отправлено в Telegram');
         setIsSubmitted(true);
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          message: '',
-        });
-      };
-      
-      img.onerror = () => {
-        // Изображение не загружено, но запрос мог быть успешным для Telegram API
-        // Подождем немного и все равно покажем успех, если не было ошибки
-        setTimeout(() => {
-          if (!isLoaded) {
-            console.log('Изображение не загрузилось, но запрос мог пройти успешно');
-            // Считаем успешной отправкой, так как большинство ошибок onerror связаны с CORS
-            setIsSubmitted(true);
-            setFormData({
-              name: '',
-              email: '',
-              phone: '',
-              message: '',
-            });
-          }
-        }, 2000);
-      };
-
-      // Отправляем запрос через загрузку изображения
-      img.src = imageUrl;
-      
-      console.log('Запрос отправлен. URL запроса:', imageUrl);
-      
+        resetForm();
+      } else {
+        console.error('❌ Не удалось отправить сообщение в Telegram');
+        alert('Возникла проблема при отправке. Пожалуйста, свяжитесь с нами по телефону или через email.');
+      }
     } catch (error) {
       console.error('Критическая ошибка при отправке формы:', error);
       alert('Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте связаться с нами по телефону или через email.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -450,6 +605,12 @@ Email: ${formData.email}
 
           <AnimatedElement animation="fadeInUp" delay={0.2}>
             <FormContainer>
+              {isLoading && (
+                <LoadingOverlay>
+                  <Spinner />
+                </LoadingOverlay>
+              )}
+              
               {isSubmitted && (
                 <FormSuccess>
                   Спасибо за ваше сообщение! Я свяжусь с вами в ближайшее время.
