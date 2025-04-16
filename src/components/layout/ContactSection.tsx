@@ -309,17 +309,51 @@ const ContactSection: React.FC = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Здесь будет отправка формы на сервер
-    console.log('Form data:', formData);
-    setIsSubmitted(true);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-    });
+    
+    // Формируем текст сообщения для Telegram
+    const messageText = `Новая заявка с сайта!
+Имя: ${formData.name}
+Email: ${formData.email}
+Телефон: ${formData.phone}
+Сообщение: ${formData.message}`;
+    
+    try {
+      // Отправляем сообщение в Telegram бот
+      const botToken = '7741462082:AAHGtaD2Gjyp-aOI4RNmjZxAzi03QA-VdwM';
+      const chatId = '1147005817';
+      const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      
+      const response = await fetch(telegramUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: messageText,
+          parse_mode: 'HTML'
+        }),
+      });
+      
+      if (response.ok) {
+        console.log('Сообщение успешно отправлено в Telegram');
+        setIsSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+        });
+      } else {
+        console.error('Ошибка при отправке сообщения в Telegram', await response.json());
+        alert('Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз или свяжитесь с нами другим способом.');
+      }
+    } catch (error) {
+      console.error('Ошибка при отправке формы:', error);
+      alert('Произошла ошибка при отправке сообщения. Пожалуйста, попробуйте еще раз или свяжитесь с нами другим способом.');
+    }
   };
 
   const renderSocialIcon = (icon: string) => {
