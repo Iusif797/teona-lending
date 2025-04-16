@@ -9,50 +9,71 @@ interface SectionTitleProps {
   className?: string;
 }
 
-const TitleWrapper = styled.div<{ centered?: boolean; light?: boolean }>`
-  margin-bottom: 3rem;
-  text-align: ${({ centered }) => (centered ? 'center' : 'left')};
-  
-  ${media.md} {
-    margin-bottom: 2.5rem;
-  }
-`;
-
-interface TitleProps {
+interface StyledTitleProps {
+  centered?: boolean;
   light?: boolean;
+}
+
+interface MainTitleProps extends StyledTitleProps {
   hasSubtitle?: boolean;
 }
 
-const Title = styled.h2<TitleProps>`
-  font-size: 2.5rem;
-  font-weight: 300;
-  margin-bottom: ${({ hasSubtitle }) => (hasSubtitle ? '1rem' : '0')};
-  color: ${({ light }) => (light ? 'white' : 'var(--color-primary)')};
-  letter-spacing: 1px;
-  
-  ${media.md} {
-    font-size: 2.25rem;
-  }
+const TitleWrapper = styled.div<StyledTitleProps>`
+  text-align: ${({ centered }) => (centered ? 'center' : 'left')};
+  margin-bottom: 2rem;
   
   ${media.sm} {
-    font-size: 2rem;
+    margin-bottom: 1.5rem;
   }
 `;
 
-interface SubtitleProps {
-  light?: boolean;
-  isCentered?: boolean;
-}
-
-const Subtitle = styled.p<SubtitleProps>`
-  font-size: 1.1rem;
-  color: ${({ light }) => (light ? 'rgba(255, 255, 255, 0.8)' : 'var(--color-secondary)')};
-  max-width: 700px;
-  margin: ${({ isCentered }) => (isCentered ? '0 auto' : '0')};
-  font-weight: 300;
+const MainTitle = styled.h2<MainTitleProps>`
+  position: relative;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: ${({ light }) => (light ? 'white' : 'var(--color-text)')};
+  margin-bottom: ${({ hasSubtitle }) => (hasSubtitle ? '0.75rem' : '0')};
+  
+  ${media.xl} {
+    font-size: 2.25rem;
+  }
+  
+  ${media.md} {
+    font-size: 2rem;
+  }
   
   ${media.sm} {
+    font-size: 1.8rem;
+  }
+  
+  ${media.xs} {
+    font-size: 1.6rem;
+  }
+  
+  ${media.xxs} {
+    font-size: 1.4rem;
+  }
+`;
+
+const Subtitle = styled.p<StyledTitleProps>`
+  font-size: 1.1rem;
+  color: ${({ light }) => (light ? 'rgba(255, 255, 255, 0.85)' : 'var(--color-secondary)')};
+  margin-top: 0.5rem;
+  max-width: ${({ centered }) => (centered ? '600px' : '100%')};
+  margin-left: ${({ centered }) => (centered ? 'auto' : '0')};
+  margin-right: ${({ centered }) => (centered ? 'auto' : '0')};
+  
+  ${media.md} {
     font-size: 1rem;
+  }
+  
+  ${media.sm} {
+    font-size: 0.95rem;
+  }
+  
+  ${media.xs} {
+    font-size: 0.9rem;
+    max-width: ${({ centered }) => (centered ? '100%' : '100%')};
   }
 `;
 
@@ -64,9 +85,11 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   className,
 }) => {
   return (
-    <TitleWrapper centered={centered} light={light} className={className}>
-      <Title light={light} hasSubtitle={!!subtitle}>{title}</Title>
-      {subtitle && <Subtitle light={light} isCentered={centered}>{subtitle}</Subtitle>}
+    <TitleWrapper centered={centered} className={className}>
+      <MainTitle centered={centered} light={light} hasSubtitle={!!subtitle}>
+        {title}
+      </MainTitle>
+      {subtitle && <Subtitle centered={centered} light={light}>{subtitle}</Subtitle>}
     </TitleWrapper>
   );
 };

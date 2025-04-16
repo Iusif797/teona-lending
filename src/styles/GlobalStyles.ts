@@ -50,6 +50,10 @@ const GlobalStyles = createGlobalStyle`
     ${media.sm} {
       font-size: 14px;
     }
+    
+    ${media.xxs} {
+      font-size: 13px;
+    }
   }
 
   body {
@@ -75,22 +79,78 @@ const GlobalStyles = createGlobalStyle`
 
   h1 {
     font-size: 2.5rem;
+    
+    ${media.md} {
+      font-size: 2.2rem;
+    }
+    
+    ${media.sm} {
+      font-size: 2rem;
+    }
+    
+    ${media.xs} {
+      font-size: 1.8rem;
+    }
   }
 
   h2 {
     font-size: 2rem;
+    
+    ${media.md} {
+      font-size: 1.8rem;
+    }
+    
+    ${media.sm} {
+      font-size: 1.6rem;
+    }
+    
+    ${media.xs} {
+      font-size: 1.5rem;
+    }
   }
 
   h3 {
     font-size: 1.75rem;
+    
+    ${media.md} {
+      font-size: 1.6rem;
+    }
+    
+    ${media.sm} {
+      font-size: 1.4rem;
+    }
+    
+    ${media.xs} {
+      font-size: 1.3rem;
+    }
   }
 
   h4 {
     font-size: 1.5rem;
+    
+    ${media.md} {
+      font-size: 1.4rem;
+    }
+    
+    ${media.sm} {
+      font-size: 1.3rem;
+    }
+    
+    ${media.xs} {
+      font-size: 1.2rem;
+    }
   }
 
   h5 {
     font-size: 1.25rem;
+    
+    ${media.sm} {
+      font-size: 1.15rem;
+    }
+    
+    ${media.xs} {
+      font-size: 1.1rem;
+    }
   }
 
   h6 {

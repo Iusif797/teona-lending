@@ -4,47 +4,56 @@ import media from '../../styles/media';
 
 interface ContainerProps {
   children: ReactNode;
-  fullWidth?: boolean;
+  fluid?: boolean;
   className?: string;
 }
 
-const StyledContainer = styled.div<{
-  fullWidth?: boolean;
-}>`
-  width: 100%;
-  max-width: ${({ fullWidth }) => (fullWidth ? '100%' : '1100px')};
+interface StyledContainerProps {
+  fluid?: boolean;
+}
+
+const StyledContainer = styled.div<StyledContainerProps>`
+  width: ${({ fluid }) => (fluid ? '100%' : '90%')};
+  max-width: ${({ fluid }) => (fluid ? '100%' : 'var(--container-width)')};
   margin: 0 auto;
-  padding: 0 2rem;
-  position: relative;
-
+  padding: 0 15px;
+  
   ${media.xl} {
-    max-width: ${({ fullWidth }) => (fullWidth ? '100%' : '1000px')};
-    padding: 0 2rem;
+    max-width: ${({ fluid }) => (fluid ? '100%' : '1140px')};
   }
-
+  
   ${media.lg} {
-    max-width: ${({ fullWidth }) => (fullWidth ? '100%' : '800px')};
-    padding: 0 1.5rem;
+    max-width: ${({ fluid }) => (fluid ? '100%' : '960px')};
+    width: ${({ fluid }) => (fluid ? '100%' : '95%')};
   }
-
+  
   ${media.md} {
-    max-width: ${({ fullWidth }) => (fullWidth ? '100%' : '600px')};
-    padding: 0 1.5rem;
+    max-width: ${({ fluid }) => (fluid ? '100%' : '720px')};
   }
-
+  
   ${media.sm} {
-    max-width: 100%;
-    padding: 0 1rem;
+    max-width: ${({ fluid }) => (fluid ? '100%' : '540px')};
+    width: ${({ fluid }) => (fluid ? '100%' : '95%')};
+    padding: 0 10px;
+  }
+  
+  ${media.xs} {
+    width: ${({ fluid }) => (fluid ? '100%' : '100%')};
+    padding: 0 8px;
+  }
+  
+  ${media.xxs} {
+    padding: 0 5px;
   }
 `;
 
 const Container: React.FC<ContainerProps> = ({
   children,
-  fullWidth = false,
+  fluid = false,
   className,
 }) => {
   return (
-    <StyledContainer fullWidth={fullWidth} className={className}>
+    <StyledContainer fluid={fluid} className={className}>
       {children}
     </StyledContainer>
   );

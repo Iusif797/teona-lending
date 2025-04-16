@@ -202,6 +202,7 @@ const SlideImage = styled.img<{ position: string }>`
   @media (max-width: 768px) {
     object-position: ${({ position }) => 
       position === 'top 10%' ? 'center 15%' : 
+      position === 'center center' ? 'left center' : 
       position.includes('top') ? position : 'center center'};
   }
 `;
@@ -229,141 +230,201 @@ const Content = styled.div`
 `;
 
 const ContentInner = styled.div`
-  width: 100%;
-  max-width: 1000px;
+  text-align: center;
+  max-width: 900px;
   margin: 0 auto;
   padding: 0 2rem;
-  text-align: center;
-  
-  ${media.md} {
-    padding: 0 1.5rem;
-    max-width: 800px;
-  }
+  position: relative;
+  z-index: 5;
   
   ${media.sm} {
-    padding: 0 1.5rem;
     max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  ${media.xs} {
+    padding: 0 0.75rem;
   }
 `;
 
-const Title = styled.h1`
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  font-weight: 700;
-  color: var(--color-white);
-  margin-bottom: 0.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  letter-spacing: 1px;
+const Title = styled.h2`
+  font-size: 2.8rem;
+  color: white;
+  margin: 0 0 0.5rem;
+  font-weight: 400;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   
   ${media.md} {
-    margin-bottom: 0.25rem;
-  }
-`;
-
-const Subtitle = styled.h2`
-  font-size: clamp(1.8rem, 4vw, 3.2rem);
-  font-weight: 600;
-  color: var(--color-primary-light);
-  margin-bottom: 1.5rem;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
-  letter-spacing: 0.8px;
-  
-  ${media.md} {
-    font-size: clamp(1.6rem, 3.5vw, 2.8rem);
-    margin-bottom: 1.25rem;
+    font-size: 2.5rem;
   }
   
   ${media.sm} {
-    margin-bottom: 1rem;
+    font-size: 2.2rem;
+  }
+  
+  ${media.xs} {
+    font-size: 2rem;
+    margin: 0 0 0.3rem;
+  }
+  
+  ${media.xxs} {
+    font-size: 1.8rem;
+  }
+`;
+
+const Subtitle = styled.h1`
+  font-size: 4.5rem;
+  color: white;
+  margin: 0;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  
+  ${media.md} {
+    font-size: 4rem;
+  }
+  
+  ${media.sm} {
+    font-size: 3.4rem;
+  }
+  
+  ${media.xs} {
+    font-size: 2.8rem;
+  }
+  
+  ${media.xxs} {
+    font-size: 2.4rem;
   }
 `;
 
 const Paragraph = styled.p`
-  font-size: 1.125rem;
-  color: white;
-  margin: 0 auto 2rem;
-  line-height: 1.7;
   max-width: 800px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-  font-family: 'Montserrat', sans-serif;
+  margin: 1.5rem 0 2.5rem;
+  color: #fff;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   
   ${media.md} {
     font-size: 1.05rem;
-    line-height: 1.6;
-    max-width: 90%;
-    margin: 0 auto 1.8rem;
+    margin: 1.25rem 0 2rem;
+    max-width: 600px;
   }
   
   ${media.sm} {
     font-size: 1rem;
+    line-height: 1.6;
+    margin: 1rem 0 1.75rem;
     max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  ${media.xs} {
+    font-size: 0.95rem;
+    margin: 0.75rem 0 1.5rem;
     line-height: 1.5;
-    margin: 0 auto 1.5rem;
+  }
+  
+  ${media.xxs} {
+    font-size: 0.9rem;
+    margin: 0.5rem 0 1.25rem;
   }
 `;
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 1rem;
-  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  
+  ${media.md} {
+    gap: 1rem;
+  }
   
   ${media.sm} {
     flex-direction: column;
     gap: 0.75rem;
-    max-width: 270px;
+    width: 100%;
+    max-width: 280px;
     margin: 0 auto;
+  }
+  
+  ${media.xxs} {
+    max-width: 240px;
   }
 `;
 
 const ContactButton = styled.a`
   display: inline-block;
-  padding: 0.85rem 1.8rem;
-  background: var(--color-primary);
+  background-color: var(--color-primary);
   color: white;
+  border: none;
   border-radius: 50px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.3s ease;
+  padding: 0.85rem 1.8rem;
   font-size: 1rem;
+  font-weight: 500;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  font-family: 'Montserrat', sans-serif;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  text-decoration: none;
   
   &:hover {
-    background: var(--color-primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    background-color: var(--color-primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    color: white;
+  }
+  
+  ${media.md} {
+    padding: 0.8rem 1.6rem;
+    font-size: 0.95rem;
   }
   
   ${media.sm} {
-    font-size: 0.95rem;
+    padding: 0.75rem 1.5rem;
     width: 100%;
-    text-align: center;
+  }
+  
+  ${media.xxs} {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
   }
 `;
 
 const ServiceButton = styled.a`
   display: inline-block;
-  padding: 0.85rem 1.8rem;
-  background: transparent;
+  background-color: transparent;
   color: white;
-  border: 1px solid white;
+  border: 2px solid white;
   border-radius: 50px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.3s ease;
+  padding: 0.85rem 1.8rem;
   font-size: 1rem;
+  font-weight: 500;
   letter-spacing: 0.5px;
-  font-family: 'Montserrat', sans-serif;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
   
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+    color: white;
+  }
+  
+  ${media.md} {
+    padding: 0.8rem 1.6rem;
+    font-size: 0.95rem;
   }
   
   ${media.sm} {
-    font-size: 0.95rem;
+    padding: 0.75rem 1.5rem;
     width: 100%;
-    text-align: center;
+  }
+  
+  ${media.xxs} {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
   }
 `;
 

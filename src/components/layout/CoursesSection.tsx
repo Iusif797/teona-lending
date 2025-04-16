@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, createContext } from 'react';
 import styled from 'styled-components';
 import Container from '../ui/Container';
 import AnimatedElement from '../ui/AnimatedElement';
 import { COURSES } from '../../data/constants';
 import media from '../../styles/media';
 import { FaCheckCircle, FaChevronDown, FaChevronUp, FaGem, FaBrain, FaStar, FaArrowUp, FaRegClock, FaCalendarAlt, FaGraduationCap, FaLaptop } from 'react-icons/fa';
+
+// Создадим глобальный контекст для отслеживания состояния мобильного меню
+export const MobileMenuContext = createContext<boolean>(false);
 
 const CoursesSectionContainer = styled.section`
   padding: 8rem 0;
@@ -154,6 +157,19 @@ const CourseCard = styled.div<{ highlighted?: boolean }>`
       z-index: 5;
       border-radius: 6px 0 0 6px;
       box-shadow: -3px 4px 10px rgba(0, 0, 0, 0.15);
+      
+      ${media.sm} {
+        top: 0;
+        right: 0;
+        border-radius: 0 0 0 6px;
+        padding: 0.5rem 1.2rem;
+        font-size: 0.8rem;
+      }
+      
+      ${media.xs} {
+        padding: 0.4rem 1rem;
+        font-size: 0.75rem;
+      }
     }
   `}
   
@@ -567,7 +583,7 @@ const BenefitText = styled.span`
   line-height: 1.7;
 `;
 
-const BackToTopButton = styled.a`
+const BackToTopButton = styled.a<{ isMenuOpen: boolean }>`
   position: fixed;
   right: 30px;
   bottom: 30px;
@@ -582,6 +598,9 @@ const BackToTopButton = styled.a`
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
   transition: all 0.4s ease;
   z-index: 100;
+  opacity: ${({ isMenuOpen }) => (isMenuOpen ? '0' : '1')};
+  visibility: ${({ isMenuOpen }) => (isMenuOpen ? 'hidden' : 'visible')};
+  pointer-events: ${({ isMenuOpen }) => (isMenuOpen ? 'none' : 'all')};
   
   &:before {
     content: '';
@@ -687,6 +706,8 @@ const formatCourseData = (course: any) => {
 
 const CoursesSection: React.FC = () => {
   const [expandedCourseId, setExpandedCourseId] = useState<number | null>(null);
+  // Получим состояние мобильного меню из контекста
+  const isMobileMenuOpen = useContext(MobileMenuContext);
   
   const toggleExpanded = (id: number) => {
     setExpandedCourseId(expandedCourseId === id ? null : id);
@@ -770,7 +791,7 @@ const CoursesSection: React.FC = () => {
         </CoursesWrapper>
       </Container>
       
-      <BackToTopButton href="#courses">
+      <BackToTopButton href="#courses" isMenuOpen={isMobileMenuOpen}>
         <FaArrowUp />
       </BackToTopButton>
     </CoursesSectionContainer>

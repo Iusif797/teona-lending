@@ -264,7 +264,7 @@ const AboutSection = () => {
     <AboutSectionContainer id="about">
       <Container>
         <EnhancedSectionTitle
-          title="Психолог-консультант" 
+          title="Психолог" 
           subtitle="Индивидуальный подход к решению ваших проблем"
           centered
         />

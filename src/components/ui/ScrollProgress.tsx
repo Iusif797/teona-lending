@@ -9,6 +9,7 @@ const ProgressContainer = styled.div`
   height: 4px;
   background-color: transparent;
   z-index: 1000;
+  cursor: pointer;
 `;
 
 const ProgressBar = styled.div<{ progress: number }>`
@@ -30,6 +31,10 @@ const ScrollProgress: React.FC = () => {
     
     setProgress(scrolled * 100);
   };
+  
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     window.addEventListener('scroll', calculateScrollProgress);
@@ -37,7 +42,7 @@ const ScrollProgress: React.FC = () => {
   }, []);
 
   return (
-    <ProgressContainer>
+    <ProgressContainer onClick={handleScrollToTop}>
       <ProgressBar progress={progress} />
     </ProgressContainer>
   );

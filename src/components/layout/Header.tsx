@@ -1,8 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { NAV_LINKS, SITE_TITLE, SITE_SUBTITLE } from '../../data/constants';
 import Container from '../ui/Container';
 import media from '../../styles/media';
+
+interface HeaderProps {
+  onMenuToggle?: Dispatch<SetStateAction<boolean>>;
+}
 
 const HeaderWrapper = styled.header<{ isScrolled: boolean }>`
   position: fixed;
@@ -30,14 +34,19 @@ const Logo = styled.div`
     font-size: 1.8rem;
     line-height: 1;
     margin: 0;
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 1px;
+    color: var(--color-primary);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   }
   
   span {
-    font-size: 0.9rem;
-    color: var(--color-secondary);
-    font-weight: 300;
+    font-size: 1rem;
+    color: var(--color-primary-dark);
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    margin-top: 5px;
+    letter-spacing: 0.5px;
   }
   
   ${media.md} {
@@ -46,7 +55,7 @@ const Logo = styled.div`
     }
     
     span {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
     }
   }
 `;
@@ -175,12 +184,16 @@ const MobileMenu = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    const newState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(newState);
+    if (onMenuToggle) {
+      onMenuToggle(newState);
+    }
   };
 
   useEffect(() => {
@@ -231,7 +244,15 @@ const Header: React.FC = () => {
           <ul>
             {NAV_LINKS.map((link) => (
               <li key={link.id}>
-                <a href={link.url} onClick={() => setIsMobileMenuOpen(false)}>
+                <a 
+                  href={link.url} 
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    if (onMenuToggle) {
+                      onMenuToggle(false);
+                    }
+                  }}
+                >
                   {link.title}
                 </a>
               </li>

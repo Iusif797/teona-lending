@@ -38,12 +38,20 @@ const CertificateText = styled.p`
   }
 `;
 
-const CertificateWrapper = styled.div`
+const CertificatesGrid = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 4rem;
   width: 100%;
   max-width: 650px;
   margin: 0 auto;
+`;
+
+const CertificateWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   position: relative;
 `;
 
@@ -129,16 +137,27 @@ const CertificateSection: React.FC = () => {
           </AnimatedElement>
           
           <AnimatedElement animation="fadeInUp" delay={0.4}>
-            <CertificateWrapper>
-              <CertificateImage>
-                <img src="/images/certificate.jpg" alt="Сертификат Теоны Хаметовой" />
-              </CertificateImage>
-            </CertificateWrapper>
+            <CertificatesGrid>
+              <CertificateWrapper>
+                <CertificateImage>
+                  <img src="/images/certificate.jpg" alt="Сертификат Теоны Хаметовой" />
+                </CertificateImage>
+                <CertificateCaption>
+                  <h4>Диплом профессионального психолога</h4>
+                  <p>Специализация: психологическое консультирование и терапия</p>
+                </CertificateCaption>
+              </CertificateWrapper>
               
-            <CertificateCaption>
-              <h4>Диплом профессионального психолога</h4>
-              <p>Специализация: психологическое консультирование и терапия</p>
-            </CertificateCaption>
+              <CertificateWrapper>
+                <CertificateImage>
+                  <img src="/images/certificate2.png" alt="Сертификат о дополнительном образовании" />
+                </CertificateImage>
+                <CertificateCaption>
+                  <h4>Сертификат о повышении квалификации</h4>
+                  <p>Дополнительная специализация в области психотерапии</p>
+                </CertificateCaption>
+              </CertificateWrapper>
+            </CertificatesGrid>
           </AnimatedElement>
         </CertificateContent>
       </Container>

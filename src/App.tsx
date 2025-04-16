@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ThemeProvider } from 'styled-components'
 import GlobalStyles from './styles/GlobalStyles'
 import theme from './styles/theme'
@@ -11,10 +11,12 @@ import TestimonialsSection from './components/layout/TestimonialsSection'
 import CertificateSection from './components/layout/CertificateSection'
 import ContactSection from './components/layout/ContactSection'
 import Footer from './components/layout/Footer'
-import ScrollToTop from './components/ui/ScrollToTop'
 import ScrollProgress from './components/ui/ScrollProgress'
+import { MobileMenuContext } from './components/layout/CoursesSection'
 
 function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     // Загружаем шрифты для проекта
     const loadFonts = async () => {
@@ -32,22 +34,28 @@ function App() {
     loadFonts()
   }, [])
 
+  // Прокручиваем страницу вверх при загрузке/обновлении
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <ScrollProgress />
-      <Header />
-      <main>
-        <HeroSection />
-        <AboutSection />
-        <ServicesSection />
-        <CoursesSection />
-        <TestimonialsSection />
-        <CertificateSection />
-        <ContactSection />
-      </main>
-      <Footer />
-      <ScrollToTop showBelow={300} />
+      <MobileMenuContext.Provider value={isMobileMenuOpen}>
+        <ScrollProgress />
+        <Header onMenuToggle={setIsMobileMenuOpen} />
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <ServicesSection />
+          <CoursesSection />
+          <TestimonialsSection />
+          <CertificateSection />
+          <ContactSection />
+        </main>
+        <Footer />
+      </MobileMenuContext.Provider>
     </ThemeProvider>
   )
 }
