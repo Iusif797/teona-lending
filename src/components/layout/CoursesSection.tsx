@@ -1,5 +1,5 @@
 import React, { useState, useContext, createContext } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import Container from '../ui/Container';
 import AnimatedElement from '../ui/AnimatedElement';
 import { COURSES } from '../../data/constants';
@@ -1011,8 +1011,6 @@ const CoursesSection: React.FC = () => {
   const toggleExpanded = (id: number) => {
     // Если идет загрузка, игнорируем клик
     if (isLoading) return;
-    
-    const action = expandedCourseId === id ? 'close' : 'open';
     
     // Устанавливаем индикатор загрузки
     setIsLoading(true);
