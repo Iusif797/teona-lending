@@ -1,13 +1,26 @@
 import React, { useState, useContext, createContext } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Container from '../ui/Container';
 import AnimatedElement from '../ui/AnimatedElement';
 import { COURSES } from '../../data/constants';
+import { CourseModule } from '../../types';
 import media from '../../styles/media';
-import { FaCheckCircle, FaChevronDown, FaChevronUp, FaGem, FaBrain, FaStar, FaArrowUp, FaRegClock, FaCalendarAlt, FaGraduationCap, FaLaptop } from 'react-icons/fa';
+import { FaCheckCircle, FaChevronDown, FaChevronUp, FaGem, FaBrain, FaStar, FaArrowUp, FaRegClock, FaCalendarAlt, FaGraduationCap, FaLaptop, FaCheck } from 'react-icons/fa';
 
 // Создадим глобальный контекст для отслеживания состояния мобильного меню
 export const MobileMenuContext = createContext<boolean>(false);
+
+// Анимации для элементов
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const CoursesSectionContainer = styled.section`
   padding: 8rem 0;
@@ -489,6 +502,14 @@ const ModuleItem = styled.div`
   transition: all 0.4s ease;
   border-left: 5px solid #d9b293;
   position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
   
   &:hover {
     transform: translateY(-5px);
@@ -524,6 +545,81 @@ const ModuleContent = styled.p`
   line-height: 1.8;
   color: var(--color-text);
   padding-left: 25px;
+`;
+
+const ModuleHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`;
+
+const ModuleCheckbox = styled.div<{ completed: boolean }>`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid ${({ completed }) => completed ? '#58b368' : '#d9b293'};
+  background: ${({ completed }) => completed ? '#58b368' : 'transparent'};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 15px;
+  flex-shrink: 0;
+  
+  svg {
+    color: white;
+    font-size: 0.9rem;
+  }
+`;
+
+const ProgressContainer = styled.div`
+  margin: 0 0 2rem 0;
+  width: 100%;
+  background: #f0e9e4;
+  height: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+`;
+
+const ProgressBar = styled.div<{ progress: number }>`
+  height: 100%;
+  width: ${({ progress }) => `${progress}%`};
+  background: linear-gradient(90deg, #d9b293, #a66a42);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+`;
+
+const ProgressStats = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text);
+`;
+
+const ResetButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  color: #a66a42;
+  cursor: pointer;
+  margin-left: auto;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: #d9b293;
+    text-decoration: underline;
+  }
+  
+  svg {
+    margin-right: 5px;
+    font-size: 0.8rem;
+  }
 `;
 
 const DetailsSectionTitle = styled.h4`
@@ -562,6 +658,14 @@ const BenefitItem = styled.div`
   background: #f8f5f2;
   border-radius: 14px;
   transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
   
   &:hover {
     transform: translateY(-3px);
@@ -641,10 +745,183 @@ interface CourseDetailsProps {
   toggleExpanded: (id: number) => void;
 }
 
+// Хук для сохранения прогресса модулей в localStorage
+const useModuleProgress = (courseId: number) => {
+  const storageKey = `course_${courseId}_progress`;
+  
+  const [completedModules, setCompletedModules] = React.useState<number[]>([]);
+  
+  // Загружаем данные только один раз при монтировании компонента
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        setCompletedModules(JSON.parse(saved));
+      }
+    } catch (error) {
+      console.error('Ошибка при загрузке прогресса:', error);
+    }
+  }, [storageKey]);
+  
+  // Сохраняем данные при обновлении
+  React.useEffect(() => {
+    try {
+      if (completedModules.length > 0) {
+        localStorage.setItem(storageKey, JSON.stringify(completedModules));
+      }
+    } catch (error) {
+      console.error('Ошибка при сохранении прогресса:', error);
+    }
+  }, [completedModules, storageKey]);
+  
+  const toggleModule = (moduleId: number) => {
+    setCompletedModules(prev => 
+      prev.includes(moduleId) 
+        ? prev.filter(id => id !== moduleId) 
+        : [...prev, moduleId]
+    );
+  };
+  
+  const resetProgress = () => {
+    try {
+      localStorage.removeItem(storageKey);
+      setCompletedModules([]);
+    } catch (error) {
+      console.error('Ошибка при сбросе прогресса:', error);
+    }
+  };
+  
+  return { completedModules, toggleModule, resetProgress };
+};
+
+// Типы для анимированных компонентов
+interface AnimatedModuleProps {
+  module: CourseModule;
+  index: number;
+  isVisible: boolean;
+  completedModules: number[];
+  toggleModule: (id: number) => void;
+}
+
+interface AnimatedBenefitProps {
+  benefit: string;
+  index: number;
+  isVisible: boolean;
+}
+
+// Компонент анимированного модуля с задержкой
+const AnimatedModule: React.FC<AnimatedModuleProps> = ({ module, index, isVisible, completedModules, toggleModule }) => {
+  const [isRendered, setIsRendered] = React.useState(false);
+  
+  React.useEffect(() => {
+    // Добавляем задержку для поочередного появления
+    const timer = setTimeout(() => {
+      if (isVisible) {
+        setIsRendered(true);
+      }
+    }, index * 100);
+    
+    return () => clearTimeout(timer);
+  }, [isVisible, index]);
+  
+  return (
+    <ModuleItem className={isRendered ? 'visible' : ''}>
+      <ModuleHeader>
+        <ModuleTitle>{module.title}</ModuleTitle>
+        <ModuleCheckbox 
+          completed={completedModules.includes(module.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleModule(module.id);
+          }}
+        >
+          {completedModules.includes(module.id) && <FaCheck />}
+        </ModuleCheckbox>
+      </ModuleHeader>
+      <ModuleContent>{module.content}</ModuleContent>
+    </ModuleItem>
+  );
+};
+
+// Компонент анимированного преимущества с задержкой
+const AnimatedBenefit: React.FC<AnimatedBenefitProps> = ({ benefit, index, isVisible }) => {
+  const [isRendered, setIsRendered] = React.useState(false);
+  
+  React.useEffect(() => {
+    // Добавляем задержку для поочередного появления
+    const timer = setTimeout(() => {
+      if (isVisible) {
+        setIsRendered(true);
+      }
+    }, index * 100);
+    
+    return () => clearTimeout(timer);
+  }, [isVisible, index]);
+  
+  return (
+    <BenefitItem className={isRendered ? 'visible' : ''}>
+      <FaCheckCircle size={20} />
+      <BenefitText>{benefit}</BenefitText>
+    </BenefitItem>
+  );
+};
+
 const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleExpanded }) => {
   const course = COURSES.find(c => c.id === id);
+  const { completedModules, toggleModule, resetProgress } = useModuleProgress(id);
+  const [isContentVisible, setIsContentVisible] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
   
-  if (!course) return null;
+  // Управление видимостью контента с задержкой для анимации
+  React.useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    try {
+      if (isExpanded) {
+        setIsContentVisible(true);
+      } else {
+        timer = setTimeout(() => {
+          setIsContentVisible(false);
+        }, 500); // Задержка, соответствующая времени анимации скрытия
+      }
+    } catch (err) {
+      console.error('Ошибка при управлении анимацией:', err);
+      // В случае ошибки просто показываем контент без анимации
+      setIsContentVisible(isExpanded);
+    }
+    
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [isExpanded]);
+  
+  if (!course) {
+    console.error(`Курс с ID ${id} не найден`);
+    return null;
+  }
+  
+  // Безопасный расчет прогресса
+  const progress = React.useMemo(() => {
+    try {
+      return course.modules && course.modules.length > 0 
+        ? Math.round((completedModules.length / course.modules.length) * 100) 
+        : 0;
+    } catch (err) {
+      console.error('Ошибка при расчете прогресса:', err);
+      return 0;
+    }
+  }, [course.modules, completedModules]);
+  
+  // Безопасный обработчик сброса прогресса
+  const handleResetProgress = (e: React.MouseEvent) => {
+    try {
+      e.stopPropagation();
+      resetProgress();
+    } catch (err) {
+      console.error('Ошибка при сбросе прогресса:', err);
+      setError('Не удалось сбросить прогресс. Пожалуйста, попробуйте позже.');
+    }
+  };
   
   return (
     <>
@@ -653,26 +930,57 @@ const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleEx
         {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
       </DetailsToggle>
       
+      {error && (
+        <div style={{ color: 'red', marginTop: '10px', fontSize: '0.9rem' }}>
+          {error}
+        </div>
+      )}
+      
       <ExpandedDetails isExpanded={isExpanded}>
-        <DetailsSectionTitle>Программа курса</DetailsSectionTitle>
-        <ModulesList>
-          {course.modules.map(module => (
-            <ModuleItem key={module.id}>
-              <ModuleTitle>{module.title}</ModuleTitle>
-              <ModuleContent>{module.content}</ModuleContent>
-            </ModuleItem>
-          ))}
-        </ModulesList>
-        
-        <DetailsSectionTitle>Чему вы научитесь</DetailsSectionTitle>
-        <BenefitsGrid>
-          {course.benefits.map((benefit, index) => (
-            <BenefitItem key={index}>
-              <FaCheckCircle size={20} />
-              <BenefitText>{benefit}</BenefitText>
-            </BenefitItem>
-          ))}
-        </BenefitsGrid>
+        {isContentVisible && (
+          <>
+            <DetailsSectionTitle>Программа курса</DetailsSectionTitle>
+            
+            <ProgressContainer>
+              <ProgressStats>
+                <span>Прогресс обучения</span>
+                <span>{completedModules.length} из {course.modules?.length || 0} ({progress}%)</span>
+              </ProgressStats>
+              <ProgressBar progress={progress} />
+              {completedModules.length > 0 && (
+                <ResetButton onClick={handleResetProgress}>
+                  <FaArrowUp style={{ transform: 'rotate(45deg)' }} />
+                  Сбросить прогресс
+                </ResetButton>
+              )}
+            </ProgressContainer>
+            
+            <ModulesList>
+              {course.modules?.map((module, index) => (
+                <AnimatedModule
+                  key={module.id}
+                  module={module}
+                  index={index}
+                  isVisible={isExpanded}
+                  completedModules={completedModules}
+                  toggleModule={toggleModule}
+                />
+              ))}
+            </ModulesList>
+            
+            <DetailsSectionTitle>Чему вы научитесь</DetailsSectionTitle>
+            <BenefitsGrid>
+              {course.benefits?.map((benefit, index) => (
+                <AnimatedBenefit
+                  key={index}
+                  benefit={benefit}
+                  index={index}
+                  isVisible={isExpanded}
+                />
+              ))}
+            </BenefitsGrid>
+          </>
+        )}
       </ExpandedDetails>
     </>
   );
@@ -709,8 +1017,28 @@ const CoursesSection: React.FC = () => {
   // Получим состояние мобильного меню из контекста
   const isMobileMenuOpen = useContext(MobileMenuContext);
   
+  // Состояние для отслеживания попыток открытия/закрытия курса
+  const [pendingOperation, setPendingOperation] = useState<{id: number, action: 'open' | 'close'} | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  
+  // Обработчик с предотвращением множественных кликов
   const toggleExpanded = (id: number) => {
-    setExpandedCourseId(expandedCourseId === id ? null : id);
+    // Если идет загрузка, игнорируем клик
+    if (isLoading) return;
+    
+    const action = expandedCourseId === id ? 'close' : 'open';
+    
+    // Устанавливаем индикатор загрузки
+    setIsLoading(true);
+    // Запоминаем операцию
+    setPendingOperation({id, action});
+    
+    // Эмулируем задержку загрузки данных
+    setTimeout(() => {
+      setExpandedCourseId(expandedCourseId === id ? null : id);
+      setIsLoading(false);
+      setPendingOperation(null);
+    }, 100);
   };
   
   const getCourseIcon = (id: number) => {
