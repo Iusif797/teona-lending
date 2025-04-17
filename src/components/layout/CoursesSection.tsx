@@ -10,18 +10,6 @@ import { FaCheckCircle, FaChevronDown, FaChevronUp, FaGem, FaBrain, FaStar, FaAr
 // Создадим глобальный контекст для отслеживания состояния мобильного меню
 export const MobileMenuContext = createContext<boolean>(false);
 
-// Анимации для элементов
-const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
 const CoursesSectionContainer = styled.section`
   padding: 8rem 0;
   background-color: #faf7f4;
@@ -874,7 +862,7 @@ const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleEx
   
   // Управление видимостью контента с задержкой для анимации
   React.useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout>;
     
     try {
       if (isExpanded) {
@@ -1017,8 +1005,6 @@ const CoursesSection: React.FC = () => {
   // Получим состояние мобильного меню из контекста
   const isMobileMenuOpen = useContext(MobileMenuContext);
   
-  // Состояние для отслеживания попыток открытия/закрытия курса
-  const [pendingOperation, setPendingOperation] = useState<{id: number, action: 'open' | 'close'} | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   
   // Обработчик с предотвращением множественных кликов
@@ -1030,14 +1016,11 @@ const CoursesSection: React.FC = () => {
     
     // Устанавливаем индикатор загрузки
     setIsLoading(true);
-    // Запоминаем операцию
-    setPendingOperation({id, action});
     
     // Эмулируем задержку загрузки данных
     setTimeout(() => {
       setExpandedCourseId(expandedCourseId === id ? null : id);
       setIsLoading(false);
-      setPendingOperation(null);
     }, 100);
   };
   
