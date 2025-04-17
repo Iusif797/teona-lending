@@ -477,7 +477,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
             </LogoImage>
             <Logo isScrolled={isScrolled}>
               <h1>{SITE_TITLE}</h1>
-              {(!isSmallScreen || !isScrolled) && <span>{SITE_SUBTITLE}</span>}
+              {((!isSmallScreen && !isMediumScreen) || !isScrolled) && <span>{SITE_SUBTITLE}</span>}
             </Logo>
           </a>
         </LogoWrapper>
