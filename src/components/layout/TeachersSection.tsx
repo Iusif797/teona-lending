@@ -66,7 +66,7 @@ const TeacherImageContainer = styled.div`
   }
 
   ${media.sm} {
-    height: 250px;
+    height: 300px;
   }
 `;
 
@@ -75,11 +75,15 @@ const TeacherImage = styled.div`
   height: 100%;
   background-image: url('/images/teacher.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   transition: transform 0.5s ease;
 
   ${TeacherCard}:hover & {
     transform: scale(1.05);
+  }
+
+  ${media.sm} {
+    background-position: top 30% center;
   }
 `;
 
