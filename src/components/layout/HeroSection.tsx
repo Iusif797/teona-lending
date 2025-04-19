@@ -73,10 +73,13 @@ const HeroSection: React.FC = () => {
         <Content>
           <ContentInner>
             <AnimatedElement animation="fadeInUp" delay={0.2}>
-              <Title>Психолог</Title>
+              <BrandTitle>MindVia</BrandTitle>
             </AnimatedElement>
             <AnimatedElement animation="fadeInUp" delay={0.4}>
-              <Subtitle>Теона Хаметова</Subtitle>
+              <SchoolTitle>School of Psychology</SchoolTitle>
+            </AnimatedElement>
+            <AnimatedElement animation="fadeInUp" delay={0.5}>
+              <ByLine>by Teona</ByLine>
             </AnimatedElement>
             <AnimatedElement animation="fadeInUp" delay={0.6}>
               <Paragraph>
@@ -246,15 +249,59 @@ const ContentInner = styled.div`
   }
 `;
 
-const Title = styled.h2`
-  font-size: 2.8rem;
+const BrandTitle = styled.h2`
+  font-size: 5rem;
   color: white;
   margin: 0 0 0.5rem;
-  font-weight: 400;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(135deg, #ffffff 0%, #e0d2c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(217, 178, 147, 0.8), transparent);
+  }
   
   ${media.md} {
+    font-size: 4.2rem;
+  }
+  
+  ${media.sm} {
+    font-size: 3.5rem;
+  }
+  
+  ${media.xs} {
+    font-size: 3rem;
+  }
+  
+  ${media.xxs} {
     font-size: 2.5rem;
+  }
+`;
+
+const SchoolTitle = styled.h1`
+  font-size: 3rem;
+  color: white;
+  margin: 0.5rem 0;
+  font-weight: 400;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  
+  ${media.md} {
+    font-size: 2.6rem;
   }
   
   ${media.sm} {
@@ -262,36 +309,42 @@ const Title = styled.h2`
   }
   
   ${media.xs} {
-    font-size: 2rem;
-    margin: 0 0 0.3rem;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
   }
   
   ${media.xxs} {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
   }
 `;
 
-const Subtitle = styled.h1`
-  font-size: 4.5rem;
-  color: white;
-  margin: 0;
-  font-weight: 600;
+const ByLine = styled.h3`
+  font-size: 2.2rem;
+  color: #d9b293;
+  margin: 0.5rem 0 2rem;
+  font-weight: 500;
+  font-style: italic;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   
   ${media.md} {
-    font-size: 4rem;
+    font-size: 2rem;
+    margin: 0.5rem 0 1.8rem;
   }
   
   ${media.sm} {
-    font-size: 3.4rem;
+    font-size: 1.8rem;
+    margin: 0.4rem 0 1.6rem;
   }
   
   ${media.xs} {
-    font-size: 2.8rem;
+    font-size: 1.5rem;
+    margin: 0.3rem 0 1.4rem;
   }
   
   ${media.xxs} {
-    font-size: 2.4rem;
+    font-size: 1.3rem;
+    margin: 0.2rem 0 1.2rem;
   }
 `;
 

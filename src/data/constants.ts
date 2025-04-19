@@ -464,7 +464,7 @@ export const COURSES: CourseItem[] = [
     type: 'интенсив',
     format: 'онлайн',
     nextStart: '15 сентября 2024',
-    price: '600 $',
+    price: '650 $',
     imageUrl: '/images/courses/regression.jpg',
     modules: [
       {
