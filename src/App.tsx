@@ -8,6 +8,7 @@ import AboutSection from './components/layout/AboutSection'
 import ServicesSection from './components/layout/ServicesSection'
 import CoursesSection from './components/layout/CoursesSection'
 import TestimonialsSection from './components/layout/TestimonialsSection'
+import TeachersSection from './components/layout/TeachersSection'
 import CertificateSection from './components/layout/CertificateSection'
 import ContactSection from './components/layout/ContactSection'
 import Footer from './components/layout/Footer'
@@ -50,6 +51,7 @@ function App() {
           <AboutSection />
           <ServicesSection />
           <CoursesSection />
+          <TeachersSection />
           <TestimonialsSection />
           <CertificateSection />
           <ContactSection />

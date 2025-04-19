@@ -7,8 +7,9 @@ export const NAV_LINKS: NavLink[] = [
   { id: 1, title: 'Мой подход', url: '#about' },
   { id: 2, title: 'Услуги', url: '#services' },
   { id: 3, title: 'Курсы', url: '#courses' },
-  { id: 4, title: 'Отзывы', url: '#testimonials' },
-  { id: 5, title: 'Контакты', url: '#contact' },
+  { id: 4, title: 'Преподаватели', url: '#teachers' },
+  { id: 5, title: 'Отзывы', url: '#testimonials' },
+  { id: 6, title: 'Контакты', url: '#contact' },
 ];
 
 export const SERVICES: ServiceItem[] = [
