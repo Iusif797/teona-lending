@@ -198,6 +198,40 @@ const DiplomaFrame = styled.div`
   }
 `;
 
+const DiplomasContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  
+  ${media.md} {
+    gap: 3rem;
+  }
+`;
+
+const DiplomaRow = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  
+  &:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -2rem;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(217, 178, 147, 0.4), transparent);
+  }
+  
+  &:last-child:after {
+    display: none;
+  }
+`;
+
 const LightboxOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -324,56 +358,78 @@ const CertificateSection: React.FC = () => {
           </AnimatedElement>
           
           <AnimatedElement animation="fadeInUp" delay={0.4}>
-            <CertificatesGrid>
-              <CertificateWrapper>
-                <DiplomaFrame>
-                  <EnhancedCertificateImage 
-                    className="diploma" 
-                    onClick={() => openLightbox('/images/diplom.jpg')}
-                  >
-                    <img src="/images/diplom.jpg" alt="Диплом о профессиональной переподготовке" />
+            <DiplomasContainer>
+              <DiplomaRow>
+                <CertificateWrapper>
+                  <DiplomaFrame>
+                    <EnhancedCertificateImage 
+                      className="diploma" 
+                      onClick={() => openLightbox('/images/diplom.jpg')}
+                    >
+                      <img src="/images/diplom.jpg" alt="Диплом о профессиональной переподготовке" />
+                      <ZoomHint>Нажмите для увеличения</ZoomHint>
+                    </EnhancedCertificateImage>
+                  </DiplomaFrame>
+                  <CertificateCaption>
+                    <h4>Диплом о профессиональной переподготовке</h4>
+                    <p>Квалификация в области психологического консультирования и психотерапии</p>
+                  </CertificateCaption>
+                </CertificateWrapper>
+              </DiplomaRow>
+              
+              <DiplomaRow>
+                <CertificateWrapper>
+                  <DiplomaFrame>
+                    <EnhancedCertificateImage 
+                      className="diploma" 
+                      onClick={() => openLightbox('/images/diplom2.png')}
+                    >
+                      <img src="/images/diplom2.png" alt="Диплом психолога-практика" />
+                      <ZoomHint>Нажмите для увеличения</ZoomHint>
+                    </EnhancedCertificateImage>
+                  </DiplomaFrame>
+                  <CertificateCaption>
+                    <h4>Диплом психолога-практика</h4>
+                    <p>Квалификация в области практической психологии и психологического консультирования</p>
+                  </CertificateCaption>
+                </CertificateWrapper>
+              </DiplomaRow>
+              
+              <CertificatesGrid>
+                <CertificateWrapper>
+                  <CertificateImage onClick={() => openLightbox('/images/certificate2.png')}>
+                    <img src="/images/certificate2.png" alt="Сертификат Теоны Хаметовой" />
                     <ZoomHint>Нажмите для увеличения</ZoomHint>
-                  </EnhancedCertificateImage>
-                </DiplomaFrame>
-                <CertificateCaption>
-                  <h4>Диплом о профессиональной переподготовке</h4>
-                  <p>Квалификация в области психологического консультирования и психотерапии</p>
-                </CertificateCaption>
-              </CertificateWrapper>
-              
-              <CertificateWrapper>
-                <CertificateImage onClick={() => openLightbox('/images/certificate2.png')}>
-                  <img src="/images/certificate2.png" alt="Сертификат Теоны Хаметовой" />
-                  <ZoomHint>Нажмите для увеличения</ZoomHint>
-                </CertificateImage>
-                <CertificateCaption>
-                  <h4>Сертификат квалифицированного специалиста</h4>
-                  <p>Обучение современным техникам психологической помощи</p>
-                </CertificateCaption>
-              </CertificateWrapper>
-              
-              <CertificateWrapper>
-                <CertificateImage onClick={() => openLightbox('/images/certificate3.png')}>
-                  <img src="/images/certificate3.png" alt="Сертификат о дополнительном образовании" />
-                  <ZoomHint>Нажмите для увеличения</ZoomHint>
-                </CertificateImage>
-                <CertificateCaption>
-                  <h4>Сертификат о профессиональной подготовке</h4>
-                  <p>Специализация в области интегральной психологии</p>
-                </CertificateCaption>
-              </CertificateWrapper>
-              
-              <CertificateWrapper>
-                <CertificateImage onClick={() => openLightbox('/images/certificate.jpg')}>
-                  <img src="/images/certificate.jpg" alt="Диплом профессионального психолога" />
-                  <ZoomHint>Нажмите для увеличения</ZoomHint>
-                </CertificateImage>
-                <CertificateCaption>
-                  <h4>Диплом профессионального психолога</h4>
-                  <p>Специализация: психологическое консультирование и терапия</p>
-                </CertificateCaption>
-              </CertificateWrapper>
-            </CertificatesGrid>
+                  </CertificateImage>
+                  <CertificateCaption>
+                    <h4>Сертификат квалифицированного специалиста</h4>
+                    <p>Обучение современным техникам психологической помощи</p>
+                  </CertificateCaption>
+                </CertificateWrapper>
+                
+                <CertificateWrapper>
+                  <CertificateImage onClick={() => openLightbox('/images/certificate3.png')}>
+                    <img src="/images/certificate3.png" alt="Сертификат о дополнительном образовании" />
+                    <ZoomHint>Нажмите для увеличения</ZoomHint>
+                  </CertificateImage>
+                  <CertificateCaption>
+                    <h4>Сертификат о профессиональной подготовке</h4>
+                    <p>Специализация в области интегральной психологии</p>
+                  </CertificateCaption>
+                </CertificateWrapper>
+                
+                <CertificateWrapper>
+                  <CertificateImage onClick={() => openLightbox('/images/certificate.jpg')}>
+                    <img src="/images/certificate.jpg" alt="Диплом профессионального психолога" />
+                    <ZoomHint>Нажмите для увеличения</ZoomHint>
+                  </CertificateImage>
+                  <CertificateCaption>
+                    <h4>Диплом профессионального психолога</h4>
+                    <p>Специализация: психологическое консультирование и терапия</p>
+                  </CertificateCaption>
+                </CertificateWrapper>
+              </CertificatesGrid>
+            </DiplomasContainer>
           </AnimatedElement>
         </CertificateContent>
       </Container>

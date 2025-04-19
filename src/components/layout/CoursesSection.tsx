@@ -290,6 +290,7 @@ const CourseContent = styled.div`
 const FlexRow = styled.div`
   display: flex;
   gap: 3rem;
+  overflow: visible;
   
   ${media.md} {
     flex-direction: column;
@@ -299,6 +300,7 @@ const FlexRow = styled.div`
 
 const LeftColumn = styled.div`
   flex: 1;
+  overflow: visible;
 `;
 
 const RightColumn = styled.div`
@@ -471,15 +473,18 @@ const DetailsToggle = styled.button`
 `;
 
 const ExpandedDetails = styled.div<{ isExpanded: boolean }>`
-  max-height: ${({ isExpanded }) => (isExpanded ? '2500px' : '0')};
-  overflow: hidden;
-  transition: max-height 0.8s ease, opacity 0.5s ease, margin-top 0.3s ease;
+  max-height: ${({ isExpanded }) => (isExpanded ? '10000px' : '0')};
+  overflow: ${({ isExpanded }) => (isExpanded ? 'visible' : 'hidden')};
+  transition: max-height 0.7s ease, opacity 0.3s ease;
   opacity: ${({ isExpanded }) => (isExpanded ? '1' : '0')};
-  margin-top: ${({ isExpanded }) => (isExpanded ? '2.5rem' : '0')};
+  position: relative;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 `;
 
 const ModulesList = styled.div`
   margin-bottom: 3.5rem;
+  overflow: visible;
 `;
 
 const ModuleItem = styled.div`
@@ -493,6 +498,7 @@ const ModuleItem = styled.div`
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.5s ease, transform 0.5s ease;
+  overflow: visible;
   
   &.visible {
     opacity: 1;
@@ -528,11 +534,27 @@ const ModuleTitle = styled.h5`
   }
 `;
 
-const ModuleContent = styled.p`
+const ModuleContent = styled.div`
   font-size: 1.05rem;
   line-height: 1.8;
   color: var(--color-text);
   padding-left: 25px;
+  max-height: none;
+  white-space: pre-wrap;
+  overflow: visible;
+  
+  ul {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+  }
+  
+  li {
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    margin-bottom: 0.8rem;
+  }
 `;
 
 const ModuleHeader = styled.div`
@@ -812,6 +834,36 @@ const AnimatedModule: React.FC<AnimatedModuleProps> = ({ module, index, isVisibl
     return () => clearTimeout(timer);
   }, [isVisible, index]);
   
+  // Форматируем содержимое модуля, преобразуя маркеры списка и сохраняя структуру
+  const formatModuleContent = (content: string) => {
+    // Заменяем маркеры списка на HTML элементы списка
+    if (content.includes('•')) {
+      const lines = content.split('\n');
+      return (
+        <div>
+          {lines.map((line, i) => {
+            // Если строка начинается с маркера списка
+            if (line.trim().startsWith('•')) {
+              return <p key={i}>{line}</p>;
+            }
+            // Если строка начинается с двойного отступа и дефиса (подэлемент)
+            else if (line.trim().startsWith('-')) {
+              return <p key={i} style={{ paddingLeft: '1.5rem' }}>{line}</p>;
+            }
+            // Обычный текст
+            else if (line.trim()) {
+              return <p key={i}>{line}</p>;
+            }
+            // Пустая строка для сохранения пробелов между абзацами
+            return <br key={i} />;
+          })}
+        </div>
+      );
+    }
+    // Если нет специальных маркеров, возвращаем текст как есть
+    return content;
+  };
+  
   return (
     <ModuleItem className={isRendered ? 'visible' : ''}>
       <ModuleHeader>
@@ -826,7 +878,7 @@ const AnimatedModule: React.FC<AnimatedModuleProps> = ({ module, index, isVisibl
           {completedModules.includes(module.id) && <FaCheck />}
         </ModuleCheckbox>
       </ModuleHeader>
-      <ModuleContent>{module.content}</ModuleContent>
+      <ModuleContent>{formatModuleContent(module.content)}</ModuleContent>
     </ModuleItem>
   );
 };
