@@ -86,46 +86,56 @@ const CopyrightSection = styled.div`
 `;
 
 const DeveloperText = styled.p`
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--color-text-light);
-  margin-top: 1rem;
-  font-style: italic;
+  margin-top: 1.5rem;
   position: relative;
   display: inline-block;
-  padding: 0.5rem 1.5rem;
+  padding: 0.7rem 2rem;
+  background: rgba(246, 242, 239, 0.5);
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(217, 178, 147, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(246, 242, 239, 0.8);
+    box-shadow: 0 4px 15px rgba(217, 178, 147, 0.2);
+    transform: translateY(-2px);
+  }
   
   &::before, &::after {
     content: '';
     position: absolute;
     height: 1px;
-    width: 2rem;
-    background: linear-gradient(to right, transparent, var(--color-primary-light), transparent);
+    width: 2.5rem;
+    background: linear-gradient(to right, transparent, var(--color-primary), transparent);
     top: 50%;
     opacity: 0.7;
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, opacity 0.3s ease;
   }
   
   &::before {
-    left: -0.5rem;
+    left: -1rem;
     transform: translateX(-100%);
   }
   
   &::after {
-    right: -0.5rem;
+    right: -1rem;
     transform: translateX(100%);
   }
   
   &:hover::before, &:hover::after {
-    width: 3rem;
+    width: 3.5rem;
     opacity: 1;
   }
   
   a {
     color: var(--color-primary);
     transition: all 0.3s ease;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.5px;
     position: relative;
+    padding: 0 0.3rem;
     
     &::after {
       content: '';
@@ -133,9 +143,10 @@ const DeveloperText = styled.p`
       bottom: -2px;
       left: 0;
       width: 0;
-      height: 1px;
-      background-color: var(--color-primary-dark);
+      height: 2px;
+      background: linear-gradient(to right, var(--color-primary-light), var(--color-primary));
       transition: width 0.3s ease;
+      border-radius: 2px;
     }
     
     &:hover {
@@ -182,8 +193,8 @@ const Footer: React.FC = () => {
         <CopyrightSection>
           <p>&copy; {currentYear} {SITE_TITLE}. Все права защищены.</p>
           <DeveloperText>
-            Developed by{' '}
-            <a href="#" target="_blank" rel="noopener noreferrer">
+            Designed & Developed by{' '}
+            <a href="https://yosef-business-card.vercel.app/" target="_blank" rel="noopener noreferrer">
               Iusif Mamedov
             </a>
           </DeveloperText>
