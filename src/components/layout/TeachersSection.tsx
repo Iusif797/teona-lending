@@ -5,7 +5,6 @@ import SectionTitle from '../ui/SectionTitle';
 import AnimatedElement from '../ui/AnimatedElement';
 import media from '../../styles/media';
 import { FaGraduationCap, FaBook, FaUserAlt, FaTimes, FaInfoCircle } from 'react-icons/fa';
-import { COURSES } from '../../data/constants';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -141,8 +140,9 @@ const TeacherCard = styled(motion.div)`
 // Хедер карточки с фото преподавателя
 const CardHeader = styled.div`
   position: relative;
-  height: 450px;
+  height: 780px;
   overflow: hidden;
+  border-radius: 24px 24px 0 0;
   
   &::before {
     content: '';
@@ -150,22 +150,28 @@ const CardHeader = styled.div`
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 85%;
+    height: 75%;
     background: linear-gradient(to top, 
-      rgba(0, 0, 0, 0.9) 0%, 
-      rgba(0, 0, 0, 0.8) 20%,
-      rgba(0, 0, 0, 0.6) 40%, 
-      rgba(0, 0, 0, 0.3) 70%,
+      rgba(0, 0, 0, 0.95) 0%, 
+      rgba(0, 0, 0, 0.85) 10%,
+      rgba(0, 0, 0, 0.7) 20%,
+      rgba(0, 0, 0, 0.5) 35%,
+      rgba(0, 0, 0, 0.3) 50%,
+      rgba(0, 0, 0, 0.1) 75%,
       transparent 100%);
     z-index: 1;
   }
   
+  ${media.lg} {
+    height: 700px;
+  }
+  
   ${media.md} {
-    height: 400px;
+    height: 650px;
   }
   
   ${media.sm} {
-    height: 350px;
+    height: 600px;
   }
 `;
 
@@ -177,12 +183,14 @@ const CardHeaderImage = styled.div`
   height: 100%;
   background-image: url('/images/teacher.jpg');
   background-size: cover;
-  background-position: center 20%;
-  transition: transform 0.8s ease;
-  filter: saturate(1.05);
+  background-position: center 12%;
+  transition: transform 1.2s ease;
+  filter: saturate(1.05) contrast(1.05);
+  transform-origin: center center;
   
   ${TeacherCard}:hover & {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    filter: saturate(1.1) contrast(1.08);
   }
   
   &::after {
@@ -193,8 +201,9 @@ const CardHeaderImage = styled.div`
     right: 0;
     bottom: 0;
     background: linear-gradient(45deg, 
-      rgba(0, 0, 0, 0.2) 0%, 
+      rgba(0, 0, 0, 0.1) 0%, 
       rgba(0, 0, 0, 0) 40%);
+    transition: opacity 0.5s ease;
   }
 `;
 
@@ -203,47 +212,67 @@ const TeacherInfo = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 2.5rem;
+  padding: 3rem;
   z-index: 2;
   color: white;
-`;
-
-const TeacherName = styled.h3`
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.4);
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-  color: white;
+  transform: translateY(0);
+  transition: transform 0.5s ease;
   
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
-  padding: 0.5rem;
-  border-radius: 8px;
-  display: inline-block;
-  
-  ${media.md} {
-    font-size: 2.6rem;
+  ${TeacherCard}:hover & {
+    transform: translateY(-8px);
   }
   
   ${media.sm} {
-    font-size: 2.2rem;
+    padding: 2rem;
+  }
+`;
+
+const TeacherName = styled.h3`
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  color: white;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.4), transparent);
+  padding: 0.7rem 1.5rem;
+  border-radius: 12px;
+  display: inline-block;
+  transform: translateX(0);
+  transition: transform 0.5s ease;
+  
+  ${TeacherCard}:hover & {
+    transform: translateX(5px);
+  }
+  
+  ${media.md} {
+    font-size: 3rem;
+    padding: 0.6rem 1.2rem;
+  }
+  
+  ${media.sm} {
+    font-size: 2.4rem;
+    padding: 0.5rem 1rem;
   }
 `;
 
 const TeacherTitle = styled.p`
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
   opacity: 0.95;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
   max-width: 90%;
+  padding-left: 1.5rem;
   
   ${media.md} {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    padding-left: 1.2rem;
   }
   
   ${media.sm} {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    padding-left: 1rem;
   }
 `;
 
@@ -333,6 +362,7 @@ const TabContent = styled.div`
   color: var(--color-text);
   max-height: 520px;
   overflow-y: auto;
+  text-align: center;
   
   /* Стилизация скроллбара */
   scrollbar-width: thin;
@@ -355,6 +385,7 @@ const TabContent = styled.div`
   p {
     margin-bottom: 1.2rem;
     font-size: 1.05rem;
+    text-align: center;
   }
   
   ${media.md} {
@@ -390,13 +421,17 @@ const SectionHeading = styled.h4`
   font-weight: 600;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  text-align: center;
+  width: 100%;
   
   &::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 60px;
     height: 2px;
     background: var(--color-primary);
@@ -412,24 +447,29 @@ const SectionHeading = styled.h4`
 const StyledList = styled.ul`
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 90%;
 `;
 
 const ListItem = styled.li`
   margin-bottom: 1.2rem;
-  padding-left: 1.5rem;
+  padding-left: 0;
   position: relative;
+  text-align: center;
   
   &::before {
     content: '';
     position: absolute;
-    left: 0;
-    top: 0.75rem;
+    left: 50%;
+    top: -0.8rem;
     width: 6px;
     height: 6px;
     border-radius: 50%;
     background: var(--color-primary);
-    transform: translateY(-50%);
+    transform: translateX(-50%);
+    display: block;
+    margin: 0 auto 0.5rem;
   }
   
   strong {
@@ -441,18 +481,21 @@ const ListItem = styled.li`
   ul {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+    padding-left: 0;
+    text-align: center;
   }
   
   li {
-    padding-left: 1rem;
+    padding-left: 0;
     margin-bottom: 0.5rem;
     position: relative;
     
     &::before {
       content: '•';
-      position: absolute;
-      left: 0;
+      display: inline-block;
+      margin-right: 0.3rem;
       color: var(--color-primary-light);
+      position: static;
     }
   }
   
@@ -464,8 +507,26 @@ const ListItem = styled.li`
 // Сетка курсов
 const CoursesGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 1050px;
+  
+  ${media.lg} {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  ${media.md} {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  ${media.sm} {
+    grid-template-columns: minmax(260px, 1fr);
+    gap: 2rem;
+  }
   
   & > * {
     height: 100%;
@@ -527,15 +588,23 @@ const CourseCard = styled.div`
     }
   }
   
-  &::before {
+  &::after {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    height: 100%;
-    width: 4px;
-    background: linear-gradient(to bottom, var(--color-primary), var(--color-primary-light));
+    right: 0;
+    height: 6px;
+    width: 100%;
+    background: linear-gradient(to right, var(--color-primary-light), var(--color-primary));
     opacity: 0.8;
+  }
+  
+  &:nth-child(2)::after {
+    background: linear-gradient(to right, #A9CCE3, #5DADE2);
+  }
+  
+  &:nth-child(3)::after {
+    background: linear-gradient(to right, #D7BDE2, #9B59B6);
   }
 `;
 
@@ -545,6 +614,14 @@ const CourseContent = styled.div`
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
+  text-align: center;
+`;
+
+const CourseInfo = styled.div`
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const CourseTitle = styled.h5`
@@ -552,6 +629,7 @@ const CourseTitle = styled.h5`
   font-weight: 600;
   color: var(--color-text);
   margin-bottom: 0.8rem;
+  text-align: center;
   
   ${media.sm} {
     font-size: 1.1rem;
@@ -563,10 +641,7 @@ const CourseDescription = styled.p`
   color: var(--color-text-light);
   line-height: 1.6;
   flex-grow: 1;
-`;
-
-const CourseInfo = styled.div`
-  margin-bottom: 1rem;
+  text-align: center;
 `;
 
 const ModulesList = styled.div`
@@ -580,7 +655,9 @@ const ModuleTitle = styled.h6`
   color: var(--color-text);
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+  text-align: center;
   
   &::before {
     content: '';
@@ -600,10 +677,103 @@ const ModuleContent = styled.div`
   font-size: 0.95rem;
   line-height: 1.6;
   color: var(--color-text-light);
-  margin-left: 1rem;
+  margin-left: 0;
   margin-bottom: 1.2rem;
-  padding-left: 0.8rem;
-  border-left: 1px solid rgba(217, 178, 147, 0.3);
+  padding-left: 0;
+  text-align: center;
+  border-left: none;
+`;
+
+// Стили для модального окна и карточек
+const CourseHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+
+const CoursePrice = styled.div`
+  background: var(--color-primary-light);
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(217, 178, 147, 0.3);
+`;
+
+const CourseDetails = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+  background: rgba(246, 242, 239, 0.5);
+  padding: 1.5rem;
+  border-radius: 12px;
+  
+  ${media.sm} {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const DetailItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+`;
+
+const DetailLabel = styled.span`
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+`;
+
+const DetailValue = styled.span`
+  font-size: 1rem;
+  color: var(--color-text);
+  font-weight: 600;
+`;
+
+const CourseAudience = styled.div`
+  background: rgba(217, 178, 147, 0.1);
+  padding: 1.2rem;
+  border-radius: 12px;
+  border-left: 4px solid var(--color-primary);
+  margin-bottom: 1.5rem;
+  
+  h5 {
+    font-size: 1.1rem;
+    color: var(--color-primary-dark);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+`;
+
+const CourseBadge = styled.div`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+  z-index: 5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
 // Вспомогательные функции
@@ -800,17 +970,95 @@ const CourseModal = ({ course, isOpen, onClose }: {
             }}
           >
             <ModalHeader>
-              <ModalTitle>{course.title}</ModalTitle>
-              <ModalSubtitle>{course.description}</ModalSubtitle>
+              <CourseHeader>
+                <div>
+                  <ModalTitle>{course.title}</ModalTitle>
+                  <ModalSubtitle>{course.description}</ModalSubtitle>
+                </div>
+                {course.price && <CoursePrice>{course.price}</CoursePrice>}
+              </CourseHeader>
               <CloseButton onClick={onClose}>
                 <FaTimes />
               </CloseButton>
             </ModalHeader>
             
             <ModalBody>
+              {course.fullDescription && (
+                <p>{course.fullDescription}</p>
+              )}
+              
+              {(course.duration || course.type || course.format || course.nextStart || course.certificate) && (
+                <CourseDetails>
+                  {course.duration && (
+                    <DetailItem>
+                      <DetailLabel>Срок обучения:</DetailLabel>
+                      <DetailValue>{course.duration}</DetailValue>
+                    </DetailItem>
+                  )}
+                  {course.type && (
+                    <DetailItem>
+                      <DetailLabel>Тип обучения:</DetailLabel>
+                      <DetailValue>{course.type}</DetailValue>
+                    </DetailItem>
+                  )}
+                  {course.format && (
+                    <DetailItem>
+                      <DetailLabel>Форма обучения:</DetailLabel>
+                      <DetailValue>{course.format}</DetailValue>
+                    </DetailItem>
+                  )}
+                  {course.nextStart && (
+                    <DetailItem>
+                      <DetailLabel>Ближайший старт:</DetailLabel>
+                      <DetailValue>{course.nextStart}</DetailValue>
+                    </DetailItem>
+                  )}
+                  {course.certificate && (
+                    <DetailItem>
+                      <DetailLabel>Документ по окончанию:</DetailLabel>
+                      <DetailValue>{course.certificate}</DetailValue>
+                    </DetailItem>
+                  )}
+                </CourseDetails>
+              )}
+              
+              {course.audience && (
+                <CourseAudience>
+                  <h5><FaInfoCircle /> Для кого подойдет курс:</h5>
+                  <p>{course.audience}</p>
+                </CourseAudience>
+              )}
+              
+              {course.process && (
+                <>
+                  <SectionHeading>Как проходит обучение</SectionHeading>
+                  <p>{course.process}</p>
+                </>
+              )}
+              
+              {course.program && Array.isArray(course.program) && (
+                <>
+                  <SectionHeading>Что входит в программу обучения</SectionHeading>
+                  <StyledList>
+                    {course.program.map((item: string, index: number) => (
+                      <ListItem key={index}>{item}</ListItem>
+                    ))}
+                  </StyledList>
+                  <ModalDivider />
+                </>
+              )}
+              
+              {course.program && typeof course.program === 'string' && (
+                <>
+                  <SectionHeading>Программа обучения</SectionHeading>
+                  <p>{course.program}</p>
+                  <ModalDivider />
+                </>
+              )}
+              
               {course.modules?.length > 0 && (
                 <>
-                  <SectionHeading>Программа курса</SectionHeading>
+                  <SectionHeading>Модули курса</SectionHeading>
                   <ModulesList>
                     {course.modules.map((module: any) => (
                       <div key={module.id}>
@@ -833,6 +1081,26 @@ const CourseModal = ({ course, isOpen, onClose }: {
                       <ListItem key={index}>{benefit}</ListItem>
                     ))}
                   </StyledList>
+                  <ModalDivider />
+                </>
+              )}
+              
+              {course.results && course.results.length > 0 && (
+                <>
+                  <SectionHeading>По итогу курса</SectionHeading>
+                  <StyledList>
+                    {course.results.map((result: string, index: number) => (
+                      <ListItem key={index}>{result}</ListItem>
+                    ))}
+                  </StyledList>
+                  <ModalDivider />
+                </>
+              )}
+              
+              {course.teacher && (
+                <>
+                  <SectionHeading>Преподаватель курса</SectionHeading>
+                  <p style={{ lineHeight: '1.7', color: 'var(--color-text)' }}>{course.teacher}</p>
                 </>
               )}
             </ModalBody>
@@ -865,7 +1133,7 @@ const TeachersSection: React.FC = () => {
   };
 
   const handleOpenCourseModal = (courseId: number) => {
-    const course = COURSES.find(c => c.id === courseId);
+    const course = teacherCourses.find(c => c.id === courseId);
     if (course) {
       setSelectedCourse(course);
       setIsModalOpen(true);
@@ -892,38 +1160,121 @@ const TeachersSection: React.FC = () => {
   const teacherCourses = [
     {
       id: 1,
-      title: "Арт‑терапия",
-      description: "Практические занятия с использованием изобразительных техник для проработки эмоциональных блоков."
+      title: "Арт-терапия",
+      description: "Профессиональное обучение методам арт-терапии для работы с различными запросами клиентов.",
+      duration: "3 месяца",
+      type: "семинар",
+      format: "дистанционное и очное",
+      nextStart: "21 сентября 2024",
+      price: "400$",
+      certificate: "выдача 2х сертификатов. Сертификат нашего центра и международный сертификат ОППЛ",
+      fullDescription: "Арт-терапия – это одно из направлений практической психологии, которое использует различные виды творчества для психологической помощи самым разным клиентам в решении всего спектра их личностных проблем.",
+      audience: "Для психологов, учителей, родителей, коррекционных психологов, специалистов работающих с детьми.",
+      benefits: [
+        "Повышение самооценки и уверенности в своих силах",
+        "Снижение уровня стресса",
+        "Преодоление депрессивных состояний и тревожных расстройств",
+        "Преодоление возрастных кризисов",
+        "Решение семейных конфликтов",
+        "Повышение навыков коммуникации",
+        "Самопознание (лучше понять свои жизненные цели, желания)",
+        "Проработка психологических травм",
+        "Преодоление фобий"
+      ],
+      process: "Теория и практика, проработка кейсов, супервизия. Каждую технику прорабатываем на участниках, тем самым погружаем и даем почувствовать действенность на себе. Теоретические лекции по каждой теме. Домашние задания.",
+      program: [
+        "Изотерапия", 
+        "Сказка терапия", 
+        "Песочная терапия", 
+        "Мандалатерапия", 
+        "Фототерапия", 
+        "Метафорические ассоциативные карты", 
+        "Арт в коучинге", 
+        "Кинотерапия"
+      ],
+      modules: [
+        { id: 1, title: "Модуль 1: вводная часть", content: "Знакомство с основами арт-терапии, историей развития направления и базовыми теоретическими концепциями. Обзор различных подходов и методов." },
+        { id: 2, title: "Модуль 2: мандала-терапия", content: "Изучение техник работы с мандалами, их диагностический и терапевтический потенциал. Практика создания и интерпретации мандал." },
+        { id: 3, title: "Модуль 3: сказка терапия", content: "Методики работы со сказками, сочинение терапевтических историй, анализ и трансформация сказочных сюжетов для решения психологических проблем." },
+        { id: 4, title: "Модуль 4: фототерапия", content: "Использование фотографии в психологической практике, техники фототерапии и фотопроекции, работа с семейным фотоальбомом." },
+        { id: 5, title: "Модуль 5: изотерапия", content: "Работа с различными изобразительными материалами, техники рисования и их применение для диагностики и терапии эмоциональных проблем." },
+        { id: 6, title: "Модуль 6: кинотерапия", content: "Терапевтический потенциал кино, подбор фильмов для работы с различными запросами, методики обсуждения и анализа кинопроизведений." },
+        { id: 7, title: "Модуль 7: метафорические ассоциативные карты", content: "Теория и практика работы с МАК, виды карт, базовые и продвинутые техники использования в индивидуальной и групповой работе." },
+        { id: 8, title: "Модуль 8: маска терапия", content: "Создание и использование масок в психотерапевтической работе, символизм масок, работа с ролями и идентичностью." },
+        { id: 9, title: "Модуль 9: музыкотерапия", content: "Влияние музыки на психофизиологическое состояние человека, активные и рецептивные техники музыкотерапии." },
+        { id: 10, title: "Модуль 10: проработка кейсов", content: "Разбор практических случаев, обсуждение стратегий работы, отработка навыков применения арт-терапевтических методик." },
+        { id: 11, title: "Модуль 11: супервизия", content: "Групповая и индивидуальная супервизия, обсуждение сложных случаев, профессиональная поддержка участников." },
+        { id: 12, title: "Модуль 12: экзамен для проверки усвоения курса", content: "Итоговая проверка усвоения материала, защита проектов, обратная связь от преподавателя." }
+      ],
+      results: [
+        "Навыки основных функций Арт-терапии: Диагностический - найти корень проблемы, Терапевтический - излечить",
+        "Распознавать виды метафор в психологическом консультировании",
+        "Цель арт терапии и работа с ней",
+        "Направления арт терапии помогут в других направлениях психологии",
+        "Повышение самооценки",
+        "Единомышленники",
+        "Найдете и осознаете свои внутренние ресурсы",
+        "Формирование творческого видения мира",
+        "Откроете в себе инициативного деятеля"
+      ],
+      teacher: "Гафарова Шамама - Дипломированный специалист, Кризисный психолог, Социальный психолог, Психолог по химическим аддикциям, Эксперт по Мак и Арт терапии, Сертифицированный игропрактик"
     },
     {
       id: 2,
-      title: "МАК‑терапия",
-      description: "Глубинные методики через мета‑ассоциативные карты для выявления бессознательных установок."
+      title: "Методики консультирования",
+      description: "Комплексное обучение базовым и продвинутым техникам психологического консультирования.",
+      duration: "2 месяца",
+      type: "семинар",
+      format: "дистанционное и очное",
+      price: "400$",
+      fullDescription: "Профессиональная программа, направленная на развитие ключевых навыков психологического консультирования с использованием современных подходов и методик.",
+      benefits: [
+        "Познакомятся с особенностями протекания психической жизни человека в норме и при наличии психопатологии",
+        "Освоят теоретические и методические основы индивидуального психологического консультирования и групповой психотерапии в концепции разных психотерапевтических школ",
+        "Профессиональной этики консультанта",
+        "Получат навыки проведения индивидуальных психотерапевтических сессий (выявление запроса клиента, заключение контракта, поддержание психотерапевтического альянса, работа с сопротивлением и пр.)",
+        "Определят свой собственный стиль психотерапевтической работы",
+        "Созданию кейсов",
+        "Пройдут личную психотерапию и супервизию",
+        "Получат опыт практической деятельности в качестве супервизора"
+      ],
+      process: "Теория и практика, проработка кейсов, супервизия. Каждую технику прорабатываем на участниках, тем самым погружаем и даем почувствовать действенность на себе. Теоретические лекции по каждой теме. Методические пособия. Домашние задания.",
+      program: "8 уроков по 2 часа каждый урок, один раз в неделю. Практические задания для закрепления материала на каждом уроке.",
+      modules: [
+        { id: 1, title: "Урок 1", content: "Введение в профессию. Этические принципы в психологическом консультировании." },
+        { id: 2, title: "Урок 2", content: "Сеттинг. Рапорт. Терапевтический контракт." },
+        { id: 3, title: "Урок 3", content: "Определение и цели психологического консультирования. Структура процесса консультирования. Основы консультирования." },
+        { id: 4, title: "Урок 4", content: "Современные подходы и методы консультирования. Пресуппозиция консультирования." },
+        { id: 5, title: "Урок 5", content: "Перенос и контрперенос в консультировании. Профилактика выгорания и основы самопомощи." },
+        { id: 6, title: "Урок 6", content: "Работа с психосоматикой в консультировании. Работа с сопротивлением." },
+        { id: 7, title: "Урок 7", content: "Работа с различными терапевтическими запросами. Постановка запроса." },
+        { id: 8, title: "Урок 8", content: "Супервизия в практике. Разбор кейсов." }
+      ],
+      results: [
+        "Проведение психологического консультирования",
+        "Диагностика психологических проблем и расстройств",
+        "Разработка и реализация индивидуальных программ психологической помощи",
+        "Гибкость в применении различных подходов и методик"
+      ],
+      teacher: "Гафарова Шамама - Дипломированный специалист, Кризисный психолог, Социальный психолог, Психолог по химическим аддикциям, Эксперт по Мак и Арт терапии, Сертифицированный игропрактик"
     },
     {
       id: 3,
-      title: "Кризисная психология",
-      description: "Теория и практика экстренной психологической помощи: работа с острыми стрессами, травмой и кризисами."
-    },
-    {
-      id: 4,
-      title: "Навыки консультирования",
-      description: "Базовые и продвинутые техники эффективного психологического интервью и активного слушания."
-    },
-    {
-      id: 5,
-      title: "Аддикции в психологии",
-      description: "Теория и практика работы с различными видами зависимостей, превентивные и восстановительные стратегии."
-    },
-    {
-      id: 6,
-      title: "Созависимые отношения",
-      description: "Диагностика и коррекция паттернов, позволяющих партнёрам стать опорой друг для друга, не теряя себя."
-    },
-    {
-      id: 7,
-      title: "Основы игропрактики",
-      description: "Введение в игровые форматы для развития гибкости, креативности и ресурсности."
+      title: "МАК (Метафорические ассоциативные карты)",
+      description: "Углубленное изучение методик работы с метафорическими ассоциативными картами в психологической практике.",
+      price: "300$",
+      format: "дистанционное и очное",
+      modules: [
+        { id: 1, title: "Тема 1", content: "Метафорические карты – определение, история возникновения." },
+        { id: 2, title: "Тема 2", content: "Возможности и ограничения использования метафорических карт. Преимущество использования МАК в психологической практике." },
+        { id: 3, title: "Тема 3", content: "Обзор колод." },
+        { id: 4, title: "Тема 4", content: "Формирование конструктивного запроса клиента при помощи метафорических ассоциативных карт." },
+        { id: 5, title: "Тема 5", content: "Универсальные техники работы с МАК. Модификация техники под любой запрос клиента. Техники исследования Я-концепции на основе МАК." },
+        { id: 6, title: "Тема 6", content: "Работа с МАК в онлайн-формате." },
+        { id: 7, title: "Тема 7", content: "Особенности применения МАК в групповой работе." },
+        { id: 8, title: "Тема 8", content: "Супервизия." }
+      ],
+      teacher: "Гафарова Шамама - Дипломированный специалист, Кризисный психолог, Социальный психолог, Психолог по химическим аддикциям, Эксперт по Мак и Арт терапии, Сертифицированный игропрактик"
     }
   ];
 
@@ -1043,10 +1394,16 @@ const TeachersSection: React.FC = () => {
                             key={course.id}
                             onClick={() => handleOpenCourseModal(course.id)}
                           >
+                            {course.price && <CourseBadge>{course.price}</CourseBadge>}
                             <CourseContent>
                               <CourseInfo>
                                 <CourseTitle>{course.title}</CourseTitle>
                                 <CourseDescription>{course.description}</CourseDescription>
+                                {course.duration && (
+                                  <div style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--color-text-light)' }}>
+                                    <strong>Продолжительность:</strong> {course.duration}
+                                  </div>
+                                )}
                               </CourseInfo>
                               <CourseToggle>
                                 Подробнее о курсе <FaInfoCircle />
