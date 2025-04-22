@@ -134,12 +134,6 @@ const TeacherCard = styled(motion.div)`
   }
 `;
 
-const TeacherContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
-
 const CardBody = styled.div`
   padding: 2rem;
   flex-grow: 1;
