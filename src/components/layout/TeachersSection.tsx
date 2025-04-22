@@ -116,62 +116,67 @@ const DecorativeShape = styled.div`
 
 // Основная карточка преподавателя
 const TeacherCard = styled(motion.div)`
+  width: 100%;
+  background-color: white;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  ${media.sm} {
+    border-radius: 18px;
+  }
+  
+  ${media.xs} {
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+  }
+`;
+
+const TeacherContent = styled.div`
   display: flex;
   flex-direction: column;
-  background: white;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(217, 178, 147, 0.1),
-    0 10px 30px -10px rgba(217, 178, 147, 0.2);
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  transform: perspective(1000px) rotateX(0deg);
+  height: 100%;
+`;
+
+const CardBody = styled.div`
+  padding: 2rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
   
-  &:hover {
-    transform: perspective(1000px) rotateX(2deg) translateY(-5px);
-    box-shadow: 
-      0 30px 60px -15px rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(217, 178, 147, 0.15),
-      0 15px 35px -10px rgba(217, 178, 147, 0.3);
+  ${media.md} {
+    padding: 1.75rem;
+  }
+  
+  ${media.sm} {
+    padding: 1.5rem;
+  }
+  
+  ${media.xs} {
+    padding: 1.25rem;
   }
 `;
 
 // Хедер карточки с фото преподавателя
 const CardHeader = styled.div`
   position: relative;
-  height: 780px;
+  height: 500px;
+  border-radius: 20px 20px 0 0;
   overflow: hidden;
-  border-radius: 24px 24px 0 0;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 75%;
-    background: linear-gradient(to top, 
-      rgba(0, 0, 0, 0.95) 0%, 
-      rgba(0, 0, 0, 0.85) 10%,
-      rgba(0, 0, 0, 0.7) 20%,
-      rgba(0, 0, 0, 0.5) 35%,
-      rgba(0, 0, 0, 0.3) 50%,
-      rgba(0, 0, 0, 0.1) 75%,
-      transparent 100%);
-    z-index: 1;
-  }
-  
-  ${media.lg} {
-    height: 700px;
-  }
   
   ${media.md} {
-    height: 650px;
+    height: 480px;
   }
   
   ${media.sm} {
-    height: 600px;
+    height: 450px;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  ${media.xs} {
+    height: 420px;
   }
 `;
 
@@ -183,27 +188,15 @@ const CardHeaderImage = styled.div`
   height: 100%;
   background-image: url('/images/teacher.jpg');
   background-size: cover;
-  background-position: center 12%;
-  transition: transform 1.2s ease;
-  filter: saturate(1.05) contrast(1.05);
-  transform-origin: center center;
+  background-position: 45% 10%;
+  filter: brightness(0.9);
   
-  ${TeacherCard}:hover & {
-    transform: scale(1.08);
-    filter: saturate(1.1) contrast(1.08);
+  ${media.sm} {
+    background-position: center 20%;
   }
   
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, 
-      rgba(0, 0, 0, 0.1) 0%, 
-      rgba(0, 0, 0, 0) 40%);
-    transition: opacity 0.5s ease;
+  ${media.xs} {
+    background-position: 45% 20%;
   }
 `;
 
@@ -212,139 +205,129 @@ const TeacherInfo = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 3rem;
-  z-index: 2;
-  color: white;
-  transform: translateY(0);
-  transition: transform 0.5s ease;
-  
-  ${TeacherCard}:hover & {
-    transform: translateY(-8px);
-  }
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0) 100%);
   
   ${media.sm} {
-    padding: 2rem;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 `;
 
 const TeacherName = styled.h3`
-  font-size: 3.5rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 0.8rem;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 0, 0, 0.5);
-  letter-spacing: -0.5px;
-  line-height: 1.2;
   color: white;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.4), transparent);
-  padding: 0.7rem 1.5rem;
-  border-radius: 12px;
-  display: inline-block;
-  transform: translateX(0);
-  transition: transform 0.5s ease;
-  
-  ${TeacherCard}:hover & {
-    transform: translateX(5px);
-  }
+  margin: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   
   ${media.md} {
-    font-size: 3rem;
-    padding: 0.6rem 1.2rem;
+    font-size: 2.25rem;
   }
   
   ${media.sm} {
-    font-size: 2.4rem;
-    padding: 0.5rem 1rem;
+    font-size: 2rem;
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+  
+  ${media.xs} {
+    font-size: 1.75rem;
   }
 `;
 
 const TeacherTitle = styled.p`
-  font-size: 1.6rem;
+  font-size: 1.25rem;
   font-weight: 500;
-  opacity: 0.95;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-  max-width: 90%;
-  padding-left: 1.5rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   
   ${media.md} {
-    font-size: 1.4rem;
-    padding-left: 1.2rem;
+    font-size: 1.15rem;
   }
   
   ${media.sm} {
-    font-size: 1.2rem;
-    padding-left: 1rem;
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+  
+  ${media.xs} {
+    font-size: 1rem;
   }
 `;
 
 // Тело карточки с табами и контентом
-const CardBody = styled.div`
-  padding: 0;
-  flex: 1;
-`;
-
-// Контейнер для табов навигации
 const TabContainer = styled.div`
   display: flex;
-  padding: 0;
-  background: white;
-  position: relative;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-  z-index: 2;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   
   ${media.sm} {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    margin-bottom: 1.5rem;
+    padding-bottom: 2px;
+    justify-content: center;
+    gap: 0.5rem;
     
     &::-webkit-scrollbar {
-      display: none;
+      height: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
     }
   }
 `;
 
 const TabItem = styled.button<{ active: boolean }>`
-  flex: 1;
-  background: ${props => props.active ? 'var(--color-bg-alt)' : 'transparent'};
-  color: ${props => props.active ? 'var(--color-primary-dark)' : 'var(--color-text-light)'};
-  padding: 1.5rem 1rem;
-  font-size: 1.1rem;
-  font-weight: ${props => props.active ? '600' : '500'};
+  padding: 1rem 1.5rem;
   border: none;
+  background: transparent;
+  font-size: 1.1rem;
+  font-weight: ${props => (props.active ? '600' : '400')};
+  color: ${props => (props.active ? 'var(--primary-color)' : '#555')};
+  border-bottom: 3px solid ${props => (props.active ? 'var(--primary-color)' : 'transparent')};
   cursor: pointer;
   transition: all 0.3s ease;
-  position: relative;
+  white-space: nowrap;
+  flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: ${props => props.active ? 'var(--color-primary)' : 'transparent'};
-    transform: scaleX(${props => props.active ? 1 : 0});
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
   
   &:hover {
-    color: var(--color-primary);
-    background: ${props => props.active ? 'var(--color-bg-alt)' : 'rgba(246, 242, 239, 0.5)'};
-    
-    &::before {
-      transform: scaleX(1);
-      background: var(--color-primary-light);
-    }
+    color: var(--primary-color);
+  }
+  
+  ${media.md} {
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
   }
   
   ${media.sm} {
-    padding: 1.2rem 0.8rem;
-    font-size: 1rem;
-    min-width: 120px;
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+    flex: none;
+    min-width: 60px;
+  }
+  
+  ${media.xs} {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+    min-width: 50px;
   }
 `;
 
@@ -352,7 +335,13 @@ const TabIcon = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+  
+  ${media.sm} {
+    margin-bottom: 0;
+    font-size: 1.1rem;
+  }
 `;
 
 // Контент табов
@@ -390,15 +379,28 @@ const TabContent = styled.div`
   
   ${media.md} {
     padding: 2rem;
-    max-height: 450px;
+    max-height: 550px;
   }
   
   ${media.sm} {
     padding: 1.5rem;
     font-size: 0.95rem;
+    max-height: 450px;
     
     p {
       font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+  
+  ${media.xs} {
+    padding: 1.2rem;
+    max-height: 400px;
+    
+    p {
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
     }
   }
 `;
@@ -525,7 +527,12 @@ const CoursesGrid = styled.div`
   
   ${media.sm} {
     grid-template-columns: minmax(260px, 1fr);
-    gap: 2rem;
+    gap: 1.5rem;
+  }
+  
+  ${media.xs} {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
   
   & > * {
@@ -1320,6 +1327,22 @@ const TeachersSection: React.FC = () => {
     }
   ];
 
+  // Определяем, нужно ли показывать упрощенный интерфейс для мобильных
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 576);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
   return (
     <TeachersWrapper id="teachers">
       <Container>
@@ -1337,6 +1360,7 @@ const TeachersSection: React.FC = () => {
             initial="hidden"
             animate={controls}
             variants={cardVariants}
+            style={{ width: '100%' }}
           >
             <TeacherCard>
               <CardHeader>
@@ -1353,25 +1377,29 @@ const TeachersSection: React.FC = () => {
                     active={activeTab === 'biography'} 
                     onClick={() => handleTabChange('biography')}
                   >
-                    <TabIcon><FaUserAlt /></TabIcon> Биография
+                    <TabIcon><FaUserAlt /></TabIcon>
+                    {!isMobile && 'Биография'}
                   </TabItem>
                   <TabItem 
                     active={activeTab === 'about'} 
                     onClick={() => handleTabChange('about')}
                   >
-                    <TabIcon><FaIdCard /></TabIcon> Обо мне
+                    <TabIcon><FaIdCard /></TabIcon>
+                    {!isMobile && 'Обо мне'}
                   </TabItem>
                   <TabItem 
                     active={activeTab === 'education'} 
                     onClick={() => handleTabChange('education')}
                   >
-                    <TabIcon><FaGraduationCap /></TabIcon> Образование
+                    <TabIcon><FaGraduationCap /></TabIcon>
+                    {!isMobile && 'Образование'}
                   </TabItem>
                   <TabItem 
                     active={activeTab === 'courses'} 
                     onClick={() => handleTabChange('courses')}
                   >
-                    <TabIcon><FaBook /></TabIcon> Курсы
+                    <TabIcon><FaBook /></TabIcon>
+                    {!isMobile && 'Курсы'}
                   </TabItem>
                 </TabContainer>
                 
