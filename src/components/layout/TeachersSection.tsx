@@ -182,7 +182,7 @@ const CardHeaderImage = styled.div`
   height: 100%;
   background-image: url('/images/teacher.jpg');
   background-size: cover;
-  background-position: 45% 10%;
+  background-position: center 25%;
   filter: brightness(0.9);
   
   ${media.sm} {
