@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext } from 'react';
+import React, { useState, useContext, createContext, useEffect } from 'react';
 import styled from 'styled-components';
 import Container from '../ui/Container';
 import AnimatedElement from '../ui/AnimatedElement';
@@ -480,6 +480,14 @@ const ExpandedDetails = styled.div<{ isExpanded: boolean }>`
   position: relative;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+  
+  hr, .divider, [class*="divider"] {
+    display: none;
+  }
+  
+  &:before, &:after {
+    display: none;
+  }
 `;
 
 const ModulesList = styled.div`
@@ -512,6 +520,10 @@ const ModuleItem = styled.div`
   
   &:last-child {
     margin-bottom: 0;
+  }
+  
+  &:before, &:after {
+    display: none;
   }
 `;
 
@@ -581,54 +593,6 @@ const ModuleCheckbox = styled.div<{ completed: boolean }>`
   svg {
     color: white;
     font-size: 0.9rem;
-  }
-`;
-
-const ProgressContainer = styled.div`
-  margin: 0 0 2rem 0;
-  width: 100%;
-  background: #f0e9e4;
-  height: 8px;
-  border-radius: 10px;
-  overflow: hidden;
-`;
-
-const ProgressBar = styled.div<{ progress: number }>`
-  height: 100%;
-  width: ${({ progress }) => `${progress}%`};
-  background: linear-gradient(90deg, #d9b293, #a66a42);
-  border-radius: 10px;
-  transition: width 0.5s ease;
-`;
-
-const ProgressStats = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-  color: var(--color-text);
-`;
-
-const ResetButton = styled.button`
-  background: none;
-  border: none;
-  font-size: 0.9rem;
-  color: #a66a42;
-  cursor: pointer;
-  margin-left: auto;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  transition: color 0.3s ease;
-  
-  &:hover {
-    color: #d9b293;
-    text-decoration: underline;
-  }
-  
-  svg {
-    margin-right: 5px;
-    font-size: 0.8rem;
   }
 `;
 
@@ -908,7 +872,7 @@ const AnimatedBenefit: React.FC<AnimatedBenefitProps> = ({ benefit, index, isVis
 
 const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleExpanded }) => {
   const course = COURSES.find(c => c.id === id);
-  const { completedModules, toggleModule, resetProgress } = useModuleProgress(id);
+  const { completedModules, toggleModule } = useModuleProgress(id);
   const [isContentVisible, setIsContentVisible] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   
@@ -940,29 +904,6 @@ const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleEx
     return null;
   }
   
-  // Безопасный расчет прогресса
-  const progress = React.useMemo(() => {
-    try {
-      return course.modules && course.modules.length > 0 
-        ? Math.round((completedModules.length / course.modules.length) * 100) 
-        : 0;
-    } catch (err) {
-      console.error('Ошибка при расчете прогресса:', err);
-      return 0;
-    }
-  }, [course.modules, completedModules]);
-  
-  // Безопасный обработчик сброса прогресса
-  const handleResetProgress = (e: React.MouseEvent) => {
-    try {
-      e.stopPropagation();
-      resetProgress();
-    } catch (err) {
-      console.error('Ошибка при сбросе прогресса:', err);
-      setError('Не удалось сбросить прогресс. Пожалуйста, попробуйте позже.');
-    }
-  };
-  
   return (
     <>
       <DetailsToggle onClick={() => toggleExpanded(id)}>
@@ -977,26 +918,14 @@ const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleEx
       )}
       
       <ExpandedDetails isExpanded={isExpanded}>
-        {isContentVisible && (
+        {isContentVisible && course.modules && course.modules.length > 0 && (
           <>
-            <DetailsSectionTitle>Программа курса</DetailsSectionTitle>
+            {/* Модули курса без лишних разделителей */}
+            <DetailsSectionTitle style={{ marginTop: '1.5rem' }}>Модули курса</DetailsSectionTitle>
             
-            <ProgressContainer>
-              <ProgressStats>
-                <span>Прогресс обучения</span>
-                <span>{completedModules.length} из {course.modules?.length || 0} ({progress}%)</span>
-              </ProgressStats>
-              <ProgressBar progress={progress} />
-              {completedModules.length > 0 && (
-                <ResetButton onClick={handleResetProgress}>
-                  <FaArrowUp style={{ transform: 'rotate(45deg)' }} />
-                  Сбросить прогресс
-                </ResetButton>
-              )}
-            </ProgressContainer>
-            
+            {/* Список модулей */}
             <ModulesList>
-              {course.modules?.map((module, index) => (
+              {course.modules.map((module, index) => (
                 <AnimatedModule
                   key={module.id}
                   module={module}
@@ -1008,17 +937,22 @@ const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleEx
               ))}
             </ModulesList>
             
-            <DetailsSectionTitle>Чему вы научитесь</DetailsSectionTitle>
-            <BenefitsGrid>
-              {course.benefits?.map((benefit, index) => (
-                <AnimatedBenefit
-                  key={index}
-                  benefit={benefit}
-                  index={index}
-                  isVisible={isExpanded}
-                />
-              ))}
-            </BenefitsGrid>
+            {/* Преимущества курса */}
+            {course.benefits && course.benefits.length > 0 && (
+              <>
+                <DetailsSectionTitle>Чему вы научитесь</DetailsSectionTitle>
+                <BenefitsGrid>
+                  {course.benefits.map((benefit, index) => (
+                    <AnimatedBenefit
+                      key={index}
+                      benefit={benefit}
+                      index={index}
+                      isVisible={isExpanded}
+                    />
+                  ))}
+                </BenefitsGrid>
+              </>
+            )}
           </>
         )}
       </ExpandedDetails>
