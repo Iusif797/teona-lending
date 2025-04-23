@@ -1,4 +1,4 @@
-import React, { useState, useContext, createContext, useEffect } from 'react';
+import React, { useState, useContext, createContext } from 'react';
 import styled from 'styled-components';
 import Container from '../ui/Container';
 import AnimatedElement from '../ui/AnimatedElement';
@@ -874,7 +874,6 @@ const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleEx
   const course = COURSES.find(c => c.id === id);
   const { completedModules, toggleModule } = useModuleProgress(id);
   const [isContentVisible, setIsContentVisible] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
   
   // Управление видимостью контента с задержкой для анимации
   React.useEffect(() => {
@@ -910,12 +909,6 @@ const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleEx
         {isExpanded ? 'Скрыть детали курса' : 'Показать программу курса'}
         {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
       </DetailsToggle>
-      
-      {error && (
-        <div style={{ color: 'red', marginTop: '10px', fontSize: '0.9rem' }}>
-          {error}
-        </div>
-      )}
       
       <ExpandedDetails isExpanded={isExpanded}>
         {isContentVisible && course.modules && course.modules.length > 0 && (

@@ -368,18 +368,20 @@ const Paragraph = styled.p`
     line-height: 1.6;
     margin: 1rem 0 1.75rem;
     max-width: 100%;
-    padding: 0 1rem;
+    padding: 0 4rem;
   }
   
   ${media.xs} {
     font-size: 0.95rem;
     margin: 0.75rem 0 1.5rem;
     line-height: 1.5;
+    padding: 0 3.5rem;
   }
   
   ${media.xxs} {
     font-size: 0.9rem;
     margin: 0.5rem 0 1.25rem;
+    padding: 0 3rem;
   }
 `;
 
@@ -500,6 +502,13 @@ const NavButtons = styled.div`
   
   ${media.sm} {
     padding: 0 1rem;
+    width: calc(100% + 2rem);
+    left: -1rem;
+  }
+  
+  @media (max-width: 480px) {
+    width: calc(100% + 3rem);
+    left: -1.5rem;
   }
 `;
 
