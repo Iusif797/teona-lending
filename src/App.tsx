@@ -13,6 +13,7 @@ import CertificateSection from './components/layout/CertificateSection'
 import ContactSection from './components/layout/ContactSection'
 import Footer from './components/layout/Footer'
 import ScrollProgress from './components/ui/ScrollProgress'
+import ScrollToTop from './components/ui/ScrollToTop'
 import { MobileMenuContext } from './components/layout/CoursesSection'
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
       <GlobalStyles />
       <MobileMenuContext.Provider value={isMobileMenuOpen}>
         <ScrollProgress />
+        <ScrollToTop showBelow={300} />
         <Header onMenuToggle={setIsMobileMenuOpen} />
         <main>
           <HeroSection />

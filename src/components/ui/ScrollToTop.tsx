@@ -35,20 +35,20 @@ const ScrollButton = styled.button<{ show: boolean }>`
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  background-color: var(--color-primary);
+  background-color: #d9b293; /* Цвет как на скриншоте */
   color: white;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s ease, transform 0.3s ease;
   z-index: 99;
   animation: ${({ show }) => (show ? fadeIn : fadeOut)} 0.3s ease forwards;
   
   &:hover {
-    background-color: #000;
+    background-color: #c89c7d; /* Темнее при наведении */
     transform: translateY(-5px);
   }
   
