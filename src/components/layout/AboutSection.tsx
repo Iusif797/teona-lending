@@ -292,7 +292,7 @@ const AboutSection = () => {
             <MissionImageContainer>
               <AnimatedElement animation="fadeInRight">
                 <MissionImage>
-                  <img src="/images/banner2.jpg" alt="Психолог за работой" />
+                  <img src="/images/banner2.JPG" alt="Психолог за работой" />
                 </MissionImage>
               </AnimatedElement>
             </MissionImageContainer>

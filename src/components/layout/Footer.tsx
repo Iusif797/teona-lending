@@ -20,17 +20,24 @@ const FooterContent = styled.div`
   ${media.md} {
     grid-template-columns: 1fr;
     gap: 3rem;
+    text-align: center;
   }
 `;
 
-const FooterLeft = styled.div``;
+const FooterLeft = styled.div`
+  ${media.md} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+`;
 
 const FooterRight = styled.div`
   display: flex;
   justify-content: flex-end;
   
   ${media.md} {
-    justify-content: flex-start;
+    justify-content: center;
   }
 `;
 
@@ -50,6 +57,12 @@ const FooterText = styled.p`
   color: var(--color-secondary);
   margin-bottom: 2rem;
   max-width: 450px;
+  
+  ${media.md} {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 const FooterNav = styled.nav``;
@@ -59,6 +72,10 @@ const FooterNavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  
+  ${media.md} {
+    align-items: center;
+  }
 `;
 
 const FooterNavItem = styled.li`

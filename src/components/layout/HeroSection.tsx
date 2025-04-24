@@ -10,9 +10,9 @@ const HeroSection: React.FC = () => {
   const [touchEnd, setTouchEnd] = useState(0);
   
   const slides = [
-    { url: '/images/banner.jpg', position: 'top center' },
-    { url: '/images/banner2.jpg', position: 'top 10%' },
-    { url: '/images/banner3.jpg', position: 'center center' },
+    { url: '/images/banner.JPG', position: 'top center' },
+    { url: '/images/banner2.JPG', position: 'top 10%' },
+    { url: '/images/banner3.JPG', position: 'center center' },
   ];
 
   useEffect(() => {
