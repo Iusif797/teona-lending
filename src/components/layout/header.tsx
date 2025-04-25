@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { NAV_LINKS, SITE_TITLE, SITE_SUBTITLE } from '../../data/constants';
 import Container from '../ui/Container';
 import media from '../../styles/media';
+import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 interface HeaderProps {
   onMenuToggle?: Dispatch<SetStateAction<boolean>>;
@@ -245,15 +246,31 @@ const Nav = styled.nav`
 const NavList = styled.ul`
   display: flex;
   list-style: none;
-  gap: 2rem;
+  gap: 1.8rem;
+
+  ${media.custom('1500px')} {
+    gap: 1.4rem;
+  }
+
+  ${media.xl} {
+    gap: 1.1rem;
+  }
 `;
 
 const NavItem = styled.li`
   a {
     position: relative;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     letter-spacing: 0.5px;
     transition: color 0.3s ease;
+    
+    ${media.custom('1500px')} {
+      font-size: 0.88rem;
+    }
+    
+    ${media.xl} {
+      font-size: 0.85rem;
+    }
     
     &:hover {
       color: var(--color-secondary);
@@ -277,6 +294,7 @@ const NavItem = styled.li`
 `;
 
 const MobileMenuButton = styled.button`
+  display: none;
   background: none;
   border: none;
   width: 30px;
@@ -379,11 +397,16 @@ const MobileMenu = styled.div<{ isOpen: boolean }>`
   width: 80%;
   max-width: 400px;
   height: 100vh;
-  background-color: white;
+  background: linear-gradient(180deg, var(--color-primary-light) 0%, #ffffff 60%);
   z-index: 100;
   padding: 80px 2rem 2rem;
   transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: ${({ isOpen }) => (isOpen ? '-5px 0 15px rgba(0, 0, 0, 0.1)' : 'none')};
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
   
   @media (max-width: 450px) {
     width: 85%;
@@ -395,9 +418,15 @@ const MobileMenu = styled.div<{ isOpen: boolean }>`
     flex-direction: column;
     gap: 1.5rem;
     list-style: none;
+    align-items: center;
+    width: 100%;
     
     li {
+      width: 100%;
+      
       a {
+        display: inline-block;
+        width: 100%;
         font-size: 1.2rem;
         letter-spacing: 0.5px;
         transition: color 0.3s ease;
@@ -418,6 +447,53 @@ const MobileMenu = styled.div<{ isOpen: boolean }>`
   }
 `;
 
+const MobileSocialIcons = styled.div`
+  margin-top: auto;
+  padding-top: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: var(--color-primary);
+    transition: color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      color: var(--color-primary-dark);
+      transform: translateY(-2px) scale(1.1);
+    }
+  }
+`;
+
+const SocialIcons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    transition: color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      color: var(--color-primary-dark);
+      transform: translateY(-2px) scale(1.1);
+    }
+  }
+
+  ${media.lg} {
+    display: none;
+  }
+`;
+
 const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -435,6 +511,21 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
     if (newState) {
       document.body.style.overflow = 'hidden';
     } else {
+      document.body.style.overflow = 'auto';
+    }
+  };
+
+  // Плавный скролл вверх при нажатии на логотип
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Закрыть мобильное меню, если оно открыто
+    if (isMobileMenuOpen) {
+      setIsMobileMenuOpen(false);
+      if (onMenuToggle) {
+        onMenuToggle(false);
+      }
       document.body.style.overflow = 'auto';
     }
   };
@@ -471,7 +562,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
     <HeaderWrapper isScrolled={isScrolled}>
       <HeaderContainer>
         <LogoWrapper>
-          <a href="#hero" style={{ textDecoration: 'none', display: 'contents' }}>
+          <a href="#top" onClick={handleLogoClick} style={{ textDecoration: 'none', display: 'contents' }}>
             <LogoImage isScrolled={isScrolled}>
               <img src="/images/logo.jpg" alt="Теона Хаметова - Логотип" />
             </LogoImage>
@@ -491,6 +582,15 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
             ))}
           </NavList>
         </Nav>
+
+        <SocialIcons>
+          <a href="https://www.instagram.com/teona_psychologist/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <FaInstagram />
+          </a>
+          <a href="https://wa.me/994505252509" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <FaWhatsapp />
+          </a>
+        </SocialIcons>
 
         <MobileMenuButton 
           className={isMobileMenuOpen ? 'open' : ''} 
@@ -521,6 +621,14 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
               </li>
             ))}
           </ul>
+          <MobileSocialIcons>
+            <a href="https://www.instagram.com/teona_psychologist/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <FaInstagram />
+            </a>
+            <a href="https://wa.me/994505252509" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+              <FaWhatsapp />
+            </a>
+          </MobileSocialIcons>
         </MobileMenu>
       </HeaderContainer>
     </HeaderWrapper>

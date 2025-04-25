@@ -78,9 +78,6 @@ const HeroSection: React.FC = () => {
             <AnimatedElement animation="fadeInUp" delay={0.4}>
               <SchoolTitle>School of Psychology</SchoolTitle>
             </AnimatedElement>
-            <AnimatedElement animation="fadeInUp" delay={0.5}>
-              <ByLine>by Teona</ByLine>
-            </AnimatedElement>
             <AnimatedElement animation="fadeInUp" delay={0.6}>
               <Paragraph>
                 Я — Теона, дипломированный психолог, интегральный специалист, а также практикующий расстановщик и регрессолог. Моя работа строится на глубоком понимании психики, энергий и системных процессов, влияющих на человека
@@ -316,35 +313,6 @@ const SchoolTitle = styled.h1`
   ${media.xxs} {
     font-size: 1.5rem;
     letter-spacing: 1px;
-  }
-`;
-
-const ByLine = styled.h3`
-  font-size: 2.2rem;
-  color: #d9b293;
-  margin: 0.5rem 0 2rem;
-  font-weight: 500;
-  font-style: italic;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  
-  ${media.md} {
-    font-size: 2rem;
-    margin: 0.5rem 0 1.8rem;
-  }
-  
-  ${media.sm} {
-    font-size: 1.8rem;
-    margin: 0.4rem 0 1.6rem;
-  }
-  
-  ${media.xs} {
-    font-size: 1.5rem;
-    margin: 0.3rem 0 1.4rem;
-  }
-  
-  ${media.xxs} {
-    font-size: 1.3rem;
-    margin: 0.2rem 0 1.2rem;
   }
 `;
 

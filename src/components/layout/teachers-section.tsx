@@ -1554,8 +1554,8 @@ const TeachersSection: React.FC = () => {
               isActive={activeTeacher === 'dinar'} 
               onClick={() => handleTeacherChange('dinar')}
             >
-              <AvatarImage src="/images/teacher2.jpg" alt="Саидова Динар" isSecondTeacher={true} />
-              <AvatarName>Динар</AvatarName>
+              <AvatarImage src="/images/teacher2.jpg" alt="Саидова Динара" isSecondTeacher={true} />
+              <AvatarName>Динара</AvatarName>
             </AvatarWrapper>
           </AnimatedElement>
         </TeachersAvatarsContainer>
@@ -1810,9 +1810,9 @@ const TeachersSection: React.FC = () => {
             >
               <TeacherCard>
                 <CardHeader>
-                  <CardHeaderImg src="/images/teacher2.jpg" alt="Саидова Динар" />
+                  <CardHeaderImg src="/images/teacher2.jpg" alt="Саидова Динара" />
                   <TeacherInfo>
-                    <TeacherName>Саидова Динар</TeacherName>
+                    <TeacherName>Саидова Динара</TeacherName>
                     <TeacherTitle>Практикующий психолог и консультант</TeacherTitle>
                   </TeacherInfo>
                 </CardHeader>
@@ -1852,7 +1852,7 @@ const TeachersSection: React.FC = () => {
                   {activeTabDinar === 'biography' && (
                     <TabContent>
                       <p>
-                        Меня зовут Динар, я практикующий психолог и консультант. Работаю в индивидуальном и групповом формате, онлайн и офлайн. Помогаю тем, кто находится в поиске опоры, хочет лучше понять себя, выйти из внутреннего тупика, повысить самооценку и справиться с эмоциональными трудностями.
+                        Меня зовут Динара, я практикующий психолог и консультант. Работаю в индивидуальном и групповом формате, онлайн и офлайн. Помогаю тем, кто находится в поиске опоры, хочет лучше понять себя, выйти из внутреннего тупика, повысить самооценку и справиться с эмоциональными трудностями.
                       </p>
                       
                       <ContentSection>
@@ -1890,7 +1890,7 @@ const TeachersSection: React.FC = () => {
                         <SectionHeading>Обо мне</SectionHeading>
                         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                           <p style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--color-primary-dark)', marginBottom: '0.2rem' }}>
-                            Саидова Динар
+                            Саидова Динара
                           </p>
                           <p style={{ color: 'var(--color-text)' }}>
                             Практикующий психолог и консультант<br />
