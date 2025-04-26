@@ -2131,7 +2131,7 @@ const TeachersSection: React.FC = () => {
                                     Подробнее о курсе <FaInfoCircle />
                                   </CourseToggle>
                                   <EnrollButton onClick={(e) => scrollToContactForm(e)}>
-                                    Записаться на курс <FaArrowRight />
+                                    Записаться на курс <FaArrowDown />
                                   </EnrollButton>
                                 </div>
                               </CourseContent>
