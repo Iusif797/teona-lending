@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Container from '../ui/Container';
 import SectionTitle from '../ui/SectionTitle';
 import AnimatedElement from '../ui/AnimatedElement';
 import media from '../../styles/media';
-import { FaGraduationCap, FaBook, FaUserAlt, FaTimes, FaInfoCircle, FaIdCard } from 'react-icons/fa';
+import { FaGraduationCap, FaBook, FaUserAlt, FaTimes, FaInfoCircle, FaIdCard, FaArrowRight, FaArrowDown } from 'react-icons/fa';
 import { motion, AnimatePresence, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -565,7 +565,7 @@ const CourseToggle = styled.button`
   cursor: pointer;
   transition: all 0.3s ease;
   width: 100%;
-  margin-top: 1.2rem;
+  margin-top: 0.8rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   
   &:hover {
@@ -576,6 +576,50 @@ const CourseToggle = styled.button`
   svg {
     transition: transform 0.3s ease;
     font-size: 0.8rem;
+  }
+`;
+
+// Добавляем анимацию для стрелки вниз
+const bounceAnimation = keyframes`
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(5px);
+  }
+  60% {
+    transform: translateY(3px);
+  }
+`;
+
+// Кнопка для записи на курс
+const EnrollButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 0.8rem;
+  border: none;
+  box-shadow: 0 4px 10px rgba(217, 178, 147, 0.3);
+  
+  &:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(217, 178, 147, 0.4);
+  }
+  
+  svg {
+    font-size: 1rem;
+    animation: ${bounceAnimation} 2s infinite;
   }
 `;
 
@@ -1815,6 +1859,15 @@ const TeachersSection: React.FC = () => {
     }
   };
 
+  // Добавляем функцию для скролла к форме контактов
+  const scrollToContactForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation(); // Предотвращаем всплытие события, чтобы не открывалась модалка курса
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <TeachersWrapper id="teachers">
       <Container>
@@ -2073,9 +2126,14 @@ const TeachersSection: React.FC = () => {
                                     </div>
                                   )}
                                 </CourseInfo>
-                                <CourseToggle>
-                                  Подробнее о курсе <FaInfoCircle />
-                                </CourseToggle>
+                                <div>
+                                  <CourseToggle>
+                                    Подробнее о курсе <FaInfoCircle />
+                                  </CourseToggle>
+                                  <EnrollButton onClick={(e) => scrollToContactForm(e)}>
+                                    Записаться на курс <FaArrowRight />
+                                  </EnrollButton>
+                                </div>
                               </CourseContent>
                             </CourseCard>
                           ))}
@@ -2279,10 +2337,20 @@ const TeachersSection: React.FC = () => {
                                 <CourseInfo>
                                   <CourseTitle>{course.title}</CourseTitle>
                                   <CourseDescription>{course.description}</CourseDescription>
+                                  {course.duration && (
+                                    <div style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--color-text-light)' }}>
+                                      <strong>Продолжительность:</strong> {course.duration}
+                                    </div>
+                                  )}
                                 </CourseInfo>
-                                <CourseToggle>
-                                  Подробнее о курсе <FaInfoCircle />
-                                </CourseToggle>
+                                <div>
+                                  <CourseToggle>
+                                    Подробнее о курсе <FaInfoCircle />
+                                  </CourseToggle>
+                                  <EnrollButton onClick={(e) => scrollToContactForm(e)}>
+                                    Записаться на курс <FaArrowDown />
+                                  </EnrollButton>
+                                </div>
                               </CourseContent>
                             </CourseCard>
                           ))}
