@@ -450,8 +450,9 @@ const MobileMenu = styled.div<{ isOpen: boolean }>`
 const MobileSocialIcons = styled.div`
   margin-top: auto;
   padding-top: 2rem;
+  padding-bottom: 6rem;
   display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   align-items: center;
   justify-content: center;
 
@@ -459,13 +460,19 @@ const MobileSocialIcons = styled.div`
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.6rem;
+    font-size: 2.2rem;
     color: var(--color-primary);
     transition: color 0.3s ease, transform 0.3s ease;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.8rem;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
     &:hover {
       color: var(--color-primary-dark);
       transform: translateY(-2px) scale(1.1);
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
     }
   }
 `;
