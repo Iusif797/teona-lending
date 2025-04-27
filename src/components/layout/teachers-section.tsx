@@ -5,7 +5,7 @@ import SectionTitle from '../ui/SectionTitle';
 import AnimatedElement from '../ui/AnimatedElement';
 import media from '../../styles/media';
 import { FaGraduationCap, FaBook, FaUserAlt, FaTimes, FaInfoCircle, FaIdCard, FaArrowDown } from 'react-icons/fa';
-import { motion, AnimatePresence, useAnimation } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 const TeachersWrapper = styled.section`
