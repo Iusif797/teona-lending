@@ -186,6 +186,24 @@ const CardHeaderImg = styled.img`
   filter: brightness(0.9);
 `;
 
+// Специальный компонент для изображения Юлии - оптимизированный для десктопной версии
+const JuliaCardHeaderImg = styled(CardHeaderImg)`
+  // Только для десктопной версии улучшаем отображение лица
+  @media (min-width: 577px) {
+    object-position: center 35%;
+    filter: brightness(0.95);
+  }
+`;
+
+// Специальный компонент для изображения Инары - оптимизированный для десктопной версии
+const InaraCardHeaderImg = styled(CardHeaderImg)`
+  // Только для десктопной версии улучшаем отображение лица
+  @media (min-width: 577px) {
+    object-position: center 22%;
+    filter: brightness(0.95);
+  }
+`;
+
 // Сохраняем текущий CardHeaderImage для Шамамы
 const CardHeaderImage = styled.div<{ bgImage?: string }>`
   position: absolute;
@@ -1184,6 +1202,18 @@ const TeachersAvatarsContainer = styled.div`
   ${media.sm} {
     gap: 1.5rem;
     margin-bottom: 3rem;
+    padding: 0 10px;
+  }
+  
+  ${media.xs} {
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    padding: 0 15px;
+  }
+  
+  ${media.xxs} {
+    gap: 1rem;
+    padding: 0 10px;
   }
 `;
 
@@ -1232,8 +1262,13 @@ const AvatarWrapper = styled.div<{ isActive: boolean }>`
   }
   
   ${media.xs} {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
+  }
+  
+  ${media.xxs} {
+    width: 80px;
+    height: 80px;
   }
 `;
 
@@ -1265,6 +1300,11 @@ const AvatarName = styled.p`
   ${media.xs} {
     font-size: 0.9rem;
     bottom: 8px;
+  }
+  
+  ${media.xxs} {
+    font-size: 0.8rem;
+    bottom: 6px;
   }
 `;
 
@@ -1762,23 +1802,17 @@ const TeachersSection: React.FC = () => {
   const [activeTabDinar, setActiveTabDinar] = useState('biography');
   
   // Состояние для активного преподавателя
-  const [activeTeacher, setActiveTeacher] = useState<'shamama' | 'dinar'>('shamama');
+  const [activeTeacher, setActiveTeacher] = useState<'shamama' | 'dinar' | 'julia' | 'inara'>('shamama');
   
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   
-  const controls = useAnimation();
-  const [ref, inView] = useInView({
-    triggerOnce: false, // Изменим на false, чтобы анимация запускалась каждый раз
-    threshold: 0.1
+  // Удаляем controls и оптимизируем useInView
+  const [ref] = useInView({
+    triggerOnce: true, // Изменяем обратно на true для оптимизации
+    threshold: 0.01  // Уменьшаем порог для более быстрого срабатывания
   });
-
-  useEffect(() => {
-    if (inView) {
-      controls.start('visible');
-    }
-  }, [controls, inView]);
   
   // Обработчики вкладок для каждого преподавателя
   const handleTabChangeShamama = (tab: string) => {
@@ -1790,26 +1824,22 @@ const TeachersSection: React.FC = () => {
   };
   
   // Обработчик переключения преподавателя
-  const handleTeacherChange = (teacher: 'shamama' | 'dinar') => {
-    // Сначала проверяем, не выбран ли уже этот преподаватель
-    if (activeTeacher === teacher) return;
+  const handleTeacherChange = (teacher: 'shamama' | 'dinar' | 'julia' | 'inara') => {
+    // Предварительно устанавливаем вкладку, а затем меняем преподавателя
+    // для более быстрого рендеринга
+    if (teacher === 'shamama') {
+      setActiveTabShamama('biography');
+    } else if (teacher === 'dinar') {
+      setActiveTabDinar('biography');
+    } else if (teacher === 'julia') {
+      setActiveTabJulia('biography');
+    } else if (teacher === 'inara') {
+      setActiveTabInara('biography');
+    }
     
-    // Анимируем исчезновение, затем меняем преподавателя и анимируем появление
-    controls.start({
-      opacity: 0,
-      y: 20,
-      transition: { duration: 0.2, ease: 'easeOut' }
-    }).then(() => {
+    // Используем requestAnimationFrame для оптимизации перерисовки
+    requestAnimationFrame(() => {
       setActiveTeacher(teacher);
-      
-      // Небольшая задержка перед анимацией появления, чтобы DOM успел обновиться
-      setTimeout(() => {
-        controls.start({
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.4, ease: 'easeOut' }
-        });
-      }, 50);
     });
   };
   
@@ -1826,13 +1856,13 @@ const TeachersSection: React.FC = () => {
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 20 },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: { 
-        duration: 0.8, 
-        ease: [0.215, 0.61, 0.355, 1]
+        duration: 0.3, 
+        ease: "easeOut"
       }
     }
   };
@@ -1868,6 +1898,268 @@ const TeachersSection: React.FC = () => {
     }
   };
 
+  // Добавляем курсы Юлии как массив объектов для единообразия
+  const juliaCourses = [
+    {
+      id: 1,
+      title: "Интегративная гипнотерапия: Ольфакторная работа с элементами эриксоновского гипноза",
+      description: "Научитесь использовать силу ароматов в сочетании с техниками эриксоновского гипноза для работы с широким спектром клиентских запросов.",
+      price: "400$",
+      duration: "2 месяца",
+      type: "курс",
+      format: "онлайн",
+      nextStart: "10 декабря 2024",
+      modules: [
+        {
+          id: 1,
+          title: "Занятие 1. Введение. Основы гипноза и ольфактотерапии",
+          content: `• Введение в гипноз (что есть трансовое состояние: ключевые принципы работы)
+• Ольфактотерапия: основы и базовые принципы влияния ароматов на подсознание и эмоции
+• Связь запаха и механизмов памяти. Способы сочетания эффектов ольфактотерапии и гипноза (основы)  
+• Практика: групповая ольфакторная гипнопрактика для расслабления`
+        },
+        {
+          id: 2,
+          title: "Занятие 2. Интеграция запахов в гипнотическую работу",
+          content: `• Выбор эфирного масла для сеанса под запрос. Техника безопасности
+• Введение аромата в гипнотический скрипт
+• Практика: написание мини-сценария сессии с запахом. Работа в парах`
+        },
+        {
+          id: 3,
+          title: "Модуль 3. Базовые техники гипноанализа",
+          content: `• Что такое гипноанализ (основные принципы)
+• Как работать с воспоминаниями без травматизации
+• Ароматическая регрессия: доступ к памяти через запах
+• Практика: проведение гипнопогружения через запах в ресурсное воспоминание`
+        },
+        {
+          id: 4,
+          title: "Занятие 4. Сценарии работы с тревожностью и стрессом",
+          content: `• Запах как инструмент заземления и снятия тревоги
+• Краткий протокол работы с эмоциональной реакцией
+• Особенности применения ароматов при повышенной тревожности
+• Практика: проведение релаксационной ароматерапевтической гипносессии в парах`
+        },
+        {
+          id: 5,
+          title: "Занятие 5. Работа с самооценкой и внутренним ресурсом",
+          content: `• Самооценка и самоценность
+• Ольфакторное якорение
+• Краткий протокол работы с самооценкой через гипноз и ароматы эирных масел
+• Практика: создание индивидуального ресурсного аромата + работа с ним в трансе`
+        },
+        {
+          id: 6,
+          title: "Занятие 6. Итоговая практика под супервизией и сертификация",
+          content: `• Проведение короткой гипноольфакторной сессии по пройденным протоколам
+• Индивидуальная обратная связь от преподавателя
+• Разбор сессии и рекомендации по развитию навыков`
+        }
+      ]
+    }
+  ];
+
+  // Добавляем состояние для вкладок третьего преподавателя
+  const [activeTabJulia, setActiveTabJulia] = useState('biography');
+
+  // Обработчик вкладок для третьего преподавателя
+  const handleTabChangeJulia = (tab: string) => {
+    setActiveTabJulia(tab);
+  };
+
+  // Функция для открытия модального окна с курсом Юлии
+  const handleOpenJuliaCourseModal = (courseId: number) => {
+    const course = juliaCourses.find(c => c.id === courseId);
+    if (course) {
+      setSelectedCourse(course);
+      setIsModalOpen(true);
+    }
+  };
+
+  // Добавляем курсы Инары
+  const inaraCourses = [
+    {
+      id: 1,
+      title: "Личностные расстройства и профайлинг",
+      description: "Глубокое понимание различных типов личностных расстройств и применение техник профайлинга для их распознавания и коррекции.",
+      price: "450$",
+      duration: "3 месяца",
+      type: "курс",
+      format: "онлайн",
+      nextStart: "15 января 2025",
+      fullDescription: "Курс посвящен изучению личностных расстройств через призму современной психологии и техник профайлинга. Вы научитесь распознавать паттерны поведения, свойственные различным типам личностных расстройств, и разрабатывать стратегии работы с такими клиентами.",
+      benefits: [
+        "Глубокое понимание природы личностных расстройств и их проявлений",
+        "Овладение методами профайлинга для точной диагностики",
+        "Практические навыки коррекционной работы",
+        "Понимание нейробиологических основ личностных нарушений",
+        "Разработка индивидуальных стратегий терапии для разных типов клиентов"
+      ],
+      process: "Курс состоит из теоретических блоков, практических занятий, разбора кейсов и супервизий. Каждый модуль включает домашние задания для закрепления материала и формирования практических навыков.",
+      modules: [
+        {
+          id: 1,
+          title: "Модуль 1: Введение в теорию личностных расстройств",
+          content: `• Классификация личностных расстройств по DSM-5 и МКБ-11
+• Эпидемиология и этиология личностных расстройств
+• Нейробиологические основы развития личностных расстройств
+• Связь личностных расстройств с детскими травмами и нарушениями привязанности`
+        },
+        {
+          id: 2,
+          title: "Модуль 2: Основы профайлинга в психодиагностике",
+          content: `• История и современное состояние профайлинга
+• Базовые методы наблюдения и анализа поведения
+• Вербальные и невербальные маркеры личностных расстройств
+• Техники интервьюирования для выявления личностных особенностей`
+        },
+        {
+          id: 3,
+          title: "Модуль 3: Кластер A - Эксцентричные расстройства личности",
+          content: `• Параноидное расстройство личности: профиль, диагностика, техники работы
+• Шизоидное расстройство личности: особенности мышления и поведения
+• Шизотипическое расстройство личности: маркеры и терапевтические подходы
+• Разбор клинических случаев и практических ситуаций`
+        },
+        {
+          id: 4,
+          title: "Модуль 4: Кластер B - Драматические расстройства личности",
+          content: `• Антисоциальное расстройство личности: профайлинг и диагностика
+• Пограничное расстройство личности: характеристики и терапевтические стратегии
+• Нарциссическое расстройство личности: выявление и методы коррекции
+• Истерическое (гистрионное) расстройство личности: поведенческие паттерны`
+        },
+        {
+          id: 5,
+          title: "Модуль 5: Кластер C - Тревожные расстройства личности",
+          content: `• Обсессивно-компульсивное расстройство личности: диагностика и терапия
+• Избегающее расстройство личности: выявление и работа с клиентом
+• Зависимое расстройство личности: распознавание и терапевтические методы
+• Практикум по дифференциальной диагностике`
+        },
+        {
+          id: 6,
+          title: "Модуль 6: Профайлинг в терапевтическом процессе",
+          content: `• Создание терапевтического альянса с клиентами с личностными расстройствами
+• Использование профайлинга для выбора терапевтической стратегии
+• Техники работы с сопротивлением и манипуляциями
+• Профилактика профессионального выгорания при работе с данной категорией клиентов`
+        },
+        {
+          id: 7,
+          title: "Модуль 7: Супервизия и практикум",
+          content: `• Разбор клинических случаев из практики участников
+• Супервизионные сессии
+• Отработка навыков профайлинга и терапевтических техник
+• Финальная аттестация и защита выпускных работ`
+        }
+      ],
+      results: [
+        "Умение точно диагностировать личностные расстройства с помощью техник профайлинга",
+        "Навыки выстраивания эффективной коммуникации с клиентами с различными личностными расстройствами",
+        "Способность разрабатывать индивидуальные терапевтические стратегии",
+        "Понимание нейробиологических механизмов и их влияния на поведение клиента",
+        "Умение предотвращать эмоциональное выгорание при работе с данной категорией клиентов"
+      ],
+      teacher: "Инара Абдуллаева - Клинический психолог, специалист по личностным расстройствам, профайлер, автор методик диагностики и коррекции личностных нарушений"
+    },
+    {
+      id: 2,
+      title: "Нейропсихология детского возраста",
+      description: "Комплексное изучение нейропсихологических особенностей развития ребенка и методов диагностики и коррекции нарушений.",
+      price: "400$",
+      duration: "2,5 месяца",
+      type: "курс",
+      format: "дистанционное и очное",
+      nextStart: "1 февраля 2025",
+      fullDescription: "Курс посвящен изучению нейропсихологических особенностей развития детей, методам диагностики и коррекции нарушений. Программа разработана для психологов, педагогов, логопедов и специалистов, работающих с детьми с особенностями развития.",
+      benefits: [
+        "Освоение современных нейропсихологических методов диагностики",
+        "Овладение техниками коррекции нарушений развития",
+        "Понимание нейрофизиологических основ детского развития",
+        "Навыки разработки индивидуальных программ коррекции",
+        "Умение работать с родителями и образовательной средой ребенка"
+      ],
+      process: "Обучение включает теоретические лекции, практические занятия, разбор кейсов, супервизии и мастер-классы. Курс построен по принципу «от теории к практике» с акцентом на освоение практических навыков.",
+      modules: [
+        {
+          id: 1,
+          title: "Модуль 1: Основы нейропсихологии детского возраста",
+          content: `• Теоретические основы детской нейропсихологии
+• Нормативное развитие мозга ребенка
+• Функциональные блоки мозга и их развитие в онтогенезе
+• Нейропсихологический подход Л.С. Выготского, А.Р. Лурии`
+        },
+        {
+          id: 2,
+          title: "Модуль 2: Нейропсихологическая диагностика",
+          content: `• Методы нейропсихологического обследования детей
+• Батареи тестов для различных возрастных групп
+• Количественная и качественная оценка результатов
+• Составление нейропсихологического заключения`
+        },
+        {
+          id: 3,
+          title: "Модуль 3: Нарушения психического развития у детей",
+          content: `• Задержка психического развития
+• Синдром дефицита внимания и гиперактивности
+• Аутизм и расстройства аутистического спектра
+• Специфические расстройства обучения (дислексия, дисграфия, дискалькулия)`
+        },
+        {
+          id: 4,
+          title: "Модуль 4: Нейропсихологическая коррекция",
+          content: `• Принципы составления коррекционных программ
+• Методы сенсомоторной коррекции
+• Развитие высших психических функций
+• Игровые методы в нейропсихологической коррекции`
+        },
+        {
+          id: 5,
+          title: "Модуль 5: Работа с семьей и образовательной средой",
+          content: `• Взаимодействие с родителями
+• Консультирование педагогов
+• Создание поддерживающей среды для ребенка
+• Междисциплинарное взаимодействие специалистов`
+        },
+        {
+          id: 6,
+          title: "Модуль 6: Практикум и супервизия",
+          content: `• Разбор клинических случаев
+• Супервизионные сессии
+• Отработка диагностических и коррекционных методик
+• Итоговая аттестация`
+        }
+      ],
+      results: [
+        "Умение проводить комплексную нейропсихологическую диагностику детей разных возрастов",
+        "Навыки разработки и реализации индивидуальных коррекционных программ",
+        "Способность консультировать родителей и педагогов по вопросам развития ребенка",
+        "Владение методами игровой нейропсихологической коррекции",
+        "Понимание нейрофизиологических механизмов детского развития и их нарушений"
+      ],
+      teacher: "Инара Абдуллаева - Нейропсихолог, специалист по детскому развитию, автор коррекционных методик, руководитель центра нейропсихологической коррекции"
+    }
+  ];
+
+  // Добавляем состояние для вкладок четвертого преподавателя
+  const [activeTabInara, setActiveTabInara] = useState('biography');
+
+  // Обработчик вкладок для четвертого преподавателя
+  const handleTabChangeInara = (tab: string) => {
+    setActiveTabInara(tab);
+  };
+
+  // Функция для открытия модального окна с курсом Инары
+  const handleOpenInaraCourseModal = (courseId: number) => {
+    const course = inaraCourses.find(c => c.id === courseId);
+    if (course) {
+      setSelectedCourse(course);
+      setIsModalOpen(true);
+    }
+  };
+
   return (
     <TeachersWrapper id="teachers">
       <Container>
@@ -1881,7 +2173,7 @@ const TeachersSection: React.FC = () => {
         
         {/* Аватары преподавателей */}
         <TeachersAvatarsContainer>
-          <AnimatedElement animation="fadeInUp" delay={0.2}>
+          <AnimatedElement animation={isMobile ? "fadeIn" : "fadeInUp"} delay={0.2}>
             <AvatarWrapper 
               isActive={activeTeacher === 'shamama'} 
               onClick={() => handleTeacherChange('shamama')}
@@ -1891,13 +2183,33 @@ const TeachersSection: React.FC = () => {
             </AvatarWrapper>
           </AnimatedElement>
           
-          <AnimatedElement animation="fadeInUp" delay={0.4}>
+          <AnimatedElement animation={isMobile ? "fadeIn" : "fadeInUp"} delay={0.4}>
             <AvatarWrapper 
               isActive={activeTeacher === 'dinar'} 
               onClick={() => handleTeacherChange('dinar')}
             >
               <AvatarImage src="/images/teacher2.jpg" alt="Саидова Динара" isSecondTeacher={true} />
               <AvatarName>Динара</AvatarName>
+            </AvatarWrapper>
+          </AnimatedElement>
+          
+          <AnimatedElement animation={isMobile ? "fadeIn" : "fadeInUp"} delay={0.6}>
+            <AvatarWrapper 
+              isActive={activeTeacher === 'julia'} 
+              onClick={() => handleTeacherChange('julia')}
+            >
+              <AvatarImage src="/images/teacher3.jpg" alt="Юлия Гайдаева" isSecondTeacher={true} />
+              <AvatarName>Юлия</AvatarName>
+            </AvatarWrapper>
+          </AnimatedElement>
+          
+          <AnimatedElement animation={isMobile ? "fadeIn" : "fadeInUp"} delay={0.8}>
+            <AvatarWrapper 
+              isActive={activeTeacher === 'inara'} 
+              onClick={() => handleTeacherChange('inara')}
+            >
+              <AvatarImage src="/images/teacher4.jpg" alt="Инара Абдуллаева" isSecondTeacher={true} />
+              <AvatarName>Инара</AvatarName>
             </AvatarWrapper>
           </AnimatedElement>
         </TeachersAvatarsContainer>
@@ -1908,8 +2220,9 @@ const TeachersSection: React.FC = () => {
             <motion.div
               ref={ref}
               initial="hidden"
-              animate={controls}
+              animate="visible"
               variants={cardVariants}
+              layoutId="teacherCard"
               style={{ width: '100%' }}
             >
               <TeacherCard>
@@ -2151,8 +2464,9 @@ const TeachersSection: React.FC = () => {
             <motion.div
               ref={ref}
               initial="hidden"
-              animate={controls}
+              animate="visible"
               variants={cardVariants}
+              layoutId="teacherCard"
               style={{ width: '100%' }}
             >
               <TeacherCard>
@@ -2331,6 +2645,435 @@ const TeachersSection: React.FC = () => {
                             <CourseCard 
                               key={course.id}
                               onClick={() => handleOpenDinarCourseModal(course.id)}
+                            >
+                              {course.price && <CourseBadge>{course.price}</CourseBadge>}
+                              <CourseContent>
+                                <CourseInfo>
+                                  <CourseTitle>{course.title}</CourseTitle>
+                                  <CourseDescription>{course.description}</CourseDescription>
+                                  {course.duration && (
+                                    <div style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--color-text-light)' }}>
+                                      <strong>Продолжительность:</strong> {course.duration}
+                                    </div>
+                                  )}
+                                </CourseInfo>
+                                <div>
+                                  <CourseToggle>
+                                    Подробнее о курсе <FaInfoCircle />
+                                  </CourseToggle>
+                                  <EnrollButton onClick={(e) => scrollToContactForm(e)}>
+                                    Записаться на курс <FaArrowDown />
+                                  </EnrollButton>
+                                </div>
+                              </CourseContent>
+                            </CourseCard>
+                          ))}
+                        </CoursesGrid>
+                      </ContentSection>
+                    </TabContent>
+                  )}
+                </CardBody>
+              </TeacherCard>
+            </motion.div>
+          )}
+          
+          {/* Добавляем информацию о Юлии */}
+          {activeTeacher === 'julia' && (
+            <motion.div
+              ref={ref}
+              initial="hidden"
+              animate="visible"
+              variants={cardVariants}
+              layoutId="teacherCard"
+              style={{ width: '100%' }}
+            >
+              <TeacherCard>
+                <CardHeader>
+                  <JuliaCardHeaderImg src="/images/teacher3.jpg" alt="Юлия Гайдаева" />
+                  <TeacherInfo>
+                    <TeacherName>Юлия Гайдаева (Кочаш)</TeacherName>
+                    <TeacherTitle>Психолог-консультант, гипнолог, арт-терапевт</TeacherTitle>
+                  </TeacherInfo>
+                </CardHeader>
+                
+                <CardBody>
+                  <TabContainer>
+                    <TabItem 
+                      active={activeTabJulia === 'biography'} 
+                      onClick={() => handleTabChangeJulia('biography')}
+                    >
+                      <TabIcon><FaUserAlt /></TabIcon>
+                      {!isMobile && 'Биография'}
+                    </TabItem>
+                    <TabItem 
+                      active={activeTabJulia === 'about'} 
+                      onClick={() => handleTabChangeJulia('about')}
+                    >
+                      <TabIcon><FaIdCard /></TabIcon>
+                      {!isMobile && 'Обо мне'}
+                    </TabItem>
+                    <TabItem 
+                      active={activeTabJulia === 'education'} 
+                      onClick={() => handleTabChangeJulia('education')}
+                    >
+                      <TabIcon><FaGraduationCap /></TabIcon>
+                      {!isMobile && 'Образование'}
+                    </TabItem>
+                    <TabItem 
+                      active={activeTabJulia === 'courses'} 
+                      onClick={() => handleTabChangeJulia('courses')}
+                    >
+                      <TabIcon><FaBook /></TabIcon>
+                      {!isMobile && 'Курсы'}
+                    </TabItem>
+                  </TabContainer>
+                  
+                  {activeTabJulia === 'biography' && (
+                    <TabContent>
+                      <p>
+                        Я, Юлия Гайдаева (Кочаш), психолог-консультант, гипнолог, арт-терапевт, также работаю в методе ольфактотерапии (психологическая работа через эфирные масла).
+                      </p>
+                      
+                      <p>
+                        Я являюсь действительным членом ОППЛ (Профессиональная психотерапевтическая лига), постоянно прохожу супервизии и личную терапию, повышаю квалификацию.
+                      </p>
+                      
+                      <p>
+                        В работе использую интегративный подход (КПТ, EFT, гипнотерапия, арт-терапия и другое).
+                      </p>
+                      
+                      <ContentSection>
+                        <SectionHeading>Чаще всего ко мне приходят с вопросами</SectionHeading>
+                        <StyledList>
+                          <ListItem>Семейные проблемы и кризисы</ListItem>
+                          <ListItem>Проблемы в отношениях (семейных, партнерских, социальных и т.д.)</ListItem>
+                          <ListItem>Немедицинские проблемы сексуального характера и другие трудности в сексуальной сфере</ListItem>
+                          <ListItem>Возрастные кризисы, поиск смыслов</ListItem>
+                          <ListItem>Вопросы поиска себя, своей идентичности, самореализация</ListItem>
+                          <ListItem>Самооценка и самоценность</ListItem>
+                          <ListItem>Помогаю вырастить «внутреннего взрослого» и для подростков; вопросы взросления</ListItem>
+                          <ListItem>Переезд, эмиграция</ListItem>
+                          <ListItem>Прокрастинация, панические атаки</ListItem>
+                          <ListItem>Стресс, фобии</ListItem>
+                          <ListItem>Трудности в эмоциональной регуляции: гнев, обида, стыд, вина, страх, тревога и т.д.</ListItem>
+                          <ListItem>Созависимые отношения, трудности сепарации</ListItem>
+                        </StyledList>
+                        <p>И многое другое.</p>
+                        <p>Я работаю с подростками от 10 лет в рамках семейной терапии и со взрослыми.</p>
+                      </ContentSection>
+                    </TabContent>
+                  )}
+                  
+                  {activeTabJulia === 'about' && (
+                    <TabContent>
+                      <ContentSection>
+                        <SectionHeading>Обо мне</SectionHeading>
+                        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                          <p style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--color-primary-dark)', marginBottom: '0.2rem' }}>
+                            Юлия Гайдаева (Кочаш)
+                          </p>
+                          <p style={{ color: 'var(--color-text)' }}>
+                            Психолог-консультант, гипнолог, арт-терапевт<br />
+                            Специалист по ольфактотерапии<br />
+                          </p>
+                        </div>
+                        
+                        <p>
+                          Также в рамках отдельных сессий можем составить генограмму вашей семьи, чтобы проследить сценарии семьи и рода.
+                        </p>
+                        <p>
+                          Провожу онлайн кинотренинги и трансформационные игры.
+                        </p>
+                        
+                        <ContentSection>
+                          <SectionHeading>Направления работы</SectionHeading>
+                          <StyledList>
+                            <ListItem>
+                              <strong>Индивидуальное консультирование:</strong>
+                              <p>Глубинная работа с личностными запросами, помощь в преодолении кризисов и поиске внутренних ресурсов.</p>
+                            </ListItem>
+                            
+                            <ListItem>
+                              <strong>Гипнотерапия:</strong>
+                              <p>Использование методов эриксоновского гипноза для работы с подсознанием и глубинными проблемами.</p>
+                            </ListItem>
+                            
+                            <ListItem>
+                              <strong>Арт-терапия:</strong>
+                              <p>Творческий подход к решению психологических проблем через различные формы искусства.</p>
+                            </ListItem>
+                            
+                            <ListItem>
+                              <strong>Ольфактотерапия:</strong>
+                              <p>Уникальная методика работы с психикой человека через восприятие ароматов эфирных масел.</p>
+                            </ListItem>
+                          </StyledList>
+                        </ContentSection>
+                      </ContentSection>
+                    </TabContent>
+                  )}
+                  
+                  {activeTabJulia === 'education' && (
+                    <TabContent>
+                      <ContentSection>
+                        <SectionHeading>Образование и подготовка</SectionHeading>
+                        <p>
+                          Я являюсь действительным членом ОППЛ (Профессиональная психотерапевтическая лига), постоянно прохожу супервизии и личную терапию, повышаю квалификацию.
+                        </p>
+                        
+                        <ContentSection>
+                          <SectionHeading>Мои краткосрочные психологические тренинги</SectionHeading>
+                          <StyledList>
+                            <ListItem>«Я и моя самооценка»</ListItem>
+                            <ListItem>Стеклянный потолок моих финансов. Преодоление</ListItem>
+                            <ListItem>Самогипноз через метафоры</ListItem>
+                            <ListItem>Сказкотерапия для мам</ListItem>
+                          </StyledList>
+                        </ContentSection>
+                      </ContentSection>
+                    </TabContent>
+                  )}
+                  
+                  {activeTabJulia === 'courses' && (
+                    <TabContent>
+                      <ContentSection>
+                        <SectionHeading>Преподаваемые курсы</SectionHeading>
+                        <CoursesGrid>
+                          {juliaCourses.map(course => (
+                            <CourseCard 
+                              key={course.id}
+                              onClick={() => handleOpenJuliaCourseModal(course.id)}
+                            >
+                              {course.price && <CourseBadge>{course.price}</CourseBadge>}
+                              <CourseContent>
+                                <CourseInfo>
+                                  <CourseTitle>{course.title}</CourseTitle>
+                                  <CourseDescription>{course.description}</CourseDescription>
+                                  {course.duration && (
+                                    <div style={{ marginTop: '0.8rem', fontSize: '0.9rem', color: 'var(--color-text-light)' }}>
+                                      <strong>Продолжительность:</strong> {course.duration}
+                                    </div>
+                                  )}
+                                </CourseInfo>
+                                <div>
+                                  <CourseToggle>
+                                    Подробнее о курсе <FaInfoCircle />
+                                  </CourseToggle>
+                                  <EnrollButton onClick={(e) => scrollToContactForm(e)}>
+                                    Записаться на курс <FaArrowDown />
+                                  </EnrollButton>
+                                </div>
+                              </CourseContent>
+                            </CourseCard>
+                          ))}
+                        </CoursesGrid>
+                      </ContentSection>
+                    </TabContent>
+                  )}
+                </CardBody>
+              </TeacherCard>
+            </motion.div>
+          )}
+          
+          {/* Добавляем информацию о Инаре */}
+          {activeTeacher === 'inara' && (
+            <motion.div
+              ref={ref}
+              initial="hidden"
+              animate="visible"
+              variants={cardVariants}
+              layoutId="teacherCard"
+              style={{ width: '100%' }}
+            >
+              <TeacherCard>
+                <CardHeader>
+                  <InaraCardHeaderImg src="/images/teacher4.jpg" alt="Инара Абдуллаева" />
+                  <TeacherInfo>
+                    <TeacherName>Инара Абдуллаева</TeacherName>
+                    <TeacherTitle>Клинический психолог, специалист по личностным расстройствам, профайлер, автор методик диагностики и коррекции личностных нарушений</TeacherTitle>
+                  </TeacherInfo>
+                </CardHeader>
+                
+                <CardBody>
+                  <TabContainer>
+                    <TabItem 
+                      active={activeTabInara === 'biography'} 
+                      onClick={() => handleTabChangeInara('biography')}
+                    >
+                      <TabIcon><FaUserAlt /></TabIcon>
+                      {!isMobile && 'Биография'}
+                    </TabItem>
+                    <TabItem 
+                      active={activeTabInara === 'about'} 
+                      onClick={() => handleTabChangeInara('about')}
+                    >
+                      <TabIcon><FaIdCard /></TabIcon>
+                      {!isMobile && 'Обо мне'}
+                    </TabItem>
+                    <TabItem 
+                      active={activeTabInara === 'education'} 
+                      onClick={() => handleTabChangeInara('education')}
+                    >
+                      <TabIcon><FaGraduationCap /></TabIcon>
+                      {!isMobile && 'Образование'}
+                    </TabItem>
+                    <TabItem 
+                      active={activeTabInara === 'courses'} 
+                      onClick={() => handleTabChangeInara('courses')}
+                    >
+                      <TabIcon><FaBook /></TabIcon>
+                      {!isMobile && 'Курсы'}
+                    </TabItem>
+                  </TabContainer>
+                  
+                  {activeTabInara === 'biography' && (
+                    <TabContent>
+                      <p>
+                        Инара Абдуллаева — клинический психолог, специалист по личностным расстройствам, профайлер, автор методик диагностики и коррекции личностных нарушений. Она имеет многолетний опыт работы с различными клиентскими запросами, от решения личностных кризисов до трансформации жизненных сценариев.
+                      </p>
+                      
+                      <ContentSection>
+                        <SectionHeading>Профессиональный опыт</SectionHeading>
+                        <StyledList>
+                          <ListItem>
+                            <strong>Клинический психолог:</strong>
+                            <ul>
+                              <li>Проведение исследований и оценка социальных факторов, влияющих на процессы реабилитации;</li>
+                              <li>Консультирование НКО и общественных инициатив по выстраиванию поддерживающих сообществ.</li>
+                            </ul>
+                          </ListItem>
+                        </StyledList>
+                      </ContentSection>
+                      
+                      <ContentSection>
+                        <SectionHeading>Игровые методики</SectionHeading>
+                        <StyledList>
+                          <ListItem>Кубок Оскара — ролевая игра на признание личных достижений и поддержку межличностного взаимодействия.</ListItem>
+                          <ListItem>Риторический покер — упражнение для тренировки навыков аргументации и убеждения.</ListItem>
+                          <ListItem>Хочу–Могу–Буду — формирование чёткого плана действий и повышение мотивации.</ListItem>
+                          <ListItem>Порномания — безопасное пространство для обсуждения интимных тем и работы с телесными установками.</ListItem>
+                          <ListItem>И многие другие динамичные практики, адаптируемые под запросы группы или семьи.</ListItem>
+                        </StyledList>
+                      </ContentSection>
+                    </TabContent>
+                  )}
+                  
+                  {activeTabInara === 'about' && (
+                    <TabContent>
+                      <ContentSection>
+                        <SectionHeading>Обо мне</SectionHeading>
+                        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                          <p style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--color-primary-dark)', marginBottom: '0.2rem' }}>
+                            Инара Абдуллаева
+                          </p>
+                          <p style={{ color: 'var(--color-text)' }}>
+                            Клинический психолог, специалист по личностным расстройствам, профайлер, автор методик диагностики и коррекции личностных нарушений<br />
+                            Языки: Русский, азербайджанский
+                          </p>
+                        </div>
+                        
+                        <p>
+                          Работаю в интегративном подходе. Для каждого клиента- индивидуальный подход.
+                          Мой подход позволяет увидеть достаточно быстро суть запроса и подобрать такие методики, которые помогают найти внутренние опоры для решение задач и выхода из различных ситуаций.
+                          В результате нашей совместной работы вы сможете разобраться, в чём внутренняя причина ваших затруднений, и что мешает вам жить так, как вы хотите.
+                        </p>
+                        
+                        <ContentSection>
+                          <SectionHeading>Подходы в работе</SectionHeading>
+                          <StyledList>
+                            <ListItem>
+                              <strong>Арт терапия:</strong>
+                              <p>Во время сеанса арт-терапии на эмоциональное состояние пациента воздействует искусство. Сеансы проводит арт-терапевт, который помогает пациенту выбросить негативные эмоции, расслабиться, раскрыть творческий потенциал, найти решение текущей проблемы.</p>
+                            </ListItem>
+                            
+                            <ListItem>
+                              <strong>Мак терапия:</strong>
+                              <p>Особый инструмент арт-терапии, работа с которым основывается на принципах и постулатах проективных методик. Преимущество МАК в сравнении с другими методами арт-терапии, заключается в том, что в них отсутствуют закрепленные значения. Каждый человек в процессе работы сам определяет их смысл.</p>
+                            </ListItem>
+                            
+                            <ListItem>
+                              <strong>Кризисная психология:</strong>
+                              <p>Тот момент, когда привычные методы справляться с трудностями перестают работать. Такое может случиться в любой области нашей жизни: будь то личные отношения, карьера или эмоции. Причины для кризиса бывают разные: потеря работы, расставание, болезнь, утрата близких людей и многое другое.</p>
+                            </ListItem>
+                            
+                            <ListItem>
+                              <strong>Рилив терапия:</strong>
+                              <p>Основной метод данной терапии сводится к вопрошающему диалогу, направленному на поиск травмы.</p>
+                            </ListItem>
+                          </StyledList>
+                        </ContentSection>
+                        
+                        <ContentSection>
+                          <SectionHeading>Преподаватель курсов</SectionHeading>
+                          <StyledList>
+                            <ListItem>Мак терапия</ListItem>
+                            <ListItem>Арт терапия</ListItem>
+                            <ListItem>Кризисная психология</ListItem>
+                            <ListItem>Методики консультирования</ListItem>
+                            <ListItem>Зависимый в семье, не приговор</ListItem>
+                          </StyledList>
+                        </ContentSection>
+                        
+                        <ContentSection>
+                          <SectionHeading>Игропрактика</SectionHeading>
+                          <p>
+                            Также являюсь игропрактиком. Участвовала на фестивале "Расширение Азербайджан" ведущим игры "Риторический покер".
+                            Преподаватель теоретической части курса "Игропрактик" в МШИ представительство Азербайджана.
+                            Провожу трансформационные игры затрагивающие все важные аспекты жизни человека.
+                            Такие как: карьера, отношения, личностный рост, предназначение и т.д.
+                          </p>
+                        </ContentSection>
+                        
+                        <ContentSection>
+                          <SectionHeading>Авторские курсы</SectionHeading>
+                          <StyledList>
+                            <ListItem>Зависимый в семье, не приговор (как подружиться с созависимостью)</ListItem>
+                            <ListItem>Арт-Мак терапия в работе с зависимыми</ListItem>
+                          </StyledList>
+                        </ContentSection>
+                        
+                        <ContentSection>
+                          <SectionHeading>Профессиональный опыт</SectionHeading>
+                          <StyledList>
+                            <ListItem>Более 3х лет работаю в реабилитационном центре для зависимых, психологом для семей зависимых.</ListItem>
+                            <ListItem>Более 200 положительных отзывов.</ListItem>
+                            <ListItem>Провела более 20 семинаров на темы:
+                              <ul>
+                                <li>Я концепция</li>
+                                <li>Созависимость и жизнь с зависимым</li>
+                                <li>Цветок женственности и т.д.</li>
+                              </ul>
+                            </ListItem>
+                            <ListItem>Организовала 3 ретрита с выездом за город.</ListItem>
+                          </StyledList>
+                        </ContentSection>
+                      </ContentSection>
+                    </TabContent>
+                  )}
+                  
+                  {activeTabInara === 'education' && (
+                    <TabContent>
+                      <ContentSection>
+                        <SectionHeading>Образование и квалификации</SectionHeading>
+                        <StyledList>
+                          <ListItem>Дипломированный психолог, специальность «Социальная психология».</ListItem>
+                          <ListItem>Сертификация по кризисной психологии и работе с химической зависимостью.</ListItem>
+                          <ListItem>Квалификация преподавателя по арт‑терапии и МАК‑терапии.</ListItem>
+                          <ListItem>Профессиональная подготовка по аддиктологии, созависимым отношениям и консультированию.</ListItem>
+                        </StyledList>
+                      </ContentSection>
+                    </TabContent>
+                  )}
+                  
+                  {activeTabInara === 'courses' && (
+                    <TabContent>
+                      <ContentSection>
+                        <SectionHeading>Преподаваемые курсы</SectionHeading>
+                        <CoursesGrid>
+                          {inaraCourses.map(course => (
+                            <CourseCard 
+                              key={course.id}
+                              onClick={() => handleOpenInaraCourseModal(course.id)}
                             >
                               {course.price && <CourseBadge>{course.price}</CourseBadge>}
                               <CourseContent>
