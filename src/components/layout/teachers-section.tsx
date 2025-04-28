@@ -9,38 +9,32 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 const TeachersWrapper = styled.section`
-  padding: 7rem 0 10rem;
-  background: linear-gradient(180deg, var(--color-bg-alt) 0%, rgba(246, 242, 239, 0.8) 100%);
+  padding: 8rem 0;
+  background-color: var(--color-background);
   position: relative;
   overflow: hidden;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='rgba(217,178,147,0.05)' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-  }
 
   ${media.md} {
-    padding: 6rem 0 8rem;
+    padding: 7rem 0;
   }
 
   ${media.sm} {
-    padding: 5rem 0 6rem;
+    padding: 6rem 0;
+  }
+  
+  ${media.xs} {
+    padding: 5rem 0;
   }
 `;
 
 const TeacherGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  margin-top: 1rem;
+  
+  ${media.sm} {
+    margin-top: 0.5rem;
+  }
 `;
 
 // Заголовок секции
@@ -84,53 +78,65 @@ const StyledSectionTitle = styled(SectionTitle)`
 // Фигурная декоративная форма для фона
 const DecorativeShape = styled.div`
   position: absolute;
-  width: 600px;
-  height: 600px;
-  border-radius: 40% 60% 70% 30% / 40% 50% 50% 60%;
-  background: linear-gradient(135deg, rgba(217, 178, 147, 0.05) 0%, rgba(217, 178, 147, 0.1) 100%);
-  bottom: -300px;
-  right: -250px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 0;
-  animation: morph 15s linear infinite alternate;
+  overflow: hidden;
   
-  @keyframes morph {
-    0% {
-      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    }
-    100% {
-      border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%;
-    }
+  &::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(217, 178, 147, 0.15), rgba(217, 178, 147, 0.05));
+    top: 10%;
+    left: -150px;
   }
   
-  ${media.lg} {
-    width: 400px;
-    height: 400px;
-    right: -150px;
-    bottom: -200px;
+  &::after {
+    content: '';
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(217, 178, 147, 0.1), rgba(217, 178, 147, 0.03));
+    bottom: 15%;
+    right: -120px;
   }
   
   ${media.sm} {
-    display: none;
+    &::before {
+      width: 200px;
+      height: 200px;
+      top: 5%;
+      left: -100px;
+    }
+    
+    &::after {
+      width: 180px;
+      height: 180px;
+      bottom: 10%;
+      right: -90px;
+    }
   }
 `;
 
-// Основная карточка преподавателя
+// Основная карточка преподавателя - минималистичный вариант для десктопа
 const TeacherCard = styled(motion.div)`
   width: 100%;
   background-color: white;
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   overflow: hidden;
   position: relative;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   
   ${media.sm} {
-    border-radius: 18px;
-  }
-  
-  ${media.xs} {
     border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
   }
 `;
 
@@ -153,141 +159,139 @@ const CardBody = styled.div`
   }
 `;
 
-// Хедер карточки с фото преподавателя
+// Хедер карточки с фото только для мобильной версии
 const CardHeader = styled.div`
   position: relative;
-  height: 450px;
-  border-radius: 20px 20px 0 0;
+  height: 300px;
   overflow: hidden;
-  
-  ${media.md} {
-    height: 420px;
-  }
+  display: none; // Скрываем на десктопе
   
   ${media.sm} {
-    height: 400px;
-    border-radius: 16px 16px 0 0;
+    display: block; // Показываем только на мобильных
+    height: 260px;
   }
   
   ${media.xs} {
-    height: 380px;
+    height: 240px;
   }
 `;
 
-// Альтернативное изображение для Динар, вместо фонового изображения
+// Компоненты для мобильных фотографий
 const CardHeaderImg = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 10%;
-  filter: brightness(0.9);
+  object-position: center 15%;
+  filter: brightness(0.95);
+  transition: transform 0.5s ease;
 `;
 
-// Специальный компонент для изображения Юлии - оптимизированный для десктопной версии
+// Специальные компоненты для разных преподавателей
+const ShamamaCardHeaderImg = styled(CardHeaderImg)`
+  object-position: center 25%;
+`;
+
+const DinarCardHeaderImg = styled(CardHeaderImg)`
+  object-position: center 20%;
+`;
+
 const JuliaCardHeaderImg = styled(CardHeaderImg)`
-  // Только для десктопной версии улучшаем отображение лица
-  @media (min-width: 577px) {
-    object-position: center 35%;
-    filter: brightness(0.95);
-  }
+  object-position: center 30%;
 `;
 
-// Специальный компонент для изображения Инары - оптимизированный для десктопной версии
 const InaraCardHeaderImg = styled(CardHeaderImg)`
-  // Только для десктопной версии улучшаем отображение лица
-  @media (min-width: 577px) {
-    object-position: center 22%;
-    filter: brightness(0.95);
-  }
+  object-position: center 25%;
 `;
 
-// Сохраняем текущий CardHeaderImage для Шамамы
-const CardHeaderImage = styled.div<{ bgImage?: string }>`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: ${props => props.bgImage ? `url('${props.bgImage}')` : "url('/images/teacher.jpg')"};
-  background-size: cover;
-  background-position: center 25%;
-  filter: brightness(0.9);
-  
-  ${media.sm} {
-    background-position: center 20%;
-  }
-  
-  ${media.xs} {
-    background-position: 45% 20%;
-  }
-`;
-
-// Восстанавливаю градиентный фон для имени и должности
+// Информация внизу фото (только для мобильных)
 const TeacherInfo = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 2rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 70%, rgba(0, 0, 0, 0) 100%);
   color: white;
   
   ${media.sm} {
-    padding: 1.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 1.25rem;
     text-align: center;
   }
 `;
 
-const TeacherName = styled.h3`
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: white;
-  margin: 0;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+// Заголовок для десктопной версии (без фото)
+const DesktopTeacherName = styled.h2`
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin-bottom: 0.5rem;
+  text-align: center;
   
   ${media.md} {
-    font-size: 2.25rem;
+    font-size: 2rem;
   }
   
   ${media.sm} {
+    display: none; // Скрываем на мобильных
+  }
+`;
+
+// Должность для десктопной версии
+const DesktopTeacherTitle = styled.p`
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  margin-bottom: 1.8rem;
+  text-align: center;
+  
+  ${media.md} {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  ${media.sm} {
+    display: none; // Скрываем на мобильных
+  }
+`;
+
+// Мобильная версия для имени и должности
+const TeacherName = styled.h3`
     font-size: 2rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  display: none; // Скрываем на десктопе
+  
+  ${media.sm} {
+    display: block; // Показываем на мобильных
+    font-size: 1.6rem;
     text-align: center;
-    padding: 0 0.5rem;
   }
   
   ${media.xs} {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 `;
 
 const TeacherTitle = styled.p`
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
   margin: 0;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-  
-  ${media.md} {
-    font-size: 1.15rem;
-  }
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+  display: none; // Скрываем на десктопе
   
   ${media.sm} {
-    font-size: 1.1rem;
+    display: block; // Показываем на мобильных
+    font-size: 0.95rem;
     text-align: center;
-    padding: 0 0.5rem;
   }
   
   ${media.xs} {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 `;
 
@@ -295,66 +299,65 @@ const TeacherTitle = styled.p`
 const TabContainer = styled.div`
   display: flex;
   justify-content: space-around;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   
   ${media.sm} {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     padding-bottom: 2px;
-    justify-content: center;
-    gap: 0.5rem;
+    justify-content: center; /* Изменено с flex-start на center */
+    gap: 0.8rem;
     
     &::-webkit-scrollbar {
-      height: 3px;
+      height: 2px;
     }
     
     &::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.15);
       border-radius: 10px;
     }
   }
 `;
 
 const TabItem = styled.button<{ active: boolean }>`
-  padding: 1rem 1.5rem;
+  padding: 0.8rem 1.2rem;
   border: none;
   background: transparent;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: ${props => (props.active ? '600' : '400')};
-  color: ${props => (props.active ? 'var(--color-primary)' : '#555')};
-  border-bottom: 3px solid ${props => (props.active ? 'var(--color-primary)' : 'transparent')};
+  color: ${props => (props.active ? 'var(--color-primary)' : '#666')};
+  border-bottom: 2px solid ${props => (props.active ? 'var(--color-primary)' : 'transparent')};
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   white-space: nowrap;
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   
   &:hover {
     color: var(--color-primary);
   }
   
   ${media.md} {
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
   }
   
   ${media.sm} {
-    padding: 0.7rem 1rem;
-    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
     flex: none;
-    min-width: 60px;
+    min-width: auto;
   }
   
   ${media.xs} {
-    padding: 0.6rem 0.8rem;
-    font-size: 0.9rem;
-    min-width: 50px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
+    min-width: auto;
   }
 `;
 
@@ -362,73 +365,61 @@ const TabIcon = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-bottom: 0.2rem;
   
   ${media.sm} {
     margin-bottom: 0;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 `;
 
 // Контент табов
 const TabContent = styled.div`
-  padding: 2.5rem;
-  line-height: 1.8;
+  padding: 1.5rem 1rem;
+  line-height: 1.7;
   color: var(--color-text);
-  max-height: 520px;
+  max-height: 480px;
   overflow-y: auto;
   text-align: center;
   
   /* Стилизация скроллбара */
   scrollbar-width: thin;
-  scrollbar-color: rgba(217, 178, 147, 0.5) rgba(0, 0, 0, 0.05);
+  scrollbar-color: rgba(217, 178, 147, 0.4) rgba(0, 0, 0, 0.04);
   
   &::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
   }
   
   &::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.04);
     border-radius: 10px;
   }
   
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(217, 178, 147, 0.5);
+    background-color: rgba(217, 178, 147, 0.4);
     border-radius: 10px;
   }
   
   p {
     margin-bottom: 1.2rem;
-    font-size: 1.05rem;
+    font-size: 1rem;
     text-align: center;
   }
   
   ${media.md} {
-    padding: 2rem;
-    max-height: 550px;
+    padding: 1.25rem 0.8rem;
+    max-height: 450px;
   }
   
   ${media.sm} {
-    padding: 1.5rem;
-    font-size: 0.95rem;
-    max-height: 450px;
-    
-    p {
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
+    padding: 1rem 0.6rem;
+    max-height: 420px;
   }
   
   ${media.xs} {
-    padding: 1.2rem;
+    padding: 1rem 0.4rem;
     max-height: 400px;
-    
-    p {
-      font-size: 0.95rem;
-      margin-bottom: 0.8rem;
-      line-height: 1.6;
-    }
   }
 `;
 
@@ -1194,14 +1185,14 @@ const CourseModal = ({ course, isOpen, onClose }: {
 const TeachersAvatarsContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 2.5rem;
-  margin-bottom: 4rem;
+  gap: 2rem;
+  margin-bottom: 3rem;
   position: relative;
   z-index: 2;
   
   ${media.sm} {
     gap: 1.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
     padding: 0 10px;
   }
   
@@ -1218,25 +1209,25 @@ const TeachersAvatarsContainer = styled.div`
 `;
 
 const AvatarWrapper = styled.div<{ isActive: boolean }>`
-  width: 160px;
-  height: 160px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
   position: relative;
   box-shadow: ${({ isActive }) => 
     isActive 
-      ? '0 0 0 4px var(--color-primary), 0 10px 20px rgba(0, 0, 0, 0.15)' 
-      : '0 5px 15px rgba(0, 0, 0, 0.1)'};
-  transition: all 0.4s ease;
-  transform: ${({ isActive }) => isActive ? 'scale(1.05)' : 'scale(1)'};
+      ? '0 0 0 3px var(--color-primary), 0 12px 25px rgba(0, 0, 0, 0.18)' 
+      : '0 5px 15px rgba(0, 0, 0, 0.08)'};
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: ${({ isActive }) => isActive ? 'scale(1.12)' : 'scale(1)'};
   
   &:hover {
-    transform: ${({ isActive }) => isActive ? 'scale(1.05)' : 'scale(1.02)'};
+    transform: ${({ isActive }) => isActive ? 'scale(1.12)' : 'scale(1.05)'};
     box-shadow: ${({ isActive }) => 
       isActive 
-        ? '0 0 0 4px var(--color-primary), 0 15px 25px rgba(0, 0, 0, 0.2)' 
-        : '0 8px 20px rgba(0, 0, 0, 0.15)'};
+        ? '0 0 0 3px var(--color-primary), 0 12px 25px rgba(0, 0, 0, 0.18)' 
+        : '0 8px 20px rgba(0, 0, 0, 0.12)'};
   }
   
   &::after {
@@ -1245,20 +1236,20 @@ const AvatarWrapper = styled.div<{ isActive: boolean }>`
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 30%;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+    height: 35%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
     opacity: ${({ isActive }) => isActive ? '1' : '0.7'};
     transition: opacity 0.3s ease;
   }
   
   ${media.md} {
-    width: 140px;
-    height: 140px;
+    width: 130px;
+    height: 130px;
   }
   
   ${media.sm} {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
   }
   
   ${media.xs} {
@@ -1282,6 +1273,10 @@ const AvatarImage = styled.img<{ isSecondTeacher?: boolean }>`
   ${AvatarWrapper}:hover & {
     transform: scale(1.08);
   }
+  
+  ${AvatarWrapper}[isActive="true"] & {
+    filter: brightness(1.05);
+  }
 `;
 
 const AvatarName = styled.p`
@@ -1297,7 +1292,7 @@ const AvatarName = styled.p`
   padding: 0 0.5rem;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   
-  ${media.xs} {
+  ${media.sm} {
     font-size: 0.9rem;
     bottom: 8px;
   }
@@ -1855,13 +1850,14 @@ const TeachersSection: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  // Анимации для карточек преподавателей
   const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: { 
-        duration: 0.3, 
+        duration: 0.4, 
         ease: "easeOut"
       }
     }
@@ -2227,7 +2223,7 @@ const TeachersSection: React.FC = () => {
             >
               <TeacherCard>
                 <CardHeader>
-                  <CardHeaderImage bgImage="/images/teacher.jpg" />
+                  <ShamamaCardHeaderImg src="/images/teacher.jpg" alt="Гафарова Шамама" />
                   <TeacherInfo>
                     <TeacherName>Гафарова Шамама</TeacherName>
                     <TeacherTitle>Социальный и кризисный психолог, игропрактик</TeacherTitle>
@@ -2235,6 +2231,9 @@ const TeachersSection: React.FC = () => {
                 </CardHeader>
                 
                 <CardBody>
+                  <DesktopTeacherName>Гафарова Шамама</DesktopTeacherName>
+                  <DesktopTeacherTitle>Социальный и кризисный психолог, игропрактик</DesktopTeacherTitle>
+                  
                   <TabContainer>
                     <TabItem 
                       active={activeTabShamama === 'biography'} 
@@ -2440,9 +2439,9 @@ const TeachersSection: React.FC = () => {
                                   )}
                                 </CourseInfo>
                                 <div>
-                                  <CourseToggle>
-                                    Подробнее о курсе <FaInfoCircle />
-                                  </CourseToggle>
+                                <CourseToggle>
+                                  Подробнее о курсе <FaInfoCircle />
+                                </CourseToggle>
                                   <EnrollButton onClick={(e) => scrollToContactForm(e)}>
                                     Записаться на курс <FaArrowDown />
                                   </EnrollButton>
@@ -2471,14 +2470,17 @@ const TeachersSection: React.FC = () => {
             >
               <TeacherCard>
                 <CardHeader>
-                  <CardHeaderImg src="/images/teacher2.jpg" alt="Саидова Динара" />
+                  <DinarCardHeaderImg src="/images/teacher2.jpg" alt="Саидова Динара" />
                   <TeacherInfo>
                     <TeacherName>Саидова Динара</TeacherName>
-                    <TeacherTitle>Практикующий психолог и консультант</TeacherTitle>
+                    <TeacherTitle>Психолог-консультант, коуч, тренер</TeacherTitle>
                   </TeacherInfo>
                 </CardHeader>
                 
                 <CardBody>
+                  <DesktopTeacherName>Саидова Динара</DesktopTeacherName>
+                  <DesktopTeacherTitle>Психолог-консультант, коуч, тренер</DesktopTeacherTitle>
+                  
                   <TabContainer>
                     <TabItem 
                       active={activeTabDinar === 'biography'} 
@@ -2658,9 +2660,9 @@ const TeachersSection: React.FC = () => {
                                   )}
                                 </CourseInfo>
                                 <div>
-                                  <CourseToggle>
-                                    Подробнее о курсе <FaInfoCircle />
-                                  </CourseToggle>
+                                <CourseToggle>
+                                  Подробнее о курсе <FaInfoCircle />
+                                </CourseToggle>
                                   <EnrollButton onClick={(e) => scrollToContactForm(e)}>
                                     Записаться на курс <FaArrowDown />
                                   </EnrollButton>
@@ -2697,6 +2699,9 @@ const TeachersSection: React.FC = () => {
                 </CardHeader>
                 
                 <CardBody>
+                  <DesktopTeacherName>Юлия Гайдаева (Кочаш)</DesktopTeacherName>
+                  <DesktopTeacherTitle>Психолог-консультант, гипнолог, арт-терапевт</DesktopTeacherTitle>
+                  
                   <TabContainer>
                     <TabItem 
                       active={activeTabJulia === 'biography'} 
@@ -2890,11 +2895,14 @@ const TeachersSection: React.FC = () => {
                   <InaraCardHeaderImg src="/images/teacher4.jpg" alt="Инара Абдуллаева" />
                   <TeacherInfo>
                     <TeacherName>Инара Абдуллаева</TeacherName>
-                    <TeacherTitle>Клинический психолог, специалист по личностным расстройствам, профайлер, автор методик диагностики и коррекции личностных нарушений</TeacherTitle>
+                    <TeacherTitle>Подростковый и семейный психотерапевт</TeacherTitle>
                   </TeacherInfo>
                 </CardHeader>
                 
                 <CardBody>
+                  <DesktopTeacherName>Инара Абдуллаева</DesktopTeacherName>
+                  <DesktopTeacherTitle>Подростковый и семейный психотерапевт</DesktopTeacherTitle>
+                  
                   <TabContainer>
                     <TabItem 
                       active={activeTabInara === 'biography'} 
@@ -2929,32 +2937,31 @@ const TeachersSection: React.FC = () => {
                   {activeTabInara === 'biography' && (
                     <TabContent>
                       <p>
-                        Инара Абдуллаева — клинический психолог, специалист по личностным расстройствам, профайлер, автор методик диагностики и коррекции личностных нарушений. Она имеет многолетний опыт работы с различными клиентскими запросами, от решения личностных кризисов до трансформации жизненных сценариев.
+                        Меня зовут, Инара Абдуллаева
+                        Я — подростковый и семейный психотерапевт, член АРТ-сообщества России и Общероссийской Профессиональной Психотерапевтической Лиги (ОППЛ).
+                      </p>
+                      
+                      <p>
+                        Уже много лет я сопровождаю подростков, детей старшего школьного возраста и их родителей, помогая им находить общий язык, восстанавливать доверие и строить тёплые, искренние отношения.
                       </p>
                       
                       <ContentSection>
-                        <SectionHeading>Профессиональный опыт</SectionHeading>
+                        <SectionHeading>В работе я сочетаю</SectionHeading>
                         <StyledList>
-                          <ListItem>
-                            <strong>Клинический психолог:</strong>
-                            <ul>
-                              <li>Проведение исследований и оценка социальных факторов, влияющих на процессы реабилитации;</li>
-                              <li>Консультирование НКО и общественных инициатив по выстраиванию поддерживающих сообществ.</li>
-                            </ul>
-                          </ListItem>
+                          <ListItem>творческие техники и элементы арт-терапии</ListItem>
+                          <ListItem>трансформационные психологические игры</ListItem>
+                          <ListItem>телесно-ориентированные практики</ListItem>
                         </StyledList>
                       </ContentSection>
                       
-                      <ContentSection>
-                        <SectionHeading>Игровые методики</SectionHeading>
-                        <StyledList>
-                          <ListItem>Кубок Оскара — ролевая игра на признание личных достижений и поддержку межличностного взаимодействия.</ListItem>
-                          <ListItem>Риторический покер — упражнение для тренировки навыков аргументации и убеждения.</ListItem>
-                          <ListItem>Хочу–Могу–Буду — формирование чёткого плана действий и повышение мотивации.</ListItem>
-                          <ListItem>Порномания — безопасное пространство для обсуждения интимных тем и работы с телесными установками.</ListItem>
-                          <ListItem>И многие другие динамичные практики, адаптируемые под запросы группы или семьи.</ListItem>
-                        </StyledList>
-                      </ContentSection>
+                      <p>
+                        Я верю, что каждый подросток — это отдельная Вселенная, требующая бережного и внимательного подхода.<br />
+                        На курсе я делюсь тем, что отработала в практике: как через творчество, тело и игру выстраивать эффективную работу с подростками и семьями, даже в условиях онлайн-формата.
+                      </p>
+                      
+                      <p>
+                        Моя миссия — научить студентов видеть глубже, работать тоньше и помогать там, где особенно важно быть рядом.
+                      </p>
                     </TabContent>
                   )}
                   
@@ -2967,7 +2974,8 @@ const TeachersSection: React.FC = () => {
                             Инара Абдуллаева
                           </p>
                           <p style={{ color: 'var(--color-text)' }}>
-                            Клинический психолог, специалист по личностным расстройствам, профайлер, автор методик диагностики и коррекции личностных нарушений<br />
+                            Подростковый и семейный психотерапевт<br />
+                            Член АРТ-сообщества России и ОППЛ<br />
                             Языки: Русский, азербайджанский
                           </p>
                         </div>
