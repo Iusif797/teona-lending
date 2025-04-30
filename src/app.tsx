@@ -4,6 +4,7 @@ import GlobalStyles from './styles/GlobalStyles'
 import theme from './styles/theme'
 import Header from './components/layout/header'
 import HeroSection from './components/layout/hero-section'
+import IntroSection from './components/layout/intro-section'
 import AboutSection from './components/layout/AboutSection'
 import ServicesSection from './components/layout/ServicesSection'
 import CoursesSection from './components/layout/CoursesSection'
@@ -48,6 +49,7 @@ function App() {
         <Header onMenuToggle={setIsMobileMenuOpen} />
         <main>
           <HeroSection />
+          <IntroSection />
           <AboutSection />
           <ServicesSection />
           <CoursesSection />

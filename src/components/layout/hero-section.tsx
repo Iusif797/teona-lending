@@ -80,7 +80,8 @@ const HeroSection: React.FC = () => {
             </AnimatedElement>
             <AnimatedElement animation="fadeInUp" delay={0.6}>
               <Paragraph>
-                Я — Теона, дипломированный психолог, интегральный специалист, а также практикующий расстановщик и регрессолог. Моя работа строится на глубоком понимании психики, энергий и системных процессов, влияющих на человека
+                Добро пожаловать в Школу MINDVIA — пространство роста, знаний и самопознания!
+                Здесь начинается ваш путь в мир психологии.
               </Paragraph>
             </AnimatedElement>
             <AnimatedElement animation="fadeInUp" delay={0.8}>
