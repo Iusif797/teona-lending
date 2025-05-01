@@ -7,15 +7,15 @@ import { SERVICES } from '../../data/constants';
 import media from '../../styles/media';
 
 const ServicesSectionContainer = styled.section`
-  padding: 7rem 0;
+  padding: 3rem 0 7rem;
   background-color: var(--color-bg);
 
   ${media.md} {
-    padding: 6rem 0;
+    padding: 2.5rem 0 6rem;
   }
 
   ${media.sm} {
-    padding: 5rem 0;
+    padding: 2rem 0 5rem;
   }
 `;
 
@@ -170,12 +170,66 @@ const ServiceInfo = styled.div`
   }
 `;
 
+const EnhancedSectionTitle = styled(SectionTitle)`
+  h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: var(--color-primary-dark);
+    position: relative;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
+    
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(135deg, #d9b293 0%, #a66a42 100%);
+      border-radius: 2px;
+    }
+  }
+
+  p {
+    color: var(--color-secondary);
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+  
+  ${media.md} {
+    h2 {
+      font-size: 2.5rem;
+      padding-bottom: 1.2rem;
+      margin-bottom: 1.5rem;
+      
+      &:after {
+        width: 60px;
+      }
+    }
+    
+    p {
+      font-size: 1.1rem;
+    }
+  }
+  
+  ${media.sm} {
+    h2 {
+      font-size: 2.2rem;
+    }
+  }
+`;
+
 const ServicesSection: React.FC = () => {
   return (
     <ServicesSectionContainer id="services">
       <Container>
         <AnimatedElement animation="fadeIn">
-          <SectionTitle
+          <EnhancedSectionTitle
             title="Услуги"
             subtitle="Я предлагаю широкий спектр психологических услуг, адаптированных под индивидуальные потребности каждого клиента"
             centered

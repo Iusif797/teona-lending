@@ -73,7 +73,7 @@ const IntroSection: React.FC = () => {
 };
 
 const SectionWrapper = styled.section`
-  padding: 6rem 0;
+  padding: 3rem 0 5rem;
   background: linear-gradient(170deg, var(--color-background) 0%, var(--color-background-light) 100%);
   position: relative;
   overflow: hidden;
@@ -90,11 +90,11 @@ const SectionWrapper = styled.section`
   }
   
   ${media.md} {
-    padding: 5rem 0;
+    padding: 2.5rem 0 4rem;
   }
   
   ${media.sm} {
-    padding: 4rem 0 5rem;
+    padding: 2rem 0 3rem;
   }
 `;
 
@@ -113,18 +113,18 @@ const Container = styled.div`
 const Title = styled.h2`
   font-size: 2.8rem;
   color: var(--color-text-dark);
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
   text-align: center;
   font-weight: 600;
   
   ${media.md} {
     font-size: 2.5rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
   
   ${media.sm} {
     font-size: 2.2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 `;
 

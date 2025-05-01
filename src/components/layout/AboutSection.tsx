@@ -61,16 +61,16 @@ const EnhancedSectionTitle = styled(SectionTitle)`
 `;
 
 const AboutSectionContainer = styled.section`
-  padding: 7rem 0;
+  padding: 3rem 0 7rem;
   background-color: white;
   position: relative;
 
   ${media.md} {
-    padding: 6rem 0;
+    padding: 2.5rem 0 6rem;
   }
 
   ${media.sm} {
-    padding: 5rem 0;
+    padding: 2rem 0 5rem;
   }
 `;
 
