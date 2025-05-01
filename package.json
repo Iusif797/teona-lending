@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "optimize-images": "imagemin public/images/*.jpg public/images/*.png --out-dir=public/images/optimized",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -26,11 +27,16 @@
     "@types/react-dom": "^19.0.4",
     "@types/styled-components": "^5.1.34",
     "@vitejs/plugin-react": "^4.3.4",
+    "cssnano": "^7.0.6",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
     "husky": "^9.1.7",
+    "imagemin-cli": "^8.0.0",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^10.0.0",
+    "terser": "^5.39.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0"

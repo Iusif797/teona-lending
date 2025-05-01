@@ -1,3 +1,6 @@
 User-agent: *
 Allow: /
-Sitemap: https://psymindvia.com/sitemap.xml 
+Disallow: /assets/temp/
+Disallow: /*.json$
+
+Sitemap: https://www.psymindvia.com/sitemap.xml 
