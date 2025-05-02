@@ -7,15 +7,15 @@ import { SERVICES } from '../../data/constants';
 import media from '../../styles/media';
 
 const ServicesSectionContainer = styled.section`
-  padding: 3rem 0 7rem;
+  padding: 0 0 7rem;
   background-color: var(--color-bg);
 
   ${media.md} {
-    padding: 2.5rem 0 6rem;
+    padding: 0 0 6rem;
   }
 
   ${media.sm} {
-    padding: 2rem 0 5rem;
+    padding: 0 0 5rem;
   }
 `;
 
@@ -47,7 +47,7 @@ const ServicesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
-  margin: 4rem auto;
+  margin: 2rem auto;
   max-width: 1100px;
 
   ${media.xl} {
@@ -64,7 +64,7 @@ const ServicesGrid = styled.div`
     grid-template-columns: 1fr;
     gap: 2rem;
     max-width: 400px;
-    margin: 3rem auto;
+    margin: 1.5rem auto;
   }
 `;
 
@@ -136,29 +136,29 @@ const Divider = styled.hr`
   height: 3px;
   background-color: var(--color-primary-light);
   border: none;
-  margin: 0 auto 3rem;
+  margin: 0 auto 2rem;
 `;
 
 const ServiceInfo = styled.div`
   text-align: center;
   max-width: 800px;
-  margin: 0 auto 4rem;
+  margin: 0 auto 2rem;
   
   p {
     font-size: 1.1rem;
     line-height: 1.7;
     color: var(--color-secondary);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
   
   h3 {
     font-size: 1.8rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.2rem;
     font-weight: 300;
   }
   
   ${media.sm} {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     
     p {
       font-size: 1rem;

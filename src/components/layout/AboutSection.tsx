@@ -61,16 +61,16 @@ const EnhancedSectionTitle = styled(SectionTitle)`
 `;
 
 const AboutSectionContainer = styled.section`
-  padding: 3rem 0 7rem;
+  padding: 3rem 0 2rem;
   background-color: white;
   position: relative;
 
   ${media.md} {
-    padding: 2.5rem 0 6rem;
+    padding: 2.5rem 0 1.5rem;
   }
 
   ${media.sm} {
-    padding: 2rem 0 5rem;
+    padding: 2rem 0 1rem;
   }
 `;
 
@@ -78,7 +78,7 @@ const AboutContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 4rem;
+  margin-top: 2rem;
 `;
 
 const MissionContainer = styled.div`
@@ -87,7 +87,7 @@ const MissionContainer = styled.div`
   gap: 4rem;
   align-items: center;
   max-width: 1200px;
-  margin: 0 auto 5rem;
+  margin: 0 auto 2.5rem;
   padding: 0 2rem;
 
   ${media.lg} {
@@ -97,12 +97,12 @@ const MissionContainer = styled.div`
   ${media.md} {
     grid-template-columns: 1fr;
     gap: 3rem;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
 
   ${media.sm} {
     padding: 0 1rem;
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
   }
 `;
 
@@ -203,29 +203,29 @@ const MissionImage = styled.div`
 const PrinciplesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
+  gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
 
   ${media.lg} {
-    gap: 2rem;
+    gap: 1.5rem;
   }
 
   ${media.md} {
     grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
+    gap: 1.5rem;
   }
 
   ${media.sm} {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 1.5rem;
     max-width: 450px;
   }
 `;
 
 const PrincipleItem = styled.div`
   position: relative;
-  padding: 2.5rem 1.5rem;
+  padding: 1.5rem 1.5rem;
   background-color: var(--color-bg);
   text-align: center;
   transition: transform 0.3s ease;
@@ -249,7 +249,7 @@ const PrincipleItem = styled.div`
 
 const PrincipleTitle = styled.h4`
   font-size: 1.3rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   position: relative;
   z-index: 1;
   font-weight: 400;
