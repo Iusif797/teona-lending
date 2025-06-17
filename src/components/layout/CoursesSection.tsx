@@ -722,9 +722,9 @@ interface CourseDetailsProps {
 // Хук для сохранения прогресса модулей в localStorage
 const useModuleProgress = (courseId: number) => {
   const storageKey = `course_${courseId}_progress`;
-  
+
   const [completedModules, setCompletedModules] = React.useState<number[]>([]);
-  
+
   // Загружаем данные только один раз при монтировании компонента
   React.useEffect(() => {
     try {
@@ -736,7 +736,7 @@ const useModuleProgress = (courseId: number) => {
       console.error('Ошибка при загрузке прогресса:', error);
     }
   }, [storageKey]);
-  
+
   // Сохраняем данные при обновлении
   React.useEffect(() => {
     try {
@@ -747,15 +747,15 @@ const useModuleProgress = (courseId: number) => {
       console.error('Ошибка при сохранении прогресса:', error);
     }
   }, [completedModules, storageKey]);
-  
+
   const toggleModule = (moduleId: number) => {
-    setCompletedModules(prev => 
-      prev.includes(moduleId) 
-        ? prev.filter(id => id !== moduleId) 
+    setCompletedModules(prev =>
+      prev.includes(moduleId)
+        ? prev.filter(id => id !== moduleId)
         : [...prev, moduleId]
     );
   };
-  
+
   const resetProgress = () => {
     try {
       localStorage.removeItem(storageKey);
@@ -764,7 +764,7 @@ const useModuleProgress = (courseId: number) => {
       console.error('Ошибка при сбросе прогресса:', error);
     }
   };
-  
+
   return { completedModules, toggleModule, resetProgress };
 };
 
@@ -786,7 +786,7 @@ interface AnimatedBenefitProps {
 // Компонент анимированного модуля с задержкой
 const AnimatedModule: React.FC<AnimatedModuleProps> = ({ module, index, isVisible, completedModules, toggleModule }) => {
   const [isRendered, setIsRendered] = React.useState(false);
-  
+
   React.useEffect(() => {
     // Добавляем задержку для поочередного появления
     const timer = setTimeout(() => {
@@ -794,10 +794,10 @@ const AnimatedModule: React.FC<AnimatedModuleProps> = ({ module, index, isVisibl
         setIsRendered(true);
       }
     }, index * 100);
-    
+
     return () => clearTimeout(timer);
   }, [isVisible, index]);
-  
+
   // Форматируем содержимое модуля, преобразуя маркеры списка и сохраняя структуру
   const formatModuleContent = (content: string) => {
     // Заменяем маркеры списка на HTML элементы списка
@@ -827,12 +827,12 @@ const AnimatedModule: React.FC<AnimatedModuleProps> = ({ module, index, isVisibl
     // Если нет специальных маркеров, возвращаем текст как есть
     return content;
   };
-  
+
   return (
     <ModuleItem className={isRendered ? 'visible' : ''}>
       <ModuleHeader>
         <ModuleTitle>{module.title}</ModuleTitle>
-        <ModuleCheckbox 
+        <ModuleCheckbox
           completed={completedModules.includes(module.id)}
           onClick={(e) => {
             e.stopPropagation();
@@ -850,7 +850,7 @@ const AnimatedModule: React.FC<AnimatedModuleProps> = ({ module, index, isVisibl
 // Компонент анимированного преимущества с задержкой
 const AnimatedBenefit: React.FC<AnimatedBenefitProps> = ({ benefit, index, isVisible }) => {
   const [isRendered, setIsRendered] = React.useState(false);
-  
+
   React.useEffect(() => {
     // Добавляем задержку для поочередного появления
     const timer = setTimeout(() => {
@@ -858,10 +858,10 @@ const AnimatedBenefit: React.FC<AnimatedBenefitProps> = ({ benefit, index, isVis
         setIsRendered(true);
       }
     }, index * 100);
-    
+
     return () => clearTimeout(timer);
   }, [isVisible, index]);
-  
+
   return (
     <BenefitItem className={isRendered ? 'visible' : ''}>
       <FaCheckCircle size={20} />
@@ -874,11 +874,11 @@ const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleEx
   const course = COURSES.find(c => c.id === id);
   const { completedModules, toggleModule } = useModuleProgress(id);
   const [isContentVisible, setIsContentVisible] = React.useState(false);
-  
+
   // Управление видимостью контента с задержкой для анимации
   React.useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
-    
+
     try {
       if (isExpanded) {
         setIsContentVisible(true);
@@ -892,30 +892,30 @@ const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleEx
       // В случае ошибки просто показываем контент без анимации
       setIsContentVisible(isExpanded);
     }
-    
+
     return () => {
       if (timer) clearTimeout(timer);
     };
   }, [isExpanded]);
-  
+
   if (!course) {
     console.error(`Курс с ID ${id} не найден`);
     return null;
   }
-  
+
   return (
     <>
       <DetailsToggle onClick={() => toggleExpanded(id)}>
         {isExpanded ? 'Скрыть детали курса' : 'Показать программу курса'}
         {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
       </DetailsToggle>
-      
+
       <ExpandedDetails isExpanded={isExpanded}>
         {isContentVisible && course.modules && course.modules.length > 0 && (
           <>
             {/* Модули курса без лишних разделителей */}
             <DetailsSectionTitle style={{ marginTop: '1.5rem' }}>Модули курса</DetailsSectionTitle>
-            
+
             {/* Список модулей */}
             <ModulesList>
               {course.modules.map((module, index) => (
@@ -929,7 +929,7 @@ const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleEx
                 />
               ))}
             </ModulesList>
-            
+
             {/* Преимущества курса */}
             {course.benefits && course.benefits.length > 0 && (
               <>
@@ -971,11 +971,14 @@ const getInfoIcon = (iconName: string) => {
 
 // Функция форматирования данных для отображения в карточке
 const formatCourseData = (course: any) => {
+  // Заменим 2024 на 2025 в дате начала курса
+  const nextStartValue = course.nextStart.replace('2024', '2025');
+
   return [
     { icon: "clock", label: "Длительность", value: course.duration },
     { icon: "graduation", label: "Тип", value: course.type },
     { icon: "laptop", label: "Формат", value: course.format },
-    { icon: "calendar", label: "Старт", value: course.nextStart }
+    { icon: "calendar", label: "Старт", value: nextStartValue }
   ];
 };
 
@@ -983,24 +986,24 @@ const CoursesSection: React.FC = () => {
   const [expandedCourseId, setExpandedCourseId] = useState<number | null>(null);
   // Получим состояние мобильного меню из контекста
   const isMobileMenuOpen = useContext(MobileMenuContext);
-  
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  
+
   // Обработчик с предотвращением множественных кликов
   const toggleExpanded = (id: number) => {
     // Если идет загрузка, игнорируем клик
     if (isLoading) return;
-    
+
     // Устанавливаем индикатор загрузки
     setIsLoading(true);
-    
+
     // Эмулируем задержку загрузки данных
     setTimeout(() => {
       setExpandedCourseId(expandedCourseId === id ? null : id);
       setIsLoading(false);
     }, 100);
   };
-  
+
   const getCourseIcon = (id: number) => {
     switch (id) {
       case 1:
@@ -1011,7 +1014,7 @@ const CoursesSection: React.FC = () => {
         return <FaStar />;
     }
   };
-  
+
   return (
     <CoursesSectionContainer id="courses">
       <CoursesPattern />
@@ -1024,12 +1027,12 @@ const CoursesSection: React.FC = () => {
             </CoursesSubtitle>
           </CoursesIntro>
         </AnimatedElement>
-        
+
         <CoursesWrapper>
           {COURSES.map((course, index) => (
-            <AnimatedElement 
-              key={course.id} 
-              animation="fadeInUp" 
+            <AnimatedElement
+              key={course.id}
+              animation="fadeInUp"
               delay={0.2 + index * 0.2}
             >
               <CourseCard highlighted={course.highlighted}>
@@ -1040,19 +1043,19 @@ const CoursesSection: React.FC = () => {
                     {getCourseIcon(course.id)}
                   </CourseHeaderIcon>
                 </CourseHeader>
-                
+
                 <CourseContent>
                   <FlexRow>
                     <LeftColumn>
                       <CourseDescription>{course.description}</CourseDescription>
-                      
-                      <CourseExpanded 
-                        id={course.id} 
-                        isExpanded={expandedCourseId === course.id} 
-                        toggleExpanded={toggleExpanded} 
+
+                      <CourseExpanded
+                        id={course.id}
+                        isExpanded={expandedCourseId === course.id}
+                        toggleExpanded={toggleExpanded}
                       />
                     </LeftColumn>
-                    
+
                     <RightColumn>
                       <CourseInfoCard>
                         <CourseInfoTitle>Информация о курсе</CourseInfoTitle>
@@ -1065,7 +1068,7 @@ const CoursesSection: React.FC = () => {
                             </CourseInfoItem>
                           ))}
                         </CourseInfoList>
-                        
+
                         <CourseButton href="#contact">
                           Записаться на курс • {course.price}
                         </CourseButton>
@@ -1078,7 +1081,7 @@ const CoursesSection: React.FC = () => {
           ))}
         </CoursesWrapper>
       </Container>
-      
+
       <BackToTopButton href="#courses" isMenuOpen={isMobileMenuOpen}>
         <FaArrowUp />
       </BackToTopButton>
