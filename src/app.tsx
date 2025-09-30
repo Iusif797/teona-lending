@@ -15,11 +15,21 @@ import ContactSection from './components/layout/ContactSection'
 import Footer from './components/layout/Footer'
 import ScrollProgress from './components/ui/ScrollProgress'
 import { MobileMenuContext } from './components/layout/CoursesSection'
+import { useHashSEO } from './hooks/useSectionSEO'
+import { defaultSEOConfig } from './data/seo.config'
+import { initializeSEO } from './utils/seoInit'
 
 function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  useHashSEO();
+
   useEffect(() => {
+    // Инициализация SEO при загрузке
+    initializeSEO();
+    const seoInstance = initializeSEO();
+    seoInstance.configure(defaultSEOConfig);
+
     // Загружаем шрифты для проекта
     const loadFonts = async () => {
       const linkCormorant = document.createElement('link')

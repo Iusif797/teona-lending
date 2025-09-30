@@ -3,4 +3,16 @@ Allow: /
 Disallow: /assets/temp/
 Disallow: /*.json$
 
-Sitemap: https://www.psymindvia.com/sitemap.xml 
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Yandex
+Allow: /
+Crawl-delay: 0
+Host: https://www.psymindvia.com
+
+Sitemap: https://www.psymindvia.com/sitemap.xml
