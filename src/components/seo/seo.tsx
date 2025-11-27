@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import SEOManager, { SEOConfig } from '../../utils/SEOManager';
+import SEOManager, { SEOConfig } from '../../utils/seo-manager';
 
 interface SEOProps extends SEOConfig {
     children?: never;
