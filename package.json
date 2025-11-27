@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "optimize-images": "imagemin public/images/*.jpg public/images/*.png --out-dir=public/images/optimized",
-    "prepare": "husky install"
+    "prepare": "husky"
   },
   "dependencies": {
     "@types/node": "^24.0.3",
