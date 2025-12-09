@@ -1071,7 +1071,7 @@ const CoursesSection: React.FC = () => {
                           ))}
                         </CourseInfoList>
 
-                        <CourseButton href="#contact">
+                        <CourseButton href="#contact-form">
                           Записаться на курс • {course.price}
                         </CourseButton>
                       </CourseInfoCard>

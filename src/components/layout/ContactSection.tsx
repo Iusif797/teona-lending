@@ -15,7 +15,7 @@ interface FormState {
 
 const ContactSectionContainer = styled.section`
   padding: 7rem 0;
-  background-color: var(--color-bg);
+  background-color: #faf7f4;
 
   ${media.md} {
     padding: 6rem 0;
@@ -604,7 +604,7 @@ Email: ${formData.email}
           </AnimatedElement>
 
           <AnimatedElement animation="fadeInUp" delay={0.2}>
-            <FormContainer>
+            <FormContainer id="contact-form">
               {isLoading && (
                 <LoadingOverlay>
                   <Spinner />
