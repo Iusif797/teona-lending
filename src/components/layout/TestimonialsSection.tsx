@@ -9,7 +9,7 @@ import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 
 const TestimonialsSectionContainer = styled.section`
   padding: 7rem 0;
-  background-color: white;
+  background-color: #faf7f4;
 
   ${media.md} {
     padding: 6rem 0;

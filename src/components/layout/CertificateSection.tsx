@@ -8,7 +8,7 @@ import { FaTimes } from 'react-icons/fa';
 
 const CertificateSectionContainer = styled.section`
   padding: 7rem 0;
-  background-color: var(--color-bg);
+  background-color: #faf7f4;
 
   ${media.md} {
     padding: 6rem 0;
