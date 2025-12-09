@@ -661,7 +661,7 @@ const BenefitText = styled.span`
   line-height: 1.7;
 `;
 
-const BackToTopButton = styled.a<{ isMenuOpen: boolean }>`
+const BackToTopButton = styled.button<{ isMenuOpen: boolean }>`
   position: fixed;
   right: 30px;
   bottom: 30px;
@@ -669,6 +669,8 @@ const BackToTopButton = styled.a<{ isMenuOpen: boolean }>`
   height: 55px;
   background: linear-gradient(135deg, #d9b293, #a66a42);
   border-radius: 50%;
+  border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1082,7 +1084,11 @@ const CoursesSection: React.FC = () => {
         </CoursesWrapper>
       </Container>
 
-      <BackToTopButton href="#courses" isMenuOpen={isMobileMenuOpen}>
+      <BackToTopButton 
+        isMenuOpen={isMobileMenuOpen}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Прокрутить наверх"
+      >
         <FaArrowUp />
       </BackToTopButton>
     </CoursesSectionContainer>
