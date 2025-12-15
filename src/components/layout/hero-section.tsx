@@ -13,6 +13,8 @@ const HeroSection: React.FC = () => {
     { url: '/images/banner.jpg', position: 'top center' },
     { url: '/images/banner2.jpg', position: 'top 10%' },
     { url: '/images/banner3.jpg', position: 'center center' },
+    { url: '/images/banner4.jpg', position: 'center center' },
+    { url: '/images/banner5.jpg', position: 'center center' },
   ];
 
   useEffect(() => {
