@@ -1,0 +1,353 @@
+{
+  "header": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "courses": "Courses",
+    "teachers": "Teachers",
+    "reviews": "Reviews",
+    "certificates": "Certificates",
+    "contacts": "Contacts",
+    "language": "Language",
+    "menu": "Menu"
+  },
+  "hero": {
+    "title": "MINDVIA",
+    "subtitle": "School of Practical Psychology",
+    "description": "Discover new possibilities with our training programs",
+    "button": "Learn More",
+    "navigation": {
+      "prev": "Previous slide",
+      "next": "Next slide",
+      "goto": "Go to slide {{index}}"
+    }
+  },
+  "intro": {
+    "title": "Our Directions",
+    "block1": {
+      "title": "Practical Psychology",
+      "text": "We teach effective methods and techniques for working with clients"
+    },
+    "block2": {
+      "title": "Professional Development",
+      "text": "We help build a successful career in psychology"
+    },
+    "block3": {
+      "title": "Support and Supervision",
+      "text": "We provide continuous professional support"
+    },
+    "block4": {
+      "title": "Certification",
+      "text": "We issue internationally recognized certificates"
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "description": "MINDVIA is a school of practical psychology where experience meets innovation. We help our students acquire practical skills in psychology and develop professional competencies.",
+    "mission": "Our Mission",
+    "missionText": "To prepare highly qualified specialists capable of providing quality psychological assistance",
+    "values": "Our Values",
+    "valuesText": "Professionalism, ethics, personal growth, and continuous improvement",
+    "principles": {
+      "title": "Our Principles",
+      "1": {
+        "title": "Safety and Trust",
+        "description": "We create a safe space where every student can freely express their thoughts and feelings without fear of judgment"
+      },
+      "2": {
+        "title": "Individual Approach",
+        "description": "We develop teaching methods that take into account the unique needs, characteristics, and experience of each student"
+      },
+      "3": {
+        "title": "Support and Development",
+        "description": "We accompany everyone on the path of professional development with understanding, patience, and unconditional acceptance"
+      }
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "description": "We offer a comprehensive approach to psychological education and professional development",
+    "service1": {
+      "title": "Training Programs",
+      "text": "Courses and seminars in various areas of psychology"
+    },
+    "service2": {
+      "title": "Individual Consultations",
+      "text": "Personal work with experienced psychologists"
+    },
+    "service3": {
+      "title": "Group Trainings",
+      "text": "Intensive programs for practical mastery of techniques"
+    },
+    "service4": {
+      "title": "Supervision",
+      "text": "Professional support for practicing psychologists"
+    }
+  },
+  "courses": {
+    "title": "Our Courses",
+    "description": "We have developed comprehensive programs for different levels of training",
+    "more": "Learn More",
+    "duration": "Duration",
+    "format": "Format",
+    "start": "Start Date",
+    "price": "Price",
+    "modules": "Course Modules",
+    "benefits": "What You Will Learn",
+    "skills": "Skills",
+    "courseInfo": "Course Information",
+    "showDetails": "Show Course Program",
+    "hideDetails": "Hide Course Details",
+    "applyButton": "Enroll in the Course",
+    "applyButtonWithPrice": "Enroll in the Course",
+    "popularChoice": "Popular Choice",
+    "type": "Type",
+    "certificate": "Certificate",
+    "targetAudience": "Target Audience",
+    "learningProcess": "Learning Process",
+    "programContent": "Program Content",
+    "results": "Course Results",
+    "types": {
+      "семинар": "seminar",
+      "курс": "course",
+      "интенсив": "intensive"
+    },
+    "formats": {
+      "дистанционное": "remote",
+      "онлайн": "online",
+      "дистанционное и очное": "remote and in-person",
+      "очное": "in-person",
+      "онлайн и очное": "online and in-person"
+    },
+    "course1": {
+      "title": "Mastery of Systemic Constellations",
+      "subtitle": "Deep therapeutic approach for working with family systems",
+      "description": "The constellation method is a therapeutic approach developed by German psychotherapist Bert Hellinger, aimed at identifying and resolving deep family or systemic problems. The main idea of the method is that many of our emotional and psychological problems may be related to disturbances in the family system, including unconscious patterns that are passed down from generation to generation.",
+      "duration": "2.5 months",
+      "type": "seminar",
+      "format": "remote",
+      "nextStart": "October 1, 2024",
+      "price": "$500",
+      "modules": [
+        {
+          "title": "Session 1: Introduction to Systemic Constellations",
+          "content": "• History and foundations of systemic constellations\n• Principles of the systemic approach\n• Introduction to family dynamics and ancestral scenarios\n• Examples of successful applications of constellations\n• Preparation for working with clients\n  - Creating a safe space\n  - Establishing trust\n  - Formulating the request"
+        },
+        {
+          "title": "Session 2: Working with the Field",
+          "content": "• The concept of field in systemic constellations\n• Techniques for working with the field\n  - Tuning into the field\n  - Reading information from the field\n  - Managing field energy\n• Systemic field and quantum physics\n• Universal laws and breaking through the law of Octaves\n• Practical exercise \"Feeling the Field\""
+        }
+      ],
+      "benefits": [
+        "Basics of systemic constellations",
+        "Field work techniques",
+        "Information reading skills",
+        "Methods for working through resentments and blocks",
+        "Practical constellation techniques"
+      ]
+    },
+    "course2": {
+      "title": "Developmental Psychology",
+      "subtitle": "Comprehensive course on developmental psychology",
+      "description": "This course is dedicated to studying the basic patterns of human psychological development throughout life. You will learn about various theories of development, features of different age periods, and learn to apply this knowledge in practical work with clients of different ages.",
+      "duration": "3 months",
+      "type": "course",
+      "format": "online",
+      "nextStart": "September 15, 2024",
+      "price": "$450",
+      "modules": [
+        {
+          "title": "Module 1: Introduction to Developmental Psychology",
+          "content": "• Subject and tasks of developmental psychology\n• Research methods in developmental psychology\n• Basic theories of mental development\n• Periodization of mental development"
+        },
+        {
+          "title": "Module 2: Prenatal Period and Infancy",
+          "content": "• Features of prenatal development\n• Newborn crisis\n• Development of mental functions in infancy\n• Formation of the first forms of communication"
+        }
+      ],
+      "benefits": [
+        "Understanding age-specific developmental features",
+        "Skills in analyzing behavioral problems",
+        "Practical methods for working with different age groups",
+        "Diagnostic tools for determining developmental levels",
+        "Basics of parent counseling"
+      ]
+    },
+    "course3": {
+      "title": "NLP Practitioner",
+      "subtitle": "Effective techniques for communication and personal growth",
+      "description": "Studying NLP helps develop effective communication skills, including the ability to listen, recognize and understand non-verbal signals, and adapt your communication style to the interlocutor. With NLP, you can learn to quickly create and maintain trusting relationships with people, which is useful in personal life, business, and social interactions.",
+      "duration": "2 months",
+      "type": "seminar",
+      "format": "remote and in-person",
+      "nextStart": "October 1, 2024",
+      "price": "from $300",
+      "modules": [
+        {
+          "title": "Module 1: Basic NLP",
+          "content": "• Basic concepts and techniques of NLP\n  - Representational systems\n  - Submodalities\n  - Rapport\n  - Framing\n  - Anchoring\n\n• Lesson 1: Fundamental Foundations of NLP\n  - What is NLP and its history\n  - Fundamental rules of NLP\n  - Representational systems\n  - Determining the leading representational system"
+        },
+        {
+          "title": "Module 2: NLP Master",
+          "content": "• Advanced techniques and strategies of NLP for deep work\n\n• Lesson 1: Working with the Unconscious\n  - In-depth understanding of unconscious processes\n  - Three-position perception technique\n  - Practice of working with different perspectives\n  - Integration of perception positions"
+        }
+      ],
+      "benefits": [
+        "Effective communication",
+        "State management techniques",
+        "Goal setting and motivation",
+        "Changing limiting beliefs",
+        "Behavior modification techniques",
+        "Success modeling",
+        "Conflict resolution and relationship improvement"
+      ]
+    },
+    "course4": {
+      "title": "Regression: Immersion in Soul Memory and Multiverse",
+      "subtitle": "Journey into past lives, ancestral channels, and interincarnational space",
+      "description": "This course will teach you how to conduct deep regressions into past lives, ancestral channels, alien worlds, and interincarnational space. You will master working with entities, karmic nodes, and multidimensional healing. The course is designed for those who feel the call of the Soul, strive for deep self-knowledge, and want to learn how to help themselves and others regain power, memory, and access to the true path of the Soul.",
+      "duration": "7 weeks",
+      "type": "intensive",
+      "format": "online",
+      "nextStart": "September 15, 2024",
+      "price": "$650",
+      "modules": [
+        {
+          "title": "Module 1: Awareness of the Soul's Path",
+          "content": "• What is regression: past lives, ancestry, interincarnational space, star memory\n• How the field, subconscious, and Spiritual memory work\n• Practice: meditation \"Contact with Soul Chronicles\"\n• Preparation for immersions: energy, protection, guides"
+        },
+        {
+          "title": "Module 2: Soul Mission, Higher Self, and Quantum Transitions",
+          "content": "• What is the Soul Mission:\n  - The difference between \"karma\" and \"purpose\"\n  - How the Soul chooses lessons, family, body, circumstances\n  - Why not all missions are related to profession\n\n• Who is the Higher Self:\n  - Soul structure: Personality — Soul — Spirit — Higher Self\n  - How to receive answers, support, and guidance from the Higher Self\n  - Connection with inner guide and spiritual navigation\n  - Setting up the Higher Self channel for the client and for yourself"
+        }
+      ],
+      "benefits": [
+        "Understanding the principles of regression",
+        "Working with past lives and karmic connections",
+        "Techniques for accessing Soul memory",
+        "Healing emotional and physical problems through multidimensional healing",
+        "Working with the Higher Self and soul guides"
+      ]
+    },
+    "course5": {
+      "title": "Practical Psychology",
+      "subtitle": "Comprehensive course on the fundamentals of psychology in practice",
+      "description": "This course provides a systematic introduction to practical psychology. You will learn the basics of psychological counseling, methods of diagnosing and solving various psychological problems, and master practical skills of working with clients.",
+      "duration": "4 months",
+      "type": "course",
+      "format": "online and in-person",
+      "nextStart": "October 5, 2024",
+      "price": "$550",
+      "modules": [
+        {
+          "title": "Module 1: Introduction to Practical Psychology",
+          "content": "• Basic principles and methods of practical psychology\n• Ethics of psychological counseling\n• Setting up the consultation process\n• Building rapport with the client"
+        },
+        {
+          "title": "Module 2: Communication and Interviewing Techniques",
+          "content": "• Active listening skills\n• Types of questions and their application\n• Effective feedback techniques\n• Managing difficult conversations"
+        }
+      ],
+      "benefits": [
+        "Confident use of practical psychological methods",
+        "Client communication skills",
+        "Problem identification and solution techniques",
+        "Therapeutic intervention skills",
+        "Psychology practice management basics"
+      ]
+    }
+  },
+  "teachers": {
+    "title": "Our Teachers",
+    "description": "A team of experienced practitioners with international qualifications",
+    "experience": "years of experience",
+    "education": "Education",
+    "specialization": "Specialization",
+    "qualification": "Qualification",
+    "biography": "Biography",
+    "aboutMe": "About Me",
+    "courses": "Courses",
+    "courseDetails": "Course Details",
+    "enrollCourse": "Enroll in the Course",
+    "duration": "Duration",
+    "courseTeacher": "Course Teacher",
+    "teacherTabs": {
+      "biography": "Biography",
+      "aboutMe": "About Me",
+      "education": "Education", 
+      "courses": "Courses"
+    }
+  },
+  "testimonials": {
+    "title": "Our Reviews",
+    "description": "What our clients and students say about us",
+    "videoReview": "Video Review",
+    "videoDescription": "See what clients say about the results of our work",
+    "tatianaReview": "Tatiana about her work with MindVia school",
+    "previousTestimonial": "Previous review",
+    "nextTestimonial": "Next review",
+    "goToTestimonial": "Go to review {{index}}",
+    "playVideo": "Play video",
+    "pause": "Pause",
+    "mute": "Mute",
+    "unmute": "Unmute"
+  },
+  "certificates": {
+    "title": "Certificates",
+    "description": "Professional qualifications and certifications",
+    "text": "I have professional education in psychology and continuously improve my skills by taking additional courses and trainings. My qualifications are confirmed by certificates and diplomas from recognized educational institutions.",
+    "nlpCertificate": "NLP Practitioner Certificate",
+    "nlpCertificateDescription": "International certification in Neuro-Linguistic Programming techniques",
+    "psychologyDiploma": "Psychology Diploma",
+    "psychologyDiplomaDescription": "Qualification in the field of psychological counseling and psychotherapy",
+    "coachingCertificate": "Coaching Certificate",
+    "coachingCertificateDescription": "Professional coaching and personal development certification",
+    "internationalCertificate": "International Certificate",
+    "certificatePreview": "Certificate preview"
+  },
+  "contacts": {
+    "title": "Contact Us",
+    "description": "Get in touch with us for any questions or inquiries",
+    "openingText": "I'm always open for dialogue and ready to answer all your questions. If you've decided to take the first step towards changes in your life, I'll be happy to help you on this journey.",
+    "phone": "Phone",
+    "email": "Email",
+    "socialNetworks": "Social Networks",
+    "thankYouMessage": "Thank you for your message! I will contact you soon.",
+    "formName": "Your Name",
+    "formEmail": "Your Email",
+    "formPhone": "Your Phone",
+    "formMessage": "Your Message",
+    "formSubmit": "Send Message",
+    "form": {
+      "phoneNotSpecified": "Not specified",
+      "telegramTemplate": "New request from the website!\nName: {{name}}\nEmail: {{email}}\nPhone: {{phone}}\nMessage: {{message}}\n\nSubmission time: {{date}}",
+      "errors": {
+        "sendFailed": "There was a problem sending your message. Please contact us by phone or email.",
+        "critical": "An error occurred while sending your message. Please try to contact us by phone or email."
+      }
+    }
+  },
+  "footer": {
+    "about": "About MINDVIA School",
+    "aboutText": "MINDVIA School of Practical Psychology is a place where theory meets practice. We help people master the profession of psychologist or enhance the qualifications of practicing specialists.",
+    "quickLinks": "Quick Links",
+    "rights": "All Rights Reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  },
+  "common": {
+    "close": "Close",
+    "readMore": "Read More",
+    "learnMore": "Learn More",
+    "send": "Send",
+    "submit": "Submit",
+    "loadMore": "Load More",
+    "apply": "Apply Now",
+    "download": "Download",
+    "success": "Success",
+    "error": "Error",
+    "submissionSuccess": "Your message has been successfully sent",
+    "submissionError": "An error occurred. Please try again later",
+    "required": "Required field"
+  }
+} 
