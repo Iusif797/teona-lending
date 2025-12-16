@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import Container from '../ui/Container';
 import AnimatedElement from '../ui/AnimatedElement';
 import { COURSES } from '../../data/constants';
-import { CourseModule, CourseItem } from '../../types';
+import { CourseItem } from '../../types';
 import media from '../../styles/media';
-import { FaCheckCircle, FaGem, FaBrain, FaStar, FaArrowUp, FaRegClock, FaCalendarAlt, FaGraduationCap, FaLaptop, FaCheck, FaTimes, FaBookOpen } from 'react-icons/fa';
+import { FaCheckCircle, FaGem, FaBrain, FaStar, FaArrowUp, FaRegClock, FaCalendarAlt, FaGraduationCap, FaLaptop, FaTimes, FaBookOpen } from 'react-icons/fa';
 
 export const MobileMenuContext = createContext<boolean>(false);
 
@@ -284,105 +284,6 @@ const CourseButton = styled.a`
     background: #8c5a38;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(166, 106, 66, 0.2);
-  }
-`;
-
-const ModuleItem = styled.div`
-  margin-bottom: 1.5rem;
-  padding: 2rem;
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #f0ebe6;
-  transition: all 0.3s ease;
-  position: relative;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
-  overflow: visible;
-  
-  &.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  &:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-  }
-  
-  &:last-child {
-    margin-bottom: 0;
-  }
-`;
-
-const ModuleTitle = styled.h5`
-  font-size: 1.25rem;
-  margin-bottom: 1.2rem;
-  color: var(--color-primary-dark);
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  
-  &:before {
-    content: '';
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background: #d9b293;
-    border-radius: 50%;
-    margin-right: 15px;
-  }
-`;
-
-const ModuleContent = styled.div`
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: var(--color-text);
-  padding-left: 25px;
-  max-height: none;
-  overflow: visible;
-  
-  & > div:last-child {
-    margin-bottom: 0;
-  }
-
-  ul {
-    margin-top: 0.5rem;
-    padding-left: 1.5rem;
-  }
-  
-  li {
-    margin-bottom: 0.5rem;
-  }
-  
-  p {
-    margin-bottom: 0.8rem;
-  }
-`;
-
-const ModuleHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-`;
-
-const ModuleCheckbox = styled.div<{ completed: boolean }>`
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  border: 2px solid ${({ completed }) => completed ? '#58b368' : '#d9b293'};
-  background: ${({ completed }) => completed ? '#58b368' : 'transparent'};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-left: 15px;
-  flex-shrink: 0;
-  
-  svg {
-    color: white;
-    font-size: 0.9rem;
   }
 `;
 
