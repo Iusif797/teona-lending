@@ -544,7 +544,7 @@ const ProgramButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   width: 100%;
   padding: 1.2rem;
   background: white;
@@ -566,8 +566,9 @@ const ProgramButton = styled.button`
   }
   
   svg {
-    font-size: 0.9rem;
+    font-size: 1rem;
     transition: transform 0.3s ease;
+    flex-shrink: 0;
   }
   
   &:hover svg {
@@ -717,9 +718,7 @@ const getInfoIcon = (iconName: string) => {
   }
 };
 
-// Функция форматирования данных для отображения в карточке
 const formatCourseData = (course: CourseItem) => {
-  // Заменим 2024 на 2025 в дате начала курса
   const nextStartValue = course.nextStart.replace('2024', '2025');
 
   return [
