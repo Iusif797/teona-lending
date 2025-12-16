@@ -3,61 +3,27 @@ import styled from 'styled-components';
 import Container from '../ui/Container';
 import AnimatedElement from '../ui/AnimatedElement';
 import { COURSES } from '../../data/constants';
-import { CourseModule } from '../../types';
+import { CourseModule, CourseItem } from '../../types';
 import media from '../../styles/media';
-import { FaCheckCircle, FaChevronDown, FaChevronUp, FaGem, FaBrain, FaStar, FaArrowUp, FaRegClock, FaCalendarAlt, FaGraduationCap, FaLaptop, FaCheck } from 'react-icons/fa';
+import { FaCheckCircle, FaGem, FaBrain, FaStar, FaArrowUp, FaRegClock, FaCalendarAlt, FaGraduationCap, FaLaptop, FaCheck, FaTimes, FaBookOpen } from 'react-icons/fa';
 
-// Создадим глобальный контекст для отслеживания состояния мобильного меню
 export const MobileMenuContext = createContext<boolean>(false);
 
 const CoursesSectionContainer = styled.section`
-  padding: 8rem 0;
-  background-color: #faf7f4;
+  padding: 6rem 0;
+  background-color: #fdfcfb;
   position: relative;
   overflow: hidden;
   
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #a66a42 0%, #d9b293 50%, #a66a42 100%);
-  }
-  
-  &:after {
-    content: '';
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(217, 178, 147, 0.15) 0%, rgba(217, 178, 147, 0) 70%);
-    top: -100px;
-    right: -100px;
-    z-index: 0;
-  }
-  
   ${media.md} {
-    padding: 6rem 0;
+    padding: 5rem 0;
   }
   
   ${media.sm} {
-    padding: 5rem 0;
+    padding: 4rem 0;
   }
 `;
 
-const CoursesPattern = styled.div`
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 60%;
-  background-image: radial-gradient(rgba(217, 178, 147, 0.1) 2px, transparent 2px);
-  background-size: 30px 30px;
-  z-index: 0;
-  opacity: 0.5;
-`;
 
 const CoursesIntro = styled.div`
   text-align: center;
@@ -68,46 +34,33 @@ const CoursesIntro = styled.div`
 `;
 
 const CoursesTitle = styled.h2`
-  font-size: 3.2rem;
-  font-weight: 800;
-  color: var(--color-primary-dark);
-  margin-bottom: 1.5rem;
-  position: relative;
-  display: inline-block;
-  
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 3px;
-    background: linear-gradient(90deg, #a66a42, #d9b293);
-  }
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #2c2420;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.02em;
   
   ${media.md} {
-    font-size: 2.8rem;
+    font-size: 2.4rem;
   }
   
   ${media.sm} {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 `;
 
 const CoursesSubtitle = styled.p`
-  font-size: 1.3rem;
-  color: var(--color-secondary);
-  line-height: 1.7;
-  font-weight: 300;
-  margin-top: 2rem;
-  
-  ${media.md} {
-    font-size: 1.15rem;
-  }
+  font-size: 1.15rem;
+  color: #6a5a50;
+  line-height: 1.6;
+  font-weight: 400;
+  margin-top: 1rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
   
   ${media.sm} {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 `;
 
@@ -126,52 +79,25 @@ const CoursesWrapper = styled.div`
 
 const CourseCard = styled.div<{ highlighted?: boolean }>`
   width: 100%;
-  max-width: 1000px;
+  max-width: 980px;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
   position: relative;
   display: flex;
   flex-direction: column;
-  transform: translateY(0);
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid #f0ebe6;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   
   &:hover {
-    transform: translateY(-12px);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
   }
-  
+
   ${({ highlighted }) => highlighted && `
-    border: 3px solid #d9b293;
-    
-    &:before {
-      content: 'Популярный выбор';
-      position: absolute;
-      top: 1.5rem;
-      right: 0;
-      background: linear-gradient(90deg, #d9b293, #a66a42);
-      color: white;
-      padding: 0.6rem 1.5rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      z-index: 5;
-      border-radius: 6px 0 0 6px;
-      box-shadow: -3px 4px 10px rgba(0, 0, 0, 0.15);
-      
-      ${media.sm} {
-        top: 0;
-        right: 0;
-        border-radius: 0 0 0 6px;
-        padding: 0.5rem 1.2rem;
-        font-size: 0.8rem;
-      }
-      
-      ${media.xs} {
-        padding: 0.4rem 1rem;
-        font-size: 0.75rem;
-      }
-    }
+    border: 1px solid #d9b293;
+    box-shadow: 0 4px 25px rgba(217, 178, 147, 0.15);
   `}
   
   ${media.md} {
@@ -180,49 +106,39 @@ const CourseCard = styled.div<{ highlighted?: boolean }>`
 `;
 
 const CourseHeader = styled.div`
+  padding: 3rem;
+  background: white;
+  border-bottom: 1px solid #f0ebe6;
   position: relative;
-  padding: 3.5rem 3rem;
-  background: linear-gradient(120deg, #d9b293, #a66a42);
-  color: white;
-  
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 8px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1), rgba(255,255,255,0.3));
-  }
   
   ${media.sm} {
-    padding: 2.5rem 2rem;
+    padding: 2rem;
   }
 `;
 
 const CourseTitle = styled.h3`
-  font-size: 2.4rem;
+  font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  color: white;
+  margin-bottom: 0.8rem;
+  color: #2c2420;
   line-height: 1.3;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.01em;
   
   ${media.sm} {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 `;
 
 const CourseSubtitle = styled.p`
-  font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 2rem;
-  max-width: 80%;
-  line-height: 1.6;
+  font-size: 1.1rem;
+  color: #8c7b70;
+  margin-bottom: 0;
+  max-width: 90%;
+  line-height: 1.5;
   
   ${media.sm} {
     max-width: 100%;
-    font-size: 1.05rem;
+    font-size: 1rem;
   }
 `;
 
@@ -230,47 +146,19 @@ const CourseHeaderIcon = styled.div`
   position: absolute;
   top: 3rem;
   right: 3rem;
-  width: 90px;
-  height: 90px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  
-  &:before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    border: 2px dashed rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    animation: rotateAnimation 20s linear infinite;
-  }
-  
-  @keyframes rotateAnimation {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
+  color: #d9b293;
+  opacity: 0.8;
   
   svg {
-    font-size: 2.8rem;
-    color: white;
+    font-size: 2.5rem;
   }
   
   ${media.md} {
-    top: 2.5rem;
-    right: 2.5rem;
-    width: 70px;
-    height: 70px;
+    top: 2rem;
+    right: 2rem;
     
     svg {
-      font-size: 2.2rem;
+      font-size: 2rem;
     }
   }
   
@@ -312,60 +200,37 @@ const RightColumn = styled.div`
 `;
 
 const CourseDescription = styled.p`
-  font-size: 1.2rem;
-  line-height: 1.9;
-  color: var(--color-text);
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #4a403a;
   margin-bottom: 2.5rem;
-  font-weight: 300;
+  font-weight: 400;
   
   ${media.sm} {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 `;
 
 const CourseInfoCard = styled.div`
-  background: linear-gradient(145deg, #f8f5f2, #fff);
-  border-radius: 16px;
-  padding: 2.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  position: relative;
-  overflow: hidden;
-  
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: linear-gradient(90deg, #d9b293, #a66a42);
-  }
+  background: #faf9f8;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid #f0ebe6;
   
   ${media.sm} {
-    padding: 2rem;
+    padding: 1.5rem;
   }
 `;
 
 const CourseInfoTitle = styled.h4`
-  font-size: 1.4rem;
-  color: var(--color-primary-dark);
-  margin-bottom: 2rem;
-  text-align: center;
-  position: relative;
+  font-size: 1.25rem;
+  color: #2c2420;
+  margin-bottom: 1.5rem;
+  text-align: left;
   font-weight: 600;
-  
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 2px;
-    background: linear-gradient(90deg, #d9b293, #a66a42);
-  }
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e6dfd9;
 `;
-
 const CourseInfoList = styled.ul`
   list-style: none;
   padding: 0;
@@ -406,106 +271,33 @@ const InfoValue = styled.span`
 const CourseButton = styled.a`
   display: block;
   width: 100%;
-  padding: 1.3rem;
-  background: linear-gradient(90deg, #d9b293, #a66a42);
+  padding: 1.2rem;
+  background: #a66a42;
   color: white;
   text-align: center;
   font-weight: 600;
-  font-size: 1.15rem;
-  border-radius: 12px;
-  transition: all 0.4s ease;
-  box-shadow: 0 10px 20px rgba(169, 106, 66, 0.2);
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-  
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, #a66a42, #7a4e30);
-    z-index: -1;
-    transition: opacity 0.5s ease;
-    opacity: 0;
-  }
-  
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(169, 106, 66, 0.25);
-    
-    &:before {
-      opacity: 1;
-    }
-  }
-`;
-
-const DetailsToggle = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 2.5rem auto 0;
-  background: none;
-  border: none;
-  color: #a66a42;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
   transition: all 0.3s ease;
-  padding: 0.7rem 1.5rem;
-  border-bottom: 1px dashed rgba(166, 106, 66, 0.3);
-  
-  svg {
-    margin-left: 0.7rem;
-    font-size: 0.9rem;
-    transition: transform 0.3s ease;
-  }
   
   &:hover {
-    color: #d9b293;
-    
-    svg {
-      transform: translateY(3px);
-    }
+    background: #8c5a38;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(166, 106, 66, 0.2);
   }
-`;
-
-const ExpandedDetails = styled.div<{ isExpanded: boolean }>`
-  max-height: ${({ isExpanded }) => (isExpanded ? '10000px' : '0')};
-  overflow: ${({ isExpanded }) => (isExpanded ? 'visible' : 'hidden')};
-  transition: max-height 0.7s ease, opacity 0.3s ease;
-  opacity: ${({ isExpanded }) => (isExpanded ? '1' : '0')};
-  position: relative;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-  
-  hr, .divider, [class*="divider"] {
-    display: none;
-  }
-  
-  &:before, &:after {
-    display: none;
-  }
-`;
-
-const ModulesList = styled.div`
-  margin-bottom: 3.5rem;
-  overflow: visible;
 `;
 
 const ModuleItem = styled.div`
-  margin-bottom: 1.8rem;
-  padding: 1.8rem;
-  background: #f8f5f2;
-  border-radius: 14px;
-  transition: all 0.4s ease;
-  border-left: 5px solid #d9b293;
+  margin-bottom: 1.5rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #f0ebe6;
+  transition: all 0.3s ease;
   position: relative;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
   overflow: visible;
   
   &.visible {
@@ -514,16 +306,11 @@ const ModuleItem = styled.div`
   }
   
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.07);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
   }
   
   &:last-child {
     margin-bottom: 0;
-  }
-  
-  &:before, &:after {
-    display: none;
   }
 `;
 
@@ -552,9 +339,12 @@ const ModuleContent = styled.div`
   color: var(--color-text);
   padding-left: 25px;
   max-height: none;
-  white-space: pre-wrap;
   overflow: visible;
   
+  & > div:last-child {
+    margin-bottom: 0;
+  }
+
   ul {
     margin-top: 0.5rem;
     padding-left: 1.5rem;
@@ -596,45 +386,24 @@ const ModuleCheckbox = styled.div<{ completed: boolean }>`
   }
 `;
 
-const DetailsSectionTitle = styled.h4`
-  font-size: 1.5rem;
-  color: var(--color-primary-dark);
-  margin: 3rem 0 1.8rem;
-  position: relative;
-  padding-bottom: 1rem;
-  font-weight: 600;
-  
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 3px;
-    background: #d9b293;
-  }
-`;
-
 const BenefitsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.8rem;
-  
-  ${media.sm} {
-    grid-template-columns: 1fr;
-  }
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
 `;
 
 const BenefitItem = styled.div`
   display: flex;
   align-items: flex-start;
   padding: 1.5rem;
-  background: #f8f5f2;
-  border-radius: 14px;
+  background: white;
+  border: 1px solid #f0ebe6;
+  border-radius: 12px;
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease;
+  height: 100%;
   
   &.visible {
     opacity: 1;
@@ -642,13 +411,13 @@ const BenefitItem = styled.div`
   }
   
   &:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
   }
   
   svg {
     color: #58b368;
-    margin-right: 1.2rem;
+    margin-right: 1rem;
     margin-top: 0.2rem;
     flex-shrink: 0;
     font-size: 1.2rem;
@@ -661,298 +430,374 @@ const BenefitText = styled.span`
   line-height: 1.7;
 `;
 
-const BackToTopButton = styled.button<{ isMenuOpen: boolean }>`
+// Modal components with stunning animations
+const ModalOverlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
-  right: 30px;
-  bottom: 30px;
-  width: 55px;
-  height: 55px;
-  background: linear-gradient(135deg, #d9b293, #a66a42);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+  visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  
+  ${media.sm} {
+    padding: 1rem;
+  }
+`;
+
+const ModalContainer = styled.div<{ isOpen: boolean }>`
+  background: white;
+  border-radius: 20px;
+  max-width: 1100px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+  transform: ${({ isOpen }) => (isOpen ? 'scale(1) translateY(0)' : 'scale(0.9) translateY(30px)')};
+  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+`;
+
+const ModalHeader = styled.div`
+  padding: 2rem 2.5rem;
+  border-bottom: 1px solid #f0ebe6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #fdfcfb 0%, #f8f5f2 100%);
+  
+  ${media.sm} {
+    padding: 1.5rem;
+  }
+`;
+
+const ModalTitle = styled.h3`
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2c2420;
+  margin: 0;
+  
+  ${media.sm} {
+    font-size: 1.3rem;
+  }
+`;
+
+const ModalSubtitle = styled.p`
+  font-size: 1rem;
+  color: #8c7b70;
+  margin: 0.3rem 0 0;
+  
+  ${media.sm} {
+    font-size: 0.9rem;
+  }
+`;
+
+const ModalCloseButton = styled.button`
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid #e6dfd9;
+  background: white;
+  color: #6a5a50;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  transition: all 0.4s ease;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  
+  &:hover {
+    background: #a66a42;
+    color: white;
+    border-color: #a66a42;
+    transform: rotate(90deg);
+  }
+  
+  svg {
+    font-size: 1.2rem;
+  }
+`;
+
+const ModalBody = styled.div`
+  padding: 2.5rem;
+  overflow-y: auto;
+  flex: 1;
+  
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f8f5f2;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #d9b293;
+    border-radius: 4px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #a66a42;
+  }
+  
+  ${media.sm} {
+    padding: 1.5rem;
+  }
+`;
+
+const ModalSectionTitle = styled.h4`
+  font-size: 1.3rem;
+  color: #2c2420;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  
+  &:before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 24px;
+    background: #a66a42;
+    margin-right: 12px;
+    border-radius: 2px;
+  }
+`;
+
+const ModalModulesGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  
+  ${media.md} {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+`;
+
+const ModalModuleCard = styled.div<{ delay: number }>`
+  background: #fdfcfb;
+  border: 1px solid #f0ebe6;
+  border-radius: 16px;
+  padding: 1.8rem;
+  transition: all 0.3s ease;
+  animation: modalModuleSlideIn 0.6s ease forwards;
+  animation-delay: ${({ delay }) => delay}ms;
+  opacity: 0;
+  transform: translateY(20px);
+  
+  @keyframes modalModuleSlideIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  &:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    transform: translateY(-3px);
+  }
+`;
+
+const ModalModuleTitle = styled.h5`
+  font-size: 1.15rem;
+  color: #2c2420;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  
+  &:before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #d9b293;
+    border-radius: 50%;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+`;
+
+const ModalModuleContent = styled.div`
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #4a403a;
+  padding-left: 22px;
+`;
+
+const ProgramButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1.2rem;
+  background: white;
+  border: 1px solid #a66a42;
+  color: #a66a42;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  
+  &:hover {
+    background: #a66a42;
+    color: white;
+    box-shadow: 0 5px 15px rgba(166, 106, 66, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  svg {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover svg {
+    transform: translateX(3px);
+  }
+`;
+
+const BackToTopButton = styled.button<{ isMenuOpen: boolean }>`
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  width: 50px;
+  height: 50px;
+  background: white;
+  color: #a66a42;
+  border: 1px solid #f0ebe6;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
   z-index: 100;
   opacity: ${({ isMenuOpen }) => (isMenuOpen ? '0' : '1')};
   visibility: ${({ isMenuOpen }) => (isMenuOpen ? 'hidden' : 'visible')};
   pointer-events: ${({ isMenuOpen }) => (isMenuOpen ? 'none' : 'all')};
   
-  &:before {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    border-radius: 50%;
-    border: 2px dashed rgba(217, 178, 147, 0.5);
-    opacity: 0;
-    transition: all 0.4s ease;
-  }
-  
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-    
-    &:before {
-      opacity: 1;
-      animation: rotateBackToTop 15s linear infinite;
-    }
-  }
-  
-  @keyframes rotateBackToTop {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    background: #a66a42;
+    color: white;
+    border-color: #a66a42;
   }
   
   svg {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 `;
 
-interface CourseDetailsProps {
-  id: number;
-  isExpanded: boolean;
-  toggleExpanded: (id: number) => void;
-}
+const LessonGroup = styled.div`
+  margin-bottom: 1.2rem;
+`;
 
-// Хук для сохранения прогресса модулей в localStorage
-const useModuleProgress = (courseId: number) => {
-  const storageKey = `course_${courseId}_progress`;
+const StyledLessonTitle = styled.h6`
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #a66a42;
+  margin-bottom: 0.5rem;
+  display: block;
+`;
 
-  const [completedModules, setCompletedModules] = React.useState<number[]>([]);
+const LessonList = styled.ul`
+  margin: 0;
+  padding-left: 1.2rem;
+  list-style-type: none;
+`;
 
-  // Загружаем данные только один раз при монтировании компонента
-  React.useEffect(() => {
-    try {
-      const saved = localStorage.getItem(storageKey);
-      if (saved) {
-        setCompletedModules(JSON.parse(saved));
-      }
-    } catch (error) {
-      console.error('Ошибка при загрузке прогресса:', error);
-    }
-  }, [storageKey]);
-
-  // Сохраняем данные при обновлении
-  React.useEffect(() => {
-    try {
-      if (completedModules.length > 0) {
-        localStorage.setItem(storageKey, JSON.stringify(completedModules));
-      }
-    } catch (error) {
-      console.error('Ошибка при сохранении прогресса:', error);
-    }
-  }, [completedModules, storageKey]);
-
-  const toggleModule = (moduleId: number) => {
-    setCompletedModules(prev =>
-      prev.includes(moduleId)
-        ? prev.filter(id => id !== moduleId)
-        : [...prev, moduleId]
-    );
-  };
-
-  const resetProgress = () => {
-    try {
-      localStorage.removeItem(storageKey);
-      setCompletedModules([]);
-    } catch (error) {
-      console.error('Ошибка при сбросе прогресса:', error);
-    }
-  };
-
-  return { completedModules, toggleModule, resetProgress };
-};
-
-// Типы для анимированных компонентов
-interface AnimatedModuleProps {
-  module: CourseModule;
-  index: number;
-  isVisible: boolean;
-  completedModules: number[];
-  toggleModule: (id: number) => void;
-}
-
-interface AnimatedBenefitProps {
-  benefit: string;
-  index: number;
-  isVisible: boolean;
-}
-
-// Компонент анимированного модуля с задержкой
-const AnimatedModule: React.FC<AnimatedModuleProps> = ({ module, index, isVisible, completedModules, toggleModule }) => {
-  const [isRendered, setIsRendered] = React.useState(false);
-
-  React.useEffect(() => {
-    // Добавляем задержку для поочередного появления
-    const timer = setTimeout(() => {
-      if (isVisible) {
-        setIsRendered(true);
-      }
-    }, index * 100);
-
-    return () => clearTimeout(timer);
-  }, [isVisible, index]);
-
-  // Форматируем содержимое модуля, преобразуя маркеры списка и сохраняя структуру
-  const formatModuleContent = (content: string) => {
-    // Заменяем маркеры списка на HTML элементы списка
-    if (content.includes('•')) {
-      const lines = content.split('\n');
-      return (
-        <div>
-          {lines.map((line, i) => {
-            // Если строка начинается с маркера списка
-            if (line.trim().startsWith('•')) {
-              return <p key={i}>{line}</p>;
-            }
-            // Если строка начинается с двойного отступа и дефиса (подэлемент)
-            else if (line.trim().startsWith('-')) {
-              return <p key={i} style={{ paddingLeft: '1.5rem' }}>{line}</p>;
-            }
-            // Обычный текст
-            else if (line.trim()) {
-              return <p key={i}>{line}</p>;
-            }
-            // Пустая строка для сохранения пробелов между абзацами
-            return <br key={i} />;
-          })}
-        </div>
-      );
-    }
-    // Если нет специальных маркеров, возвращаем текст как есть
-    return content;
-  };
-
-  return (
-    <ModuleItem className={isRendered ? 'visible' : ''}>
-      <ModuleHeader>
-        <ModuleTitle>{module.title}</ModuleTitle>
-        <ModuleCheckbox
-          completed={completedModules.includes(module.id)}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggleModule(module.id);
-          }}
-        >
-          {completedModules.includes(module.id) && <FaCheck />}
-        </ModuleCheckbox>
-      </ModuleHeader>
-      <ModuleContent>{formatModuleContent(module.content)}</ModuleContent>
-    </ModuleItem>
-  );
-};
-
-// Компонент анимированного преимущества с задержкой
-const AnimatedBenefit: React.FC<AnimatedBenefitProps> = ({ benefit, index, isVisible }) => {
-  const [isRendered, setIsRendered] = React.useState(false);
-
-  React.useEffect(() => {
-    // Добавляем задержку для поочередного появления
-    const timer = setTimeout(() => {
-      if (isVisible) {
-        setIsRendered(true);
-      }
-    }, index * 100);
-
-    return () => clearTimeout(timer);
-  }, [isVisible, index]);
-
-  return (
-    <BenefitItem className={isRendered ? 'visible' : ''}>
-      <FaCheckCircle size={20} />
-      <BenefitText>{benefit}</BenefitText>
-    </BenefitItem>
-  );
-};
-
-const CourseExpanded: React.FC<CourseDetailsProps> = ({ id, isExpanded, toggleExpanded }) => {
-  const course = COURSES.find(c => c.id === id);
-  const { completedModules, toggleModule } = useModuleProgress(id);
-  const [isContentVisible, setIsContentVisible] = React.useState(false);
-
-  // Управление видимостью контента с задержкой для анимации
-  React.useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-
-    try {
-      if (isExpanded) {
-        setIsContentVisible(true);
-      } else {
-        timer = setTimeout(() => {
-          setIsContentVisible(false);
-        }, 500); // Задержка, соответствующая времени анимации скрытия
-      }
-    } catch (err) {
-      console.error('Ошибка при управлении анимацией:', err);
-      // В случае ошибки просто показываем контент без анимации
-      setIsContentVisible(isExpanded);
-    }
-
-    return () => {
-      if (timer) clearTimeout(timer);
-    };
-  }, [isExpanded]);
-
-  if (!course) {
-    console.error(`Курс с ID ${id} не найден`);
-    return null;
+const LessonItem = styled.li`
+  position: relative;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+  
+  &:before {
+    content: '-';
+    position: absolute;
+    left: -1.2rem;
+    color: #d9b293;
+    font-weight: bold;
   }
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
 
-  return (
-    <>
-      <DetailsToggle onClick={() => toggleExpanded(id)}>
-        {isExpanded ? 'Скрыть детали курса' : 'Показать программу курса'}
-        {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
-      </DetailsToggle>
+// Helper function to parse module content
+const parseModuleContent = (content: string) => {
+  const lines = content.split('\n');
+  const groups: React.ReactElement[] = [];
+  let currentTitle = '';
+  let currentItems: string[] = [];
+  let groupIndex = 0;
 
-      <ExpandedDetails isExpanded={isExpanded}>
-        {isContentVisible && course.modules && course.modules.length > 0 && (
-          <>
-            {/* Модули курса без лишних разделителей */}
-            <DetailsSectionTitle style={{ marginTop: '1.5rem' }}>Модули курса</DetailsSectionTitle>
-
-            {/* Список модулей */}
-            <ModulesList>
-              {course.modules.map((module, index) => (
-                <AnimatedModule
-                  key={module.id}
-                  module={module}
-                  index={index}
-                  isVisible={isExpanded}
-                  completedModules={completedModules}
-                  toggleModule={toggleModule}
-                />
+  const flushGroup = () => {
+    if (currentTitle || currentItems.length > 0) {
+      groups.push(
+        <LessonGroup key={groupIndex++}>
+          {currentTitle && <StyledLessonTitle>{currentTitle}</StyledLessonTitle>}
+          {currentItems.length > 0 && (
+            <LessonList>
+              {currentItems.map((item, i) => (
+                <LessonItem key={i}>{item}</LessonItem>
               ))}
-            </ModulesList>
+            </LessonList>
+          )}
+        </LessonGroup>
+      );
+      currentTitle = '';
+      currentItems = [];
+    }
+  };
 
-            {/* Преимущества курса */}
-            {course.benefits && course.benefits.length > 0 && (
-              <>
-                <DetailsSectionTitle>Чему вы научитесь</DetailsSectionTitle>
-                <BenefitsGrid>
-                  {course.benefits.map((benefit, index) => (
-                    <AnimatedBenefit
-                      key={index}
-                      benefit={benefit}
-                      index={index}
-                      isVisible={isExpanded}
-                    />
-                  ))}
-                </BenefitsGrid>
-              </>
-            )}
-          </>
-        )}
-      </ExpandedDetails>
-    </>
-  );
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+
+    if (trimmed.startsWith('•')) {
+      flushGroup();
+      currentTitle = trimmed.substring(1).trim();
+    } else if (trimmed.startsWith('-')) {
+      currentItems.push(trimmed.substring(1).trim());
+    } else {
+      // Handle lines that don't start with bullet points but might be part of previous context or standalone
+      if (currentTitle && currentItems.length === 0) {
+         // Maybe a continuation of title or a subtitle? Treat as title for now if no items yet
+         currentTitle += ' ' + trimmed;
+      } else if (currentItems.length > 0) {
+         // Continuation of last item
+         currentItems[currentItems.length - 1] += ' ' + trimmed;
+      } else {
+         // Standalone text, treat as title if we have nothing
+         currentTitle = trimmed;
+      }
+    }
+  });
+  
+  flushGroup();
+  
+  return groups;
 };
 
 // Функция получения иконки для информации о курсе
@@ -972,7 +817,7 @@ const getInfoIcon = (iconName: string) => {
 };
 
 // Функция форматирования данных для отображения в карточке
-const formatCourseData = (course: any) => {
+const formatCourseData = (course: CourseItem) => {
   // Заменим 2024 на 2025 в дате начала курса
   const nextStartValue = course.nextStart.replace('2024', '2025');
 
@@ -985,25 +830,23 @@ const formatCourseData = (course: any) => {
 };
 
 const CoursesSection: React.FC = () => {
-  const [expandedCourseId, setExpandedCourseId] = useState<number | null>(null);
+  const [modalCourseId, setModalCourseId] = useState<number | null>(null);
   // Получим состояние мобильного меню из контекста
   const isMobileMenuOpen = useContext(MobileMenuContext);
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  // Обработчик с предотвращением множественных кликов
-  const toggleExpanded = (id: number) => {
-    // Если идет загрузка, игнорируем клик
-    if (isLoading) return;
-
-    // Устанавливаем индикатор загрузки
-    setIsLoading(true);
-
-    // Эмулируем задержку загрузки данных
-    setTimeout(() => {
-      setExpandedCourseId(expandedCourseId === id ? null : id);
-      setIsLoading(false);
-    }, 100);
+  
+  // Get the course for the modal
+  const modalCourse = modalCourseId ? COURSES.find(c => c.id === modalCourseId) : null;
+  
+  // Handle opening modal
+  const openModal = (id: number) => {
+    setModalCourseId(id);
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  };
+  
+  // Handle closing modal
+  const closeModal = () => {
+    setModalCourseId(null);
+    document.body.style.overflow = ''; // Restore scrolling
   };
 
   const getCourseIcon = (id: number) => {
@@ -1019,8 +862,8 @@ const CoursesSection: React.FC = () => {
 
   return (
     <CoursesSectionContainer id="courses">
-      <CoursesPattern />
       <Container>
+      {/* Pattern removed */}
         <AnimatedElement animation="fadeIn">
           <CoursesIntro>
             <CoursesTitle>Образовательные курсы</CoursesTitle>
@@ -1050,12 +893,6 @@ const CoursesSection: React.FC = () => {
                   <FlexRow>
                     <LeftColumn>
                       <CourseDescription>{course.description}</CourseDescription>
-
-                      <CourseExpanded
-                        id={course.id}
-                        isExpanded={expandedCourseId === course.id}
-                        toggleExpanded={toggleExpanded}
-                      />
                     </LeftColumn>
 
                     <RightColumn>
@@ -1074,6 +911,9 @@ const CoursesSection: React.FC = () => {
                         <CourseButton href="#contact-form">
                           Записаться на курс • {course.price}
                         </CourseButton>
+                        <ProgramButton onClick={() => openModal(course.id)}>
+                          <FaBookOpen /> Программа курса
+                        </ProgramButton>
                       </CourseInfoCard>
                     </RightColumn>
                   </FlexRow>
@@ -1083,6 +923,52 @@ const CoursesSection: React.FC = () => {
           ))}
         </CoursesWrapper>
       </Container>
+
+      {/* Program Modal */}
+      <ModalOverlay isOpen={!!modalCourseId} onClick={closeModal}>
+        <ModalContainer isOpen={!!modalCourseId} onClick={(e) => e.stopPropagation()}>
+          {modalCourse && (
+            <>
+              <ModalHeader>
+                <div>
+                  <ModalTitle>Программа курса</ModalTitle>
+                  <ModalSubtitle>{modalCourse.title}</ModalSubtitle>
+                </div>
+                <ModalCloseButton onClick={closeModal}>
+                  <FaTimes />
+                </ModalCloseButton>
+              </ModalHeader>
+              <ModalBody>
+                <ModalSectionTitle>Модули курса</ModalSectionTitle>
+                <ModalModulesGrid>
+                  {modalCourse.modules?.map((module, index) => (
+                    <ModalModuleCard key={module.id} delay={index * 100}>
+                      <ModalModuleTitle>{module.title}</ModalModuleTitle>
+                      <ModalModuleContent>
+                        {parseModuleContent(module.content)}
+                      </ModalModuleContent>
+                    </ModalModuleCard>
+                  ))}
+                </ModalModulesGrid>
+                
+                {modalCourse.benefits && modalCourse.benefits.length > 0 && (
+                  <>
+                    <ModalSectionTitle style={{ marginTop: '2.5rem' }}>Чему вы научитесь</ModalSectionTitle>
+                    <BenefitsGrid>
+                      {modalCourse.benefits.map((benefit, index) => (
+                        <BenefitItem key={index} className="visible">
+                          <FaCheckCircle size={20} />
+                          <BenefitText>{benefit}</BenefitText>
+                        </BenefitItem>
+                      ))}
+                    </BenefitsGrid>
+                  </>
+                )}
+              </ModalBody>
+            </>
+          )}
+        </ModalContainer>
+      </ModalOverlay>
 
       <BackToTopButton 
         isMenuOpen={isMobileMenuOpen}
