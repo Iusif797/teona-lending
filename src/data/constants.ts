@@ -1,7 +1,7 @@
 import { NavLink, ServiceItem, PrincipleItem, SocialLink, TestimonialItem, CourseItem } from '../types';
 
 export const SITE_TITLE = 'Теона Хаметова';
-export const SITE_SUBTITLE = 'Психолог, регрессолог, расстановщик';
+export const SITE_SUBTITLE = 'Клинический психолог, регрессолог, расстановщик';
 
 export const NAV_LINKS: NavLink[] = [
   { id: 1, title: 'Мой подход', url: '#about' },

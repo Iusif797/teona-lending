@@ -165,38 +165,38 @@ const MissionImageContainer = styled.div`
 const MissionImage = styled.div`
   position: relative;
   overflow: hidden;
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.06);
+  border-radius: 24px;
   
   &::before {
     content: '';
     position: absolute;
-    top: -15px;
-    left: -15px;
-    right: 15px;
-    bottom: 15px;
-    border: 1px solid var(--color-secondary);
-    border-radius: 25px;
+    top: -12px;
+    left: -12px;
+    right: 12px;
+    bottom: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 28px;
     z-index: -1;
-    opacity: 0.3;
-    transition: all 0.3s ease;
+    opacity: 0.4;
+    transition: var(--transition);
   }
   
   &:hover::before {
     opacity: 0.6;
-    transform: translate(5px, 5px);
+    transform: translate(4px, 4px);
   }
   
   img {
     width: 100%;
     height: auto;
     display: block;
-    transition: all 0.5s ease;
-    border-radius: 20px;
+    transition: var(--transition);
+    border-radius: 24px;
   }
   
   &:hover img {
-    transform: scale(1.02);
+    transform: scale(1.015);
   }
 `;
 
@@ -225,24 +225,26 @@ const PrinciplesGrid = styled.div`
 
 const PrincipleItem = styled.div`
   position: relative;
-  padding: 1.5rem 1.5rem;
+  padding: 1.75rem 1.5rem;
   background-color: var(--color-bg);
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: var(--transition);
+  border-radius: var(--radius);
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.04);
   }
 
   &::before {
     content: attr(data-number);
     position: absolute;
-    top: -20px;
+    top: -16px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 4rem;
-    font-family: var(--font-title);
-    color: rgba(0, 0, 0, 0.06);
+    font-size: 3.5rem;
+    font-family: var(--font-heading);
+    color: rgba(0, 0, 0, 0.04);
     z-index: 0;
   }
 `;

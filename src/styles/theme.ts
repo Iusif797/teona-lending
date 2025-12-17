@@ -18,28 +18,29 @@ const theme = {
     heading: 'var(--font-heading)',
   },
   shadows: {
-    small: '0 2px 5px rgba(0, 0, 0, 0.05)',
+    small: '0 2px 8px rgba(0, 0, 0, 0.03)',
     medium: 'var(--shadow)',
-    large: '0 10px 25px rgba(0, 0, 0, 0.15)',
+    large: '0 16px 48px rgba(0, 0, 0, 0.08)',
+    hover: 'var(--shadow-hover)',
   },
   transitions: {
     default: 'var(--transition)',
-    fast: 'all 0.2s ease',
-    slow: 'all 0.5s ease',
+    fast: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+    slow: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
   },
   borderRadius: {
-    small: '4px',
+    small: 'var(--radius-sm)',
     default: 'var(--radius)',
-    large: '16px',
+    large: '20px',
     full: '9999px',
   },
   spacing: {
     xs: '0.5rem',
     sm: '1rem',
     md: '1.5rem',
-    lg: '2rem',
-    xl: '3rem',
-    xxl: '5rem',
+    lg: '2.5rem',
+    xl: '4rem',
+    xxl: '6rem',
   }
 };
 

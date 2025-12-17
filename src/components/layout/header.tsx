@@ -170,9 +170,6 @@ const Logo = styled.div<{ isScrolled: boolean }>`
     letter-spacing: 0.5px;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
   }
   
   @media (max-width: 600px) {

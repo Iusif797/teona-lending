@@ -7,21 +7,23 @@ const GlobalStyles = createGlobalStyle`
   :root {
     --font-primary: 'Montserrat', sans-serif;
     --font-heading: 'Playfair Display', serif;
-    --color-primary: #d2956b;
-    --color-primary-light: #e3b090;
-    --color-primary-dark: #a66a42;
-    --color-secondary: #4a4a4a;
-    --color-text: #2a2a2a;
-    --color-text-light: #767676;
+    --color-primary: #c9a07a;
+    --color-primary-light: #ddc5b0;
+    --color-primary-dark: #9e7b5c;
+    --color-secondary: #5a5a5a;
+    --color-text: #3a3a3a;
+    --color-text-light: #8a8a8a;
     --color-bg: #fff;
-    --color-bg-alt: #f9f9f9;
-    --color-border: #e0e0e0;
-    --color-accent: #5d8aa8;
-    --color-accent-light: #7ba7c3;
-    --color-success: #58b368;
-    --transition: all 0.3s ease;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
-    --radius: 8px;
+    --color-bg-alt: #faf8f6;
+    --color-border: #e8e4e0;
+    --color-accent: #6b9ab8;
+    --color-accent-light: #8cb8d0;
+    --color-success: #6bc27a;
+    --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.08);
+    --radius: 12px;
+    --radius-sm: 6px;
     --container-width: 1400px;
   }
 
@@ -61,7 +63,7 @@ const GlobalStyles = createGlobalStyle`
     color: var(--color-text);
     background-color: var(--color-bg);
     overflow-x: hidden;
-    line-height: 1.6;
+    line-height: 1.75;
     margin: 0;
     padding: 0;
     width: 100vw;
@@ -70,8 +72,8 @@ const GlobalStyles = createGlobalStyle`
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    line-height: 1.3;
-    margin-bottom: 1rem;
+    line-height: 1.4;
+    margin-bottom: 1.25rem;
     font-weight: 600;
     color: var(--color-text);
     letter-spacing: 0.5px;
@@ -261,14 +263,14 @@ const GlobalStyles = createGlobalStyle`
   }
 
   section {
-    padding: 5rem 0;
+    padding: 6rem 0;
 
     ${media.md} {
-      padding: 4rem 0;
+      padding: 4.5rem 0;
     }
 
     ${media.sm} {
-      padding: 3rem 0;
+      padding: 3.5rem 0;
     }
   }
 

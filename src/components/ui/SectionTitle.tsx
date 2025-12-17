@@ -20,10 +20,10 @@ interface MainTitleProps extends StyledTitleProps {
 
 const TitleWrapper = styled.div<StyledTitleProps>`
   text-align: ${({ centered }) => (centered ? 'center' : 'left')};
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   
   ${media.sm} {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
   }
 `;
 
@@ -58,10 +58,11 @@ const MainTitle = styled.h2<MainTitleProps>`
 const Subtitle = styled.p<StyledTitleProps>`
   font-size: 1.1rem;
   color: ${({ light }) => (light ? 'rgba(255, 255, 255, 0.85)' : 'var(--color-secondary)')};
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
   max-width: ${({ centered }) => (centered ? '600px' : '100%')};
   margin-left: ${({ centered }) => (centered ? 'auto' : '0')};
   margin-right: ${({ centered }) => (centered ? 'auto' : '0')};
+  line-height: 1.7;
   
   ${media.md} {
     font-size: 1rem;

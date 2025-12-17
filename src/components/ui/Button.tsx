@@ -29,38 +29,37 @@ const StyledButton = styled.button<StyledButtonProps>`
   font-family: var(--font-primary);
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   font-weight: 400;
-  border-radius: 0;
+  border-radius: var(--radius-sm);
   text-transform: uppercase;
   letter-spacing: 1px;
   white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
 
-  /* Size variants */
   ${({ $size }) =>
     $size === 'small' && `
       font-size: 0.8rem;
-      padding: 0.6rem 1.2rem;
+      padding: 0.65rem 1.4rem;
     `}
 
   ${({ $size }) =>
     $size === 'medium' && `
-      font-size: 0.9rem;
-      padding: 0.8rem 1.8rem;
+      font-size: 0.85rem;
+      padding: 0.9rem 2rem;
     `}
 
   ${({ $size }) =>
     $size === 'large' && `
-      font-size: 1rem;
-      padding: 1rem 2.5rem;
+      font-size: 0.95rem;
+      padding: 1.1rem 2.8rem;
 
       ${media.sm} {
-        padding: 0.9rem 2rem;
+        padding: 1rem 2.2rem;
       }
     `}
 
-  /* Color variants */
   ${({ $variant }) =>
     $variant === 'primary' && `
       background-color: var(--color-primary);
@@ -68,13 +67,19 @@ const StyledButton = styled.button<StyledButtonProps>`
 
       &:hover {
         background-color: var(--color-primary-dark);
-        transform: translateY(-3px);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      &:active {
+        transform: translateY(0);
       }
 
       &:disabled {
-        background-color: #ccc;
+        background-color: #d0d0d0;
         cursor: not-allowed;
         transform: none;
+        box-shadow: none;
       }
     `}
 
@@ -84,14 +89,20 @@ const StyledButton = styled.button<StyledButtonProps>`
       color: white;
 
       &:hover {
-        background-color: #555;
-        transform: translateY(-3px);
+        background-color: #6a6a6a;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      &:active {
+        transform: translateY(0);
       }
 
       &:disabled {
-        background-color: #ccc;
+        background-color: #d0d0d0;
         cursor: not-allowed;
         transform: none;
+        box-shadow: none;
       }
     `}
 
@@ -99,17 +110,23 @@ const StyledButton = styled.button<StyledButtonProps>`
     $variant === 'outline' && `
       background-color: transparent;
       color: var(--color-primary);
-      border: 1px solid var(--color-primary);
+      border: 1.5px solid var(--color-primary);
+      box-shadow: none;
 
       &:hover {
         background-color: var(--color-primary);
         color: white;
-        transform: translateY(-3px);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      &:active {
+        transform: translateY(0);
       }
 
       &:disabled {
-        border-color: #ccc;
-        color: #ccc;
+        border-color: #d0d0d0;
+        color: #d0d0d0;
         cursor: not-allowed;
         transform: none;
       }
@@ -123,39 +140,38 @@ const StyledAnchor = styled.a<StyledButtonProps>`
   font-family: var(--font-primary);
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   font-weight: 400;
-  border-radius: 0;
+  border-radius: var(--radius-sm);
   text-transform: uppercase;
   letter-spacing: 1px;
   white-space: nowrap;
   text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
   width: ${({ $fullWidth }) => ($fullWidth ? '100%' : 'auto')};
 
-  /* Size variants */
   ${({ $size }) =>
     $size === 'small' && `
       font-size: 0.8rem;
-      padding: 0.6rem 1.2rem;
+      padding: 0.65rem 1.4rem;
     `}
 
   ${({ $size }) =>
     $size === 'medium' && `
-      font-size: 0.9rem;
-      padding: 0.8rem 1.8rem;
+      font-size: 0.85rem;
+      padding: 0.9rem 2rem;
     `}
 
   ${({ $size }) =>
     $size === 'large' && `
-      font-size: 1rem;
-      padding: 1rem 2.5rem;
+      font-size: 0.95rem;
+      padding: 1.1rem 2.8rem;
 
       ${media.sm} {
-        padding: 0.9rem 2rem;
+        padding: 1rem 2.2rem;
       }
     `}
 
-  /* Color variants */
   ${({ $variant }) =>
     $variant === 'primary' && `
       background-color: var(--color-primary);
@@ -163,7 +179,12 @@ const StyledAnchor = styled.a<StyledButtonProps>`
 
       &:hover {
         background-color: var(--color-primary-dark);
-        transform: translateY(-3px);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      &:active {
+        transform: translateY(0);
       }
     `}
 
@@ -173,8 +194,13 @@ const StyledAnchor = styled.a<StyledButtonProps>`
       color: white;
 
       &:hover {
-        background-color: #555;
-        transform: translateY(-3px);
+        background-color: #6a6a6a;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      &:active {
+        transform: translateY(0);
       }
     `}
 
@@ -182,12 +208,18 @@ const StyledAnchor = styled.a<StyledButtonProps>`
     $variant === 'outline' && `
       background-color: transparent;
       color: var(--color-primary);
-      border: 1px solid var(--color-primary);
+      border: 1.5px solid var(--color-primary);
+      box-shadow: none;
 
       &:hover {
         background-color: var(--color-primary);
         color: white;
-        transform: translateY(-3px);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      &:active {
+        transform: translateY(0);
       }
     `}
 `;
