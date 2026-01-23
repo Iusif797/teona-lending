@@ -718,6 +718,110 @@ const getInfoIcon = (iconName: string) => {
   }
 };
 
+// Спецпредложение: Идет набор
+const SpecialOfferCard = styled.div`
+  background: linear-gradient(135deg, #fdfcfb 0%, #f8f5f2 100%);
+  border: 2px solid #d9b293;
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(217, 178, 147, 0.15);
+  
+  ${media.md} {
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  ${media.sm} {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #a66a42 0%, #d9b293 100%);
+  }
+`;
+
+const SpecialOfferHeader = styled.div`
+  margin-bottom: 1.5rem;
+`;
+
+const SpecialOfferTitle = styled.h3`
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c2420;
+  line-height: 1.3;
+  margin: 0;
+  
+  ${media.md} {
+    font-size: 1.6rem;
+  }
+  
+  ${media.sm} {
+    font-size: 1.4rem;
+  }
+`;
+
+const SpecialOfferContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  
+  ${media.md} {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+`;
+
+const SpecialOfferDescription = styled.p`
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #4a403a;
+  margin: 0;
+  flex: 1;
+  
+  ${media.sm} {
+    font-size: 1rem;
+  }
+`;
+
+const SpecialOfferButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background: #a66a42;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  
+  &:hover {
+    background: #8c5a38;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(166, 106, 66, 0.2);
+  }
+  
+  ${media.sm} {
+    width: 100%;
+    font-size: 1rem;
+  }
+`;
+
 const formatCourseData = (course: CourseItem) => {
   const nextStartValue = course.nextStart.replace('2024', '2025');
 
@@ -771,6 +875,23 @@ const CoursesSection: React.FC = () => {
               Профессиональные программы обучения от дипломированного психолога с многолетним опытом
             </CoursesSubtitle>
           </CoursesIntro>
+        </AnimatedElement>
+
+        {/* Спецпредложение: Идет набор */}
+        <AnimatedElement animation="fadeInUp" delay={0.1}>
+          <SpecialOfferCard>
+            <SpecialOfferHeader>
+              <SpecialOfferTitle>Идет набор на курс по системным расстановкам (метод Б. Хеллингера)</SpecialOfferTitle>
+            </SpecialOfferHeader>
+            <SpecialOfferContent>
+              <SpecialOfferDescription>
+                Для тех, кто хочет глубже понимать причины жизненных трудностей клиентов и уверенно вести процессы: от запроса — к системной диагностике и мягким решениям.
+              </SpecialOfferDescription>
+              <SpecialOfferButton href="#contact-form">
+                Оставить заявку
+              </SpecialOfferButton>
+            </SpecialOfferContent>
+          </SpecialOfferCard>
         </AnimatedElement>
 
         <CoursesWrapper>
