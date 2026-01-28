@@ -33,6 +33,8 @@ const HeaderContainer = styled(Container)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: clamp(0.75rem, 2vw, 2rem);
+  min-width: 0;
   transition: padding 0.3s ease;
   
   @media (max-width: 767px) {
@@ -50,6 +52,8 @@ const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
+  flex: 0 1 auto;
+  min-width: 0;
   transition: all 0.3s ease;
   position: relative;
   
@@ -147,6 +151,7 @@ const LogoImage = styled.div<{ isScrolled: boolean }>`
 const Logo = styled.div<{ isScrolled: boolean }>`
   display: flex;
   flex-direction: column;
+  min-width: 0;
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform: ${({ isScrolled }) => isScrolled ? 'translateX(0)' : 'translateX(0)'};
   
@@ -162,14 +167,17 @@ const Logo = styled.div<{ isScrolled: boolean }>`
   }
   
   span {
-    font-size: ${({ isScrolled }) => (isScrolled ? '0.95rem' : '1rem')};
+    font-size: ${({ isScrolled }) => (isScrolled ? '0.72rem' : '0.78rem')};
+    line-height: 1.2;
     color: var(--color-primary-dark);
     font-weight: 500;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
     margin-top: 5px;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.25px;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    max-width: clamp(220px, 22vw, 420px);
   }
   
   @media (max-width: 600px) {
@@ -178,7 +186,8 @@ const Logo = styled.div<{ isScrolled: boolean }>`
     }
     
     span {
-      font-size: ${({ isScrolled }) => (isScrolled ? '0.9rem' : '0.95rem')};
+      font-size: ${({ isScrolled }) => (isScrolled ? '0.68rem' : '0.72rem')};
+      max-width: clamp(180px, 44vw, 360px);
     }
   }
   
@@ -188,7 +197,8 @@ const Logo = styled.div<{ isScrolled: boolean }>`
     }
     
     span {
-      font-size: ${({ isScrolled }) => (isScrolled ? '0.85rem' : '0.9rem')};
+      font-size: ${({ isScrolled }) => (isScrolled ? '0.66rem' : '0.7rem')};
+      max-width: clamp(170px, 42vw, 330px);
     }
   }
   
@@ -198,7 +208,8 @@ const Logo = styled.div<{ isScrolled: boolean }>`
     }
     
     span {
-      font-size: ${({ isScrolled }) => (isScrolled ? '0.75rem' : '0.8rem')};
+      font-size: ${({ isScrolled }) => (isScrolled ? '0.62rem' : '0.66rem')};
+      max-width: clamp(160px, 48vw, 300px);
     }
   }
   
@@ -235,6 +246,11 @@ const Logo = styled.div<{ isScrolled: boolean }>`
 `;
 
 const Nav = styled.nav`
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  min-width: 0;
+
   ${media.lg} {
     display: none;
   }
@@ -243,30 +259,39 @@ const Nav = styled.nav`
 const NavList = styled.ul`
   display: flex;
   list-style: none;
-  gap: 1.8rem;
+  gap: clamp(0.75rem, 1.4vw, 1.6rem);
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  white-space: nowrap;
 
   ${media.custom('1500px')} {
-    gap: 1.4rem;
+    gap: clamp(0.7rem, 1.2vw, 1.4rem);
   }
 
   ${media.xl} {
-    gap: 1.1rem;
+    gap: clamp(0.65rem, 1vw, 1.1rem);
   }
 `;
 
 const NavItem = styled.li`
   a {
     position: relative;
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
+    font-size: clamp(0.82rem, 0.85vw, 0.9rem);
+    letter-spacing: 0.35px;
+    line-height: 1.15;
+    padding: 0.25rem 0;
     transition: color 0.3s ease;
+    white-space: nowrap;
     
     ${media.custom('1500px')} {
-      font-size: 0.88rem;
+      font-size: clamp(0.8rem, 0.8vw, 0.88rem);
     }
     
     ${media.xl} {
-      font-size: 0.85rem;
+      font-size: clamp(0.78rem, 0.75vw, 0.85rem);
     }
     
     &:hover {
@@ -477,13 +502,14 @@ const MobileSocialIcons = styled.div`
 const SocialIcons = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.2rem;
+  gap: clamp(0.75rem, 1.1vw, 1.2rem);
+  flex: 0 0 auto;
 
   a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     color: var(--color-primary);
     transition: color 0.3s ease, transform 0.3s ease;
 
@@ -510,8 +536,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
     if (onMenuToggle) {
       onMenuToggle(newState);
     }
-    
-    // Блокировать прокрутку при открытом меню
+
     if (newState) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -519,12 +544,10 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
     }
   };
 
-  // Плавный скролл вверх при нажатии на логотип
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Закрыть мобильное меню, если оно открыто
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
       if (onMenuToggle) {
@@ -548,7 +571,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
       setIsMediumScreen(window.innerWidth <= 450);
     };
 
-    // Вызываем функцию при монтировании
     handleResize();
     handleScroll();
     

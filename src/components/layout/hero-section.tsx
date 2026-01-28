@@ -75,10 +75,10 @@ const HeroSection: React.FC = () => {
         <Content>
           <ContentInner>
             <AnimatedElement animation="fadeInUp" delay={0.2}>
-              <BrandTitle>MindVia</BrandTitle>
+              <BrandTitle>Психолог Теона Хаметова</BrandTitle>
             </AnimatedElement>
             <AnimatedElement animation="fadeInUp" delay={0.4}>
-              <SchoolTitle>School of Psychology</SchoolTitle>
+              <SchoolTitle>Клинический психолог в Чехии и онлайн</SchoolTitle>
             </AnimatedElement>
             <AnimatedElement animation="fadeInUp" delay={0.6}>
               <Paragraph>
@@ -249,7 +249,7 @@ const ContentInner = styled.div`
   }
 `;
 
-const BrandTitle = styled.h2`
+const BrandTitle = styled.h1`
   font-size: 5rem;
   color: white;
   margin: 0 0 0.5rem;
@@ -290,7 +290,7 @@ const BrandTitle = styled.h2`
   }
 `;
 
-const SchoolTitle = styled.h1`
+const SchoolTitle = styled.h2`
   font-size: 3rem;
   color: white;
   margin: 0.5rem 0;
@@ -459,52 +459,47 @@ const ServiceButton = styled.a`
 const NavButtons = styled.div`
   position: absolute;
   top: 50%;
-  width: 100%;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-between;
   z-index: 10;
-  padding: 0 2rem;
+  padding: 0 0.75rem;
   transform: translateY(-50%);
   pointer-events: none;
   
   ${media.md} {
-    padding: 0 1.5rem;
+    padding: 0 0.6rem;
   }
   
   ${media.sm} {
-    padding: 0 1rem;
-    width: calc(100% + 2rem);
-    left: -1rem;
-  }
-  
-  @media (max-width: 480px) {
-    width: calc(100% + 3rem);
-    left: -1.5rem;
+    padding: 0 0.5rem;
   }
 `;
 
 const NavButton = styled.button`
-  width: 4.5rem;
-  height: 4.5rem;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.6);
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   pointer-events: auto;
-  opacity: 0.8;
+  opacity: 0.6;
   
   &:hover {
-    background: var(--color-primary);
-    transform: scale(1.1);
-    border-color: var(--color-primary);
-    opacity: 1;
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.4);
+    opacity: 0.9;
+    transform: scale(1.05);
   }
   
   &:active {
@@ -512,39 +507,38 @@ const NavButton = styled.button`
   }
   
   svg {
-    width: 2rem;
-    height: 2rem;
-    color: white;
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+    width: 1rem;
+    height: 1rem;
+    color: inherit;
   }
   
   ${media.md} {
-    width: 4rem;
-    height: 4rem;
+    width: 2.25rem;
+    height: 2.25rem;
     
     svg {
-      width: 1.8rem;
-      height: 1.8rem;
+      width: 0.9rem;
+      height: 0.9rem;
     }
   }
   
   ${media.sm} {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 2rem;
+    height: 2rem;
     
     svg {
-      width: 1.7rem;
-      height: 1.7rem;
+      width: 0.85rem;
+      height: 0.85rem;
     }
   }
   
   @media (max-width: 480px) {
-    width: 3rem;
-    height: 3rem;
+    width: 1.75rem;
+    height: 1.75rem;
     
     svg {
-      width: 1.4rem;
-      height: 1.4rem;
+      width: 0.75rem;
+      height: 0.75rem;
     }
   }
 `;
