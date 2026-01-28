@@ -6,6 +6,8 @@ import media from '../../styles/media';
 const FooterContainer = styled.footer`
   padding: 60px 0;
   background-color: #f2f2f2;
+  border-radius: 32px 32px 0 0;
+  overflow: hidden;
   
   ${media.sm} {
     padding: 40px 0;
