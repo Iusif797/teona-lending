@@ -33,19 +33,19 @@ export const initYandexMetrika = (counterId: number): void => {
   try {
     if (!counterId) return;
 
-    (function(m: any, e: any, t: string, r: number, i: any, k: any, a: any) {
+    (function(m: any, e: any, t: string, i: any, k: any) {
       m[i] = m[i] || function() {
         (m[i].a = m[i].a || []).push(arguments);
       };
       m[i].l = 1 as any;
       k = e.createElement(t) as HTMLScriptElement;
-      a = e.getElementsByTagName(t)[0];
+      const firstTag = e.getElementsByTagName(t)[0];
       k.async = 1;
       k.src = `https://mc.yandex.ru/metrika/tag.js`;
-      a.parentNode!.insertBefore(k, a);
+      firstTag.parentNode!.insertBefore(k, firstTag);
       (m[i] as any).a = m[i].a || [];
       (m[i] as any).l = 1 as any;
-    })(window, document, 'script', 0, 'ym');
+    })(window, document, 'script', 'ym', null);
 
     window.ym = window.ym || function(...args: any[]) {
       if (!window.ym) return;

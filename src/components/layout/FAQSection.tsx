@@ -48,15 +48,15 @@ const FAQ_DATA: FAQItem[] = [
 ];
 
 const FAQSectionContainer = styled.section`
-  padding: ${theme.sectionPadding.default};
+  padding: 7rem 0;
   background-color: var(--color-bg-alt);
 
   ${media.md} {
-    padding: ${theme.sectionPadding.md};
+    padding: 6rem 0;
   }
 
   ${media.sm} {
-    padding: ${theme.sectionPadding.sm};
+    padding: 5rem 0;
   }
 `;
 
@@ -75,13 +75,13 @@ const FAQList = styled.div`
 
 const FAQItem = styled.div`
   background: white;
-  border-radius: ${theme.borderRadius.card};
-  box-shadow: ${theme.shadows.card};
+  border-radius: ${theme.borderRadius.default};
+  box-shadow: ${theme.shadows.medium};
   overflow: hidden;
   transition: all 0.3s ease;
 
   &:hover {
-    box-shadow: ${theme.shadows.cardHover};
+    box-shadow: ${theme.shadows.hover};
   }
 `;
 

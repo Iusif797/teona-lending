@@ -1,4 +1,4 @@
-import { SEOManager } from './seo-manager';
+import SEOManager from './seo-manager';
 import { TestimonialItem } from '../types';
 
 export const generateReviewsSchema = (testimonials: TestimonialItem[]): void => {
@@ -10,7 +10,7 @@ export const generateReviewsSchema = (testimonials: TestimonialItem[]): void => 
       '@type': 'Person',
       name: testimonial.name || 'Анонимный клиент',
     },
-    reviewBody: testimonial.text,
+    reviewBody: testimonial.content,
     reviewRating: {
       '@type': 'Rating',
       ratingValue: testimonial.rating || 5,

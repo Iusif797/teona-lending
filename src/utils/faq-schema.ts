@@ -1,4 +1,4 @@
-import { SEOManager } from './seo-manager';
+import SEOManager from './seo-manager';
 
 export interface FAQItem {
   id: number;
