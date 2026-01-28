@@ -24,5 +24,5 @@ export const generateFAQSchema = (faqs: FAQItem[]): void => {
     mainEntity: mainEntity,
   };
 
-  SEOManager.getInstance().addSchemaOrg('faq', schema);
+  SEOManager.getInstance().setSchemaOrg(schema);
 };

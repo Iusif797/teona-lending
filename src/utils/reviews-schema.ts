@@ -41,5 +41,5 @@ export const generateReviewsSchema = (testimonials: TestimonialItem[]): void => 
     review: reviews,
   };
 
-  SEOManager.getInstance().addSchemaOrg('reviews', schema);
+  SEOManager.getInstance().setSchemaOrg(schema);
 };
